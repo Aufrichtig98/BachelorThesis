@@ -2,6 +2,24 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-\section{Goal of this Thesis}
+Modern software systems are designed to be configurable, we want to give the user flexibility, by offering them to turn functionality on 
+and off. 
+We also expect a configurable software system to satisfie the demand of multiple user by offering a single software system that 
+contains multiple features. \cite{Feature-Oriented-Software-Product-Lines}. 
 
-\section{Overview}
+One example for such a software system would be the Linux kernel, the code base itself is over 6.000.000 lines of code containing more than 1.000 optional features 
+\footnote{https://www.kernel.org/doc/html/v4.14/admin-guide/kernel-parameters.html}. 
+All these optional features allow you to create a operating system that suits your needs. To effectively analyze such systems we introduce two different
+approaches one white box and a black box approach.
+
+This results in a mutlitute of features that influence the system in different ways, to keep a overview of all these features and the ways
+they interact with one another we will use a feature model, which is in essence a tree that can contain different kinds of constraints
+to visualize the relationships between features in a configurable system \cite{KangFeatureOrientedDomain1990}.
+
+In the black-box approach we only have a system that takes a input, in our case this would be a selection of multiple different features, 
+the system will then be executed with our configuration, during the execution we can meassure various metrics, such as memory and energy
+consumption, however we will focus on the meassured exectuion time.
+
+In our white-box approach, we have more information because we know the inner workings of the
+system itself intimately, i.e., we know what code contributes to which feature
+%\section{Overview}
