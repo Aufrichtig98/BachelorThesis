@@ -38,10 +38,10 @@ XZ. We will use both approaches on the same data and reapeat the experiment 30 t
 as meassuremest noise.
 
 \section{Research Questions}
-
-In this thesis the main focus is about comparing feature performance between white-box and black-box models. 
+In this thesis the main focus is about comparing performance-influence models between white-box and black-box models. 
 Before we can even compare these models, we need to check whether they are able to detect interactions between features, 
-and if so, how accurate they are.If they can identify the interactions between the features, we can start to compare them. 
+and if so, how accurate they are. If they can identify the interactions between the features, we can start to compare them. 
+
 First and foremost, we are interested in whether both models come to the same conclusions, after all, 
 they have both analyzed the same system. In the case where they come to the same conclusion, 
 we can already see that it is possible to use either of the two models to analyze a system, 
@@ -51,11 +51,12 @@ performs particularly poorly in certain cases and why this is so. We answer the 
 
 \noindent \textbf{RQ1}: How accurately does white-box and black-box approaches detect feature interactions? \\
 
-\noindent We will design a program that contains multiple different feature interactions. Afterwards, we use both white-box and black-box approaches to generate a feature performance model for each approach.  We compare both models against the expected time of our implementation. \\
+\noindent We will design a program that contains multiple different feature interactions. Afterwards, we use both white-box and black-box approaches to generate a
+ performance-influence model for each approach.  We compare both models against the expected time of our implementation. \\
 
 \noindent \textbf{RQ2}: Do performance models created by our white-box and black-box reach the same conclusion?\\
 
-\noindent We use our black-box and white-box approach to collect measurements that we use to build our performance models, and then we compare these models with each other to see if they agree with one another. \\
+\noindent We use our black-box and white-box approach to collect measurements that we use to build our performance-influence models, and then we compare these models with each other to see if they agree with one another. \\
 
 \noindent \textbf{RQ3}: Can we identify the reasons for similarities or differences between performance models?\\
 
