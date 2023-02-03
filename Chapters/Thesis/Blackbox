@@ -1,0 +1,17 @@
+%************************************************
+\chapter{Black-box Model}\label{ch:Blackbox}
+%************************************************
+
+We refer to something as a black-box model when we the user are not aware of the inner workings of the system, like the name suggests we are
+in the dark on how the system works, for all we know is that given a by us defined input a black-box transform that into a result according to 
+what the system is suppose to do. 
+
+One of the more prominent example for a black-box system are neural networks, they start of with a problem
+and exampels on how to solve them, during multiple iterations the network improves itself and is able to solve the problem its designed for
+more efficiently and accurately. While we are aware on what the neural network is solving, if we would step into the
+code wo wouldnt be able to understand the structure and reasoning behind the decisions and how the neurons interact with one another \cite{NeuralNetworks}.
+
+Since we do however compare black-box and white-box model with each other we need to do that on the same systems, therefore
+ we cannot choose black-box system for our experiments, since if we would do so the white-box model would not be able to any produce data.
+ We solve this problem by choosing a commonly available white-box system, such as xz, but even though we have acess to the code we dont use
+ that knowledge and look at the system from a black-box view.
