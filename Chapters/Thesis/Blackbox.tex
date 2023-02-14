@@ -68,4 +68,33 @@ it with the condition $c \leftrightarrow d$. We insert this new condition from A
 Now if our configuration does not contain c and d the code in line 9 and 11 is unreachable. These colinear features make it hard for our
 black-box model to attribute the time correctly to each feature, because if we are unaware of the inner workings we might mistakenly think
 that the time increasement when feature c and d is activated is due to the interaction between them, however in reality we see in line
-15 that they do not interact at all.
+15 that they do not interact at all. % Maybe elastic net
+
+\section{Collecting data}
+
+Lets proceed on how we collect data, first of we will analyze the configuration space using our feature model introduced in Chapter \ref{ch:Feature Model}
+and decide on the set of features we want to analyze. To cope with the effects of combinatorial explosion we select a subset of the whole
+configuration space and analyze that with a brute force approach, instead of using sampling strategies which would exceed the scope of this
+thesis.
+
+In addition to that we are going to use only valid configurations that satisfy the constraints of our feature model, to mitigrate
+the influence that colinear features have or our model.
+
+
+\section{Creating a Performance-Influence Model using Multiple Linear Regression}
+The way we use our black-box model is by feeding it input and meassure the time it takes for the system to produce a output, from this 
+very limited ammount of data we now need to create our performance-influence model, we do that by using Multiple Linear Regression.
+We use the commonly established formular of linear regression for matrices \cite{Linear-Regression}:
+
+\begin{equation*}
+        y = X \dot \beta + \epsilon
+\end{equation*}
+
+Where $y$ is called dependendent variable and $X$ is called independent variable, in our case $y$ is a vector with n elements, containing
+the output of our black-box model, meaning the time meassurement produced for each feature configuration in our set of features. 
+Our independent variable $X$ is a $n \times m$ martrix, whereas $n$ is the ammount of configuration we use and $m$ the number of features.
+The value of each feature in the matrix is either $1$ if the feature is selected or $0$ otherwise. If we have numerical features with $l$
+different options we split this features in $l$ binary features and encode them in our feature model as a alternative group.
+
+%To Do superset features
+
