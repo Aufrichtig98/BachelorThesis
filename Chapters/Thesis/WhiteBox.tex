@@ -1,0 +1,55 @@
+%************************************************
+\chapter{White-box Model}\label{ch:Whitebox}
+%************************************************
+
+%Irgendwo paper einbauen, maybe start
+
+On the contray to the black-box the white-box model requires acess to the system itself. 
+We are aware of the inner workings of the system, and given the system a input we can observe how the system uses the input, which functions are called, 
+in what capacity a feature influence the programm flow. 
+
+We use these newly available information to formulate a model that differs from our black-box approach, instead of only meassureing the time the system
+needs to finish the process and use the input data to infer in what capacity each feature influences the system. 
+
+\section{Disadvantages of White-Box}
+When using white-box model we clearly see how a feature interacts with another feature, due to that we do not need to sample our configuration space like
+we do in the black-box, meaning we do not face the problem of combinatorial explosion. 
+Neither do we have to handle colinear features differently, since we can see in what extend they influence each other. 
+The example from \ref{ColinearF} would be no problem for the white-box model since we are aware that $c$ and $d$ do not intearact with one another and can
+therefore assign them the precise ammount of time they spend in their code region respectively, where as the black-box model needs to infer this information.
+
+With the surflux of information, the white-box model faces different challanges. 
+First and foremost, to analyze larger systems we need a robust strategy and indepth code comprehension.
+
+\subsection{Analyzing Strategys}
+Analyzing programms is a highly complex topic in itself, it is not a trivial task to use a program to run a analysis over a different system.
+In our case, we first need to find out which parts of the code corresponds to which feature.
+
+To solve this problem multiple solutions have been proposed, Weber et. al. \cite{White-box-Profiling} uses a profiling approach, to generate 
+performance-influence models that depict configurabilty on a method level, to archieve this they first used a JProflier a coarse-grained profiler
+to learn a performance influence model for every method that have been learned sucessfully. 
+To identifie the methods that are hard to learn they use a filtering techniques, afterwards using KIEKER a fine-grained profiler to learn these methods.
+
+Velez et. al. introduced us to ConfigCrusher \cite{ConfigCrusher} a white-box analysis, that uses a static data-flow analysis to see how features influcence 
+variables and the control-flow of the system. In addition, ConfigCrusher uses three insights about configurable systems, from previous works, namely
+irrelevance, orthogonality and low interaction degree. Irrelevance, is used to identifie the features that are relevant for the data-flow of the stystem, and by
+doing so reducing the ammount of configurations necessary to analyze the system. Orthogonality, is used to identifie features that do not influence each other, and
+thus can be meassured together. Low interaction degree, is used to identifie the relevant feature interaction, since only few featrues intearact with another, 
+ConfigCrusher focuses on those configurations with interacing features to reduce the ammount of configuration that need to be sampled.
+
+Siegmund et. al. introduced us to Comprex \cite{Comprex} which uses a dynamic taint analysis to identifie how
+and to what degree features influence the control-flow of the given system. 
+To reduce meassurement costs they introduce two techniques, namely compression and composition. 
+Compression is used to reduce the number of configurations necessary to analyze the system,
+by simultaneously analysing regions that are independent from another, therefore they can use a single configuration to 
+analyze different features. 
+They take advantage of the fact that influence-performance model can be build compositionally, by generating a influence-performance model for each region seperately
+and afterwards compose all the local influence-performance model into a model for the whole system.
+
+Both Comprex and ConfigCrusher use the techniques of compression and composition, the major difference between both analysis methods is Comprex uses a dyanmic taint
+analysis, whereas ConfigCrusher uses a static data-flow analysis. 
+
+
+After figuring out which parts of the code corresponds to what feature we still need to instrumentalize the code 
+
+\subsection{Indepth Code comprehension} %Title work in progress
