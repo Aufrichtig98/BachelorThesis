@@ -1,5 +1,5 @@
 %************************************************
-\chapter{White-box Model}\label{ch:Whitebox}
+\section{White-box Model}\label{ch:Whitebox}
 %************************************************
 
 %Irgendwo paper einbauen, maybe start
@@ -11,7 +11,7 @@ in what capacity a feature influence the programm flow.
 We use these newly available information to formulate a model that differs from our black-box approach, instead of only meassureing the time the system
 needs to finish the process and use the input data to infer in what capacity each feature influences the system. 
 
-\section{Disadvantages of White-Box}
+\subsection{Disadvantages of White-Box}
 When using white-box model we clearly see how a feature interacts with another feature, due to that we do not need to sample our configuration space like
 we do in the black-box, meaning we do not face the problem of combinatorial explosion. 
 Neither do we have to handle colinear features differently, since we can see in what extend they influence each other. 
@@ -21,7 +21,7 @@ therefore assign them the precise ammount of time they spend in their code regio
 With the surflux of information, the white-box model faces different challanges. 
 First and foremost, to analyze larger systems we need a robust strategy and indepth code comprehension.
 
-\subsection{Analyzing Strategys}
+\subsubsection{Analyzing Strategys}
 Analyzing programms is a highly complex topic in itself, it is not a trivial task to use a program to run a analysis over a different system.
 In our case, we first need to find out which parts of the code corresponds to which feature.
 

@@ -1,5 +1,5 @@
 %************************************************
-\chapter{Black-box Model}\label{ch:Blackbox}
+\section{Black-box Model}\label{ch:Blackbox}
 %************************************************
 
 We speak of a black-box model when we the user are not aware of the inner workings of the system, like the name suggests we are
@@ -17,7 +17,7 @@ we cannot choose black-box system for our experiments, since the white-box model
 We solve this problem by choosing a commonly available white-box system, such as xz, but even though we have acess to the code, we dont use
 that knowledge and look at the system from a black-box perspective.
 
-\section{Disadvantages of black-box model}
+\subsection{Disadvantages of black-box model}
 When using the black-box model we encouter two major challanges, combinatorial explosion and collinear features, both need to be
 handled carefully in order to build an accurate performance-influence model.
 
@@ -70,7 +70,7 @@ for our black-box model to correctly assign time to each feature, because if we 
 that the increase in time when feature c and d are activated is due to the interaction between them, but in fact we see in line
 15 that they do not interact at all. % Maybe elastic net
 
-\section{Collecting data}
+\subsection{Collecting data}
 
 Let us now proceed on how we collect data. First, we analyze the configuration space using our feature model introduced in Chapter \ref{ch:Feature Model}
 and decide on the set of features we want to analyze. To deal with the effects of combinatorial explosion, we select a subset of the entire
@@ -81,7 +81,7 @@ In addition, we will only use valid configurations that satisfy the constraints 
 the influence that colinear features have or our model.
 
 
-\section{Creating a Performance-Influence Model using Multiple Linear Regression}
+\subsection{Creating a Performance-Influence Model using Multiple Linear Regression}
 We use our black-box model by feeding it inputs and meassuring the time it takes the system to produce a output. From this 
 very limited set of data, we now need to bulid our performance-influence model, which we do by using multiple linear regression.
 We use multiple linear regression beacause the formular we learn can be understood by us humans, unlike other approaches like neural networks.

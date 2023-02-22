@@ -1,0 +1,1 @@
+{"rule":"ET_AL","sentence":"^\\QTo incorporate both concepts Apel et.al.\\E$"}
