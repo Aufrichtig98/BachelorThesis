@@ -1,74 +1,32 @@
 %************************************************
-\section{Black-box Model}\label{ch:Blackbox}
+\section{Black-box Analysis}\label{ch:Blackbox}
 %************************************************
+When developing a software system, it often happens that we need different frameworks or other systems to develop ours.
+While it would be possible to develop these systems ourselves, in most cases this is inefficient and slows down the release of our system.
+To speed up this process, we can use other systems that are already available to us, this however introduces us to the issue whether the system 
+also fulfills our needs besides functionality, for example performance. 
 
-We speak of a black-box model when we the user are not aware of the inner workings of the system, like the name suggests we are
-in the dark on how the system works, for all we know is that given a input the black-box returns a output according to the systems 
-specifications. 
+For this purpose, we can perform a black-box analysis of the system. 
+A black-box analysis is conceptually simple, given a configurable system, we select a configuration that contains the feature we are interested in. 
+We run the system with different configuration containing the features we are interested in,
+during execution we measure the non-functional properties we can observe.
+Next, we use these measurements to build a performance-influcence model, that becomes more accurate as the number of unique configurations measured increases. 
+Since it is not feasible to measure all possible configuration, we use our model to predict the time it takes to run a configuration
+having to run the configuration on the system.
 
-A well known example of a black-box system are neural networks, they start of with a problem and exampels on how to solve it, 
-during several iterations, the network improves itself and is able to solve the problem
-more efficiently and accurately. While we know what problem the neural network is solving, if we would step into the code, 
-we would not be able to understand the structure and reasoning behind it. For us humans, it is impossible to understand how
-all the neurons interact with each other and for what specific reason. \cite{NeuralNetworks}.
-
-However, since we want to compare black-box and white-box model, we need to do that on the same systems, so
-we cannot choose black-box system for our experiments, since the white-box model could not produce data in this case.
-We solve this problem by choosing a commonly available white-box system, such as xz, but even though we have acess to the code, we dont use
-that knowledge and look at the system from a black-box perspective.
-
-\subsection{Disadvantages of black-box model}
-When using the black-box model we encouter two major challanges, combinatorial explosion and collinear features, both need to be
-handled carefully in order to build an accurate performance-influence model.
-
-\paragraph{Combinatorial Explosion}
-One of the larger problems we face when using black-box models is the issue of combinatorial explosion, 
-which refers to the effect that when features increase linearly, the number of possible configuration and thus system variants,
- increase exponentially \cite{Combinatorial-explosion}.
-
-Suppose we have a configurable system where each feature is a binary option that you can either turn on or off. We also define 
-that in this system each feature is completely independent of another, i.e. the system has no constraints and turning a feature on or off
-has no affect on other features. The number of unique configurations this system can produce is $2^n$, where $2$ refers to
-the type of feature options allowed, binary in our case and $n$ denotes the number of features. In Figure \ref{fig:Combinatorial-Explosion-Graph}
-we can see the effects of combinatorial explosion in such a system, since our system provides 15 features, we can see that the number of 
-unique configurations equal to $32768$. 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.6]{gfx/Combinatorial_explosion_graph.png}
-    \caption{Combinatorial Explosion Graph}
-    \label{fig:Combinatorial-Explosion-Graph}
+    \includegraphics[scale=0.6]{gfx/BlackBoxXZ.png}
+    \caption{A Black-box Version of xz}
+    \label{fig:BBxz}
 \end{figure}
 
-Here is the problem, because 15 features is by no means a lot compared to the ammount of functions a real world systems like the
-linux kernel contains. All these different features might interact with each other in different ways, and for very small systems,
-we can certainly brute-force our way by benchmarking all possible configuration, however this does not scale, it is already not feasible for systems that
-have more then 16 features and therefore over $100.000$ configurations. For this reason, we cannot fully expore the entire configuration space 
-and therefore need to select a subset that represent the system with a high accuracy. To do that state of the art black-box model use sampling
-strategies to find a suitable subset, such as, pair-wise sampling, most-enabled-disabled and random sampling. A in depht comparison
-between state of the art sampling strategies has been done by Medeiros et.al \cite{sampling-strategies}.
+As an example for a black-box analysis we modify xz from \ref{fig:xz}. To perform a black-box analysis we feed xz with the different configuration that
+contain the features we choose to measure. Now, for each configuration we observe the properties we are interested in, such as time spend during the 
+execution of the system, how xz produces these result we cannot tell. After repeating this process multiple time we use all the measurements collected to 
+build a performance-influcence model that represents xz.
 
-\paragraph{Colinear Features}\label{ColinearF}
-Another problem for our black-box model arises when we have features that are correlated with each other, we call such features collinear.
-Let's make an example and revisit our code from Chapter \ref{ch:performance-influence-models} Algorithm \ref{alg:performanceExample} and let's
- extend it with the condition $c \leftrightarrow d$. We add this new condition from Algorithm \ref{alg:Colinear} in Algorithm 
-\ref{alg:performanceExample} after line 2.
-
-\begin{algorithm}
-    \caption{Colinear Features \label{alg:Colinear}}
-    \begin{algorithmic}[1]
-
-    \If{$(c \textit{ and }  \lnot d) or (\lnot c \textit{ and } d)$} 
-        \State $c,d \gets False$
-    \EndIf
-
-    \end{algorithmic}
-    \end{algorithm}
-
-Now, if our configuration does not contain c and d, the code in line 9 and 11 is unreachable. These colinear features make it difficult 
-for our black-box model to correctly assign time to each feature, because if we are unaware of the inner workings, we might mistakenly think
-that the increase in time when feature c and d are activated is due to the interaction between them, but in fact we see in line
-15 that they do not interact at all. % Maybe elastic net
 
 \subsection{Collecting data}
 
@@ -80,6 +38,99 @@ thesis.
 In addition, we will only use valid configurations that satisfy the constraints of our feature model, to mitigate
 the influence that colinear features have or our model.
 
+\subsection{Disadvantages of black-box model}
+Even though a black-box analysis is simple in nature, it faces two major challenges, namely combinatorial explosion and collinear features, both need to be
+handled carefully in order to build an accurate performance-influence model.
+
+\paragraph{Combinatorial Explosion}
+One of the larger problems we face when using black-box models is the issue of combinatorial explosion, 
+which refers to the effect that when features increase linearly, the number of possible configuration and thus system variants,
+increase exponentially \cite{Combinatorial-explosion}.
+
+Suppose we have a configurable system where each feature is a binary option that you can either select or deselect. We also define 
+that in this system each feature is completely independent of another, (i.e. the system has no constraints and selecting or deselecting a featureMuss
+has no effect on other features). The number of unique configurations this system can produce is $2^n$, where $2$ refers to
+the type of feature options allowed, binary in our case and $n$ denotes the number of features. 
+
+Here lies the problem, all these different features might interact with each other in different ways, and for very small systems,
+we can certainly brute-force our way by benchmarking all possible configuration, however this does not scale, it is already not feasible for 
+larger systems. As an example, the Linux kernel contains 10000 different features \cite{Linux-Kernel}, for reference it is estimated that the universe
+contains about $10^79$ atoms, which is still less than the variants of a system with 263 features, it is already impossible to use brute-force to analyze
+such as system, let alone the Linux kernel.
+
+For this reason, we cannot fully explore the entire configuration space 
+and therefore need to select a subset that represent the system with a high accuracy. To do that state of the art black-box model use sampling
+strategies to find a suitable subset, such as, pair-wise sampling, most-enabled-disabled and random sampling.
+
+\paragraph{Multicollinear Features}\label{ColinearF}
+We have already mentioned that features that do not influence each other are called independent features, but configurable systems are composed
+of not only independent features. If there is a dependence between more than two features, we call these features multicollinear.
+
+The reason why multicollinearity is a problem in a black-box analysis is
+that we can only observe nun-functional properties during execution and are unable to correctly assign the influence of each feature
+on the system. One way multicollinearity is introduced into a system is by using alternative groups, since the selection of a feature in the
+alternative group depends on which options are chosen by the other features in that group. \cite{Multicollinearity}
+\pagebreak
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{llllll}
+    \hline
+    Base & A & B & C &  & $\bm{\Pi(*)}$ \\ \hline
+    1 & 1 & 0 & 0 &  & $\mathbf{5}$  \\
+    1 & 0 & 1 & 0 &  & $\mathbf{10}$  \\  
+    1 & 0 & 0 & 1 &  & $\mathbf{15}$  \\\hline
+    \end{tabular}  
+    \caption{Configuration example illustrating multicollinearity in an alternative group}\label{tab:alternative}
+\end{table}
+
+Now consider the example of \ref{tab:alternative}, where we see a configuration example that contains multicollinear features due to an alternative group.
+The example contains a Base feature and 3 features for an alternative A, B, and C, which means only one these 3 features can be selected for each
+configuration.
+This now clearly shows the dependency between these features, because for feature C to be selected, B and C needs to be deselected, which means
+$C = 1 - B - C$ needs to be satisfied. 
+
+\begin{align*}
+    \Pi(c) &= 0 + 5 \cdot c(A) + 10\cdot c(B) + 20\cdot c(C) \\
+    \Pi(c) &= 5 + 10 \cdot c(A) + 5\cdot c(B) + 20\cdot c(C) \\
+    \Pi(c) &= 8 + 20 \cdot c(A) + 10\cdot c(B) + 7\cdot c(C) \\
+\end{align*}
+
+This, leads us to multiple performance-influcence model that are accurate regarding each measurement, but when we
+compare them state completely different things. 
+The problem here is that since one child of the alternative must be selected, but the other are deselected, we cannot correctly infer the influence
+all features has on to the system as we can see in our example base is attributed $0$, $5$ and $8$. 
+These values of base or the selected feature can be set in any ratio, as long as the sum of the two is equal to the time we measured.
+
+A different way multicollinearity is introduced into the system is when we have features that are mandatory or connected by a condition. 
+If we have features that are mandatory, we are unable to distinguish these features with our black-box analysis because they are always selected
+together, we are unable to determine the extent to which each feature influences the system. \cite{Multicollinearity}
+
+\begin{algorithm}[h]
+    \caption{Equivalence \label{alg:Colinear}}
+    \begin{algorithmic}[1]
+
+    \If{$(c \textit{ and }  \lnot d) or (\lnot c \textit{ and } d)$} 
+        \State $c,d \gets False$
+    \EndIf
+
+    \end{algorithmic}
+    \end{algorithm}
+
+Extending the example code from \ref{alg:performanceExample} with an additional condition where $C \equiv D$ holds, so that 
+either C or D can be selected without the other, we insert the code snippet \ref{alg:Colinear} after \ref{alg:code_insertion}.
+
+Now, if we select a configuration c containing the features \{\{A\}, \{B\}, \{C\}\} we get multiple {\perfInfluenceModel}s:
+
+\begin{align*}
+    \Pi_1(c) &= 1 + 1\cdot c(C) + 1 \cdot c(D) + 1\cdot c(C) \cdot c(D) \\
+    \Pi_2(c) &= 1 + 0\cdot c(C) + 0 \cdot c(D) + 3\cdot c(C) \cdot c(D) \\
+    \Pi_3(c) &= 1 + 1\cdot c(C) + 2 \cdot c(D) + 0\cdot c(C) \cdot c(D) \\
+\end{align*}
+
+All the {\perfInfluenceModel}s are accurate with respect to the measurements, but assign different values to each feature. 
+In $\Pi_1(c)$ and $\Pi_2(c)$, all features are assigned different values from what we would expect when looking at \ref{alg:performanceExample},
+while the \perfInfluenceModel of $\Pi_C(c)$ assigns the expected values.
 
 \subsection{Creating a Performance-Influence Model using Multiple Linear Regression}
 We use our black-box model by feeding it inputs and meassuring the time it takes the system to produce a output. From this 

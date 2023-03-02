@@ -32,25 +32,25 @@ is the sum of each individuall feature and $\sum_{i...j \in \mathcal{O}} \Phi_{i
 \caption{Feature Interaction \label{alg:performanceExample}}
 \begin{algorithmic}[1]
 \Procedure{Feature Interaction}{}
-\State $\textit{a,b,c,d} \gets \textit{True or False}$
+\State $\textit{A,B,C,D} \gets \textit{True or False}$\label{alg:code_insertion}
 \State $\textit{sleep\_for\_seconds(1)}$ $\textit{\#Lets the system sleep for 1 second}$
-\If{$a$} 
+\If{$A$} 
     \State $\textit{sleep\_for\_seconds(1)}$
 \EndIf
-\If{$b$} 
+\If{$B$} 
     \State $\textit{sleep\_for\_seconds(2)}$
 \EndIf
-\If{$c$} 
-    \State $\textit{sleep\_for\_seconds(1)}$
+\If{$C$} 
+    \State $\textit{sleep\_for\_seconds(1)}$ \label{alg:onlyC}
 \EndIf
-\If{$d$} 
+\If{$D$} 
+    \State $\textit{sleep\_for\_seconds(2)}$ \label{alg:onlyD}
+\EndIf
+\If{$A \textit{ and } B$} 
     \State $\textit{sleep\_for\_seconds(2)}$
 \EndIf
-\If{$a \textit{ and } b$} 
-    \State $\textit{sleep\_for\_seconds(2)}$
-\EndIf
-\If{$c \textit{ and } d$} 
-    \State $\textit{sleep\_for\_seconds(0)}$
+\If{$C \textit{ and } D$} 
+    \State $\textit{sleep\_for\_seconds(0)}$ \label{alg:CandD}
 \EndIf
 
 \EndProcedure
@@ -59,14 +59,14 @@ is the sum of each individuall feature and $\sum_{i...j \in \mathcal{O}} \Phi_{i
 
 
 In Algorithm \ref{alg:performanceExample} we see a simple code snippet with some features that affect the runtime in different ways, in line 
-2 four features a,b,c and d are defined, each of them can be either True or False depending on the configuration chosen. The code in
-line 5,7,9,11 will is exectued only if the corresponding features are active. If this is the case, the system sleeps for the specified time. In lines
-12 and 14, we have two feature interactions where $a$ and $b$ must be active, so in order for line 13 to executed, we would attribute the time spend
-in line 13 to the feature interaction a,b and not to either feature alone.
-The performance-influence model for our system would look like thiss:
+2 four features A, B, C and D are defined, each of them can be either True or False depending on the configuration chosen. The code in
+line 5,7,9,11 will is executed only if the corresponding features are active. If this is the case, the system sleeps for the specified time. In lines
+12 and 14, we have two feature interactions where $A$ and $B$ must be active, so in order for line 13 to executed, we would attribute the time spend
+in line 13 to the feature interaction \{A, B\} and not to either feature alone.
+The performance-influence model for our system would look like this:
 
 \begin{equation*}
-    \Pi = 1 + 1 \cdot c(a) + 2\cdot c(b) + 1\cdot c(c) + 2\cdot c(d) + 2 \cdot c(a)\cdot c(b) + 0\cdot c(c) \cdot c(d)
+    \Pi = 1 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D)
 \end{equation*}
 
 For simplicity, let us assume that the execution of the code takes no time at all and that no additional time is spent on any feature except 
@@ -74,13 +74,13 @@ the specified in the $textit{slee\_for\_seconds}$ function. The constant 1 here 
 feature in line 2. If we decide to turn on features a, b and c the equation would look like this:
 
 \begin{align*}
-    \Pi &= 1 + 1 \cdot c(a) + 2\cdot c(b) + 1\cdot c(c) + 2\cdot c(d) + 2 \cdot c(a)\cdot c(b) + 0\cdot c(c) \cdot c(d) \\
+    \Pi &= 1 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D) \\
     \Pi &= 1 + 1 \cdot 1 + 2 \cdot 1 + 1 \cdot 1 + 2 \cdot 0 + 2 \cdot 1 \cdot 1 + 0 \cdot 1 \cdot 0 \\
     \Pi &= 1 + 1 + 2 + 1 + 2 + 2 \\
     \Pi &= 9
 \end{align*}
 
-Thus, for the configuration containing a,b,c our performance-influence model would yield an expected time of 9 second.
+Thus, for the configuration containing \{\{A\} ,\{B\} ,\{C\}\} our performance-influence model would yield an expected time of 9 second.
 
 We build a performance-influence model from the date collected by both approaches, the challenge being to produce accurate data
 to produce an accurate model. Since we apply both approaches to the same data, we expect them to produce a comparable performance-influence model.
