@@ -27,17 +27,6 @@ contain the features we choose to measure. Now, for each configuration we observ
 execution of the system, how xz produces these result we cannot tell. After repeating this process multiple time we use all the measurements collected to 
 build a performance-influcence model that represents xz.
 
-
-\subsection{Collecting data}
-
-Let us now proceed on how we collect data. First, we analyze the configuration space using our feature model introduced in Chapter \ref{ch:Feature Model}
-and decide on the set of features we want to analyze. To deal with the effects of combinatorial explosion, we select a subset of the entire
-configuration space and analyze it using a brute force approach, rather using sampling strategies which would exceed the scope of this
-thesis.
-
-In addition, we will only use valid configurations that satisfy the constraints of our feature model, to mitigate
-the influence that colinear features have or our model.
-
 \subsection{Disadvantages of black-box model}
 Even though a black-box analysis is simple in nature, it faces two major challenges, namely combinatorial explosion and collinear features, both need to be
 handled carefully in order to build an accurate performance-influence model.
@@ -55,7 +44,7 @@ the type of feature options allowed, binary in our case and $n$ denotes the numb
 Here lies the problem, all these different features might interact with each other in different ways, and for very small systems,
 we can certainly brute-force our way by benchmarking all possible configuration, however this does not scale, it is already not feasible for 
 larger systems. As an example, the Linux kernel contains 10000 different features \cite{Linux-Kernel}, for reference it is estimated that the universe
-contains about $10^79$ atoms, which is still less than the variants of a system with 263 features, it is already impossible to use brute-force to analyze
+contains about $10^{79}$ atoms, which is still less than the variants of a system with 263 features, it is already impossible to use brute-force to analyze
 such as system, let alone the Linux kernel.
 
 For this reason, we cannot fully explore the entire configuration space 
@@ -132,31 +121,75 @@ All the {\perfInfluenceModel}s are accurate with respect to the measurements, bu
 In $\Pi_1(c)$ and $\Pi_2(c)$, all features are assigned different values from what we would expect when looking at \ref{alg:performanceExample},
 while the \perfInfluenceModel of $\Pi_C(c)$ assigns the expected values.
 
+\subsection{Selecting the configuration space}
+Software products keep improving and to add more functionality they increase the number of optional features as well, this dramatically increases 
+the configuration space as well, however it was already shown by Tianyin Xu et. al. \cite{TooManyKnobs} that not all features are equally important and that up to
+54,1\% of features are rarely set by any users.
+
+We take advantage of this knowledge to deal with the problem of combinatorial explosion, by using our domain knowledge to extract the most important
+features we are interested in. This also helps us to mitigate the influence of multicollinear features, since we are selecting which feature to add
+into our configuration space we can assure to keep the dependency between our selected features to a minimum.
+
+\subsection{Collecting data}
+After deciding which features interest us we can now move on to how we collect our data that we can afterwards use to build a \perfInfluenceModel.
+
+Since, we use a black-box analysis our methods are quite limited, like depicted in \ref{fig:BBxz} we are not able to inspect what the system does 
+in detail and are limited to the properties that we can observe from our outside view. In this case we can measure non-functional properties
+such as time to completion, energy consumption, memory usage, computational resources used, basically every value we can observe by looking at the
+machine that runs the system. If it is possible measurements should be repeated at least 30 time to reduce measurement noise during execution 
+\cite{SampleSize}.
+
+
 \subsection{Creating a Performance-Influence Model using Multiple Linear Regression}
-We use our black-box model by feeding it inputs and meassuring the time it takes the system to produce a output. From this 
-very limited set of data, we now need to bulid our performance-influence model, which we do by using multiple linear regression.
-We use multiple linear regression beacause the formular we learn can be understood by us humans, unlike other approaches like neural networks.
-Moreover, to use multiple linear regression, we do not need to know anything about the inner workings of the system,
-which benefits our black-box model. \cite{Linear-Regression-Performance}
+After we collected all our measurements we use them to build our \perfInfluenceModel of the system. 
 
-We use the following formular of linear regression for matrices\cite{Linear-Regression-Performance}:
+To build the model there are different
+approaches available, one popular one is using neural networks, however these come with major disadvantages such that the model itself 
+loses its explainability and is are commonly not comprehendable, due to these reasons we have decided to use multiple linear regression.
 
-\begin{align*}
-        y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 ... \beta_n x_n + \epsilon   \\
-        y &= X \beta + \epsilon
+There are a multitude of reasons why we use multiple linear regression, one is that compared to a neural network the linear model we 
+derive is easy to understand and interpretable for us humans, it also it is already very similar to the structure of a \perfInfluenceModel.
+
+We use the following formula of linear regression for matrices\cite{Linear-Regression-Performance}:
+
+\begin{align*}\label{formula:linReg}
+    Y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 ... \beta_n x_n + \epsilon   \\
+    Y &= X \beta + \epsilon \\\\
+    Y &= \textit{Dependent variable}\\
+    X &= \textit{Independent variable}\\
+    \beta &= \textit{Regression coefficient}\\
+    \epsilon &= \textit{Error}\\
 \end{align*}
 
 
-Where $y$ is called dependendent variable and $X$ is called independent variable $y$ in our case is a vector with n elements containing
-the output of our black-box model, i.e. the time meassurement generated for each feature configuration in our feature set. What we
-are intrested in are the values of the coefficents $\beta$, since they quantify the influence of each feature or feature interaction
+Where $y$ is called dependent variable and $X$ is called independent variable, $y$ in our case is a vector with n elements containing
+the output of our black-box model, i.e. the time measurement generated for each feature configuration in our feature set. What we
+are interested in are the values of the coefficients $\beta$, since they quantify the influence of each feature or feature interaction
 on to the whole system. In addition, $\beta_0$ denotes the intercept, which for us represents the influence of the base code, meaning
-the part of the code that gets exectued regardless of the selected feature configuration.
-Our independent variable $X$ is a $n \times m$ martrix, where $n$ is the number of configurations used and $m$ the powerset of all
-features. The reason we use a powerset here is to model all feature interactions in our matrix.
-The value of each feature in the matrix is either $1$ if the feature is selected, or $0$ if its not. If we have numerical features with $l$
+the part of the code that gets executed regardless of the selected feature configuration.
+
+To accommodate feature interactions in this linear model, we add a term for each interaction we want to include, for example,
+if we are in the interaction between feature $x_i$ and $x_j$ we add the term $\beta_k x_i x_j$. 
+Our independent variable $X$ is an $n \times m$ matrix, where $n$ is the number of configurations used and $m$ the number of configurations
+in our set of configurations $\mid \mathcal{C} \mid$.
+
+The value of each feature in the matrix is either $1$ if the feature is selected, or $0$ if it is not. If we have numerical features with $l$
 different options, we split this features into $l$ binary features and encode them as an alternative group in our feature model.
-For all our meassurements we also have a possible error represented by $\epsilon$. \cite{Linear-Regression}
 
-%To Do superset features
+For all our measurements have a possible error represented by $\epsilon$. \cite{Linear-Regression}
 
+\subsubsection{Least Ordinary Squares}
+Now that we have seen the overall formula of linear regression and what the different components represent we still need to find out 
+how to calculate the regression coefficient $\beta$, the values that tell us the influence of each feature. 
+
+For this purpose we use the least ordinary square estimator, which is optimal for the class of linear unbiased estimator, 
+however it is unreliable if the independent variables $X$ contain a high degree of multicollinearity.
+The principal behind least ordinary squares is to minimize the sum of the squared residuals, where the residual is the difference between
+the predicted value of the estimator and the actual value. \cite{Linear-Regression}
+
+
+
+
+To calculate the values $\beta$ we use the estimator least odinary squares
+
+\paragraph{Variance inflation factor}
