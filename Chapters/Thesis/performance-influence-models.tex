@@ -1,8 +1,8 @@
 \section{Performance-influence models}\label{ch:performance-influence-models}
 
 Both of white-box and black-box approach produce data that differ from each other, so we cannot compare them directly, for 
-this reason, we intoduce performance-influence models. We generated such a model for each dataset generatey by both white-box and black-box, then
-we are able to compare and analyze both model. We use the formal definitons from the paper "Performance-Influence Models for
+this reason, we introduce performance-influence models. We generated such a model for each dataset generate by both white-box and black-box, then
+we are able to compare and analyze both model. We use the formal definitions from the paper "Performance-Influence Models for
 Highly Configurable Systems" by Sven Apel et al. \cite{Performance-influence-models-for-highly-configurable-systems}.
 
 A feature performance model is a polynomial that consists of several terms, each term representing either a feature or an interaction
@@ -21,7 +21,7 @@ definitions, we can now define how a performance-influence model formally looks 
 \end{gather}
 
 While $\beta_0$ denotes the base performance, which refers to the time taken by the system regardless of configuration, $\sum_{i \in \mathcal{O}} \phi_i(c(i))$
-is the sum of each individuall feature and $\sum_{i...j \in \mathcal{O}} \Phi_{i...j}(c(i)...c(j))$ is the sum of each feature interaction.
+is the sum of each individual feature and $\sum_{i...j \in \mathcal{O}} \Phi_{i...j}(c(i)...c(j))$ is the sum of each feature interaction.
 
 
 \makeatletter
@@ -80,8 +80,8 @@ feature in line 2. If we decide to turn on features a, b and c the equation woul
     \Pi &= 9
 \end{align*}
 
-Thus, for the configuration containing \{\{A\} ,\{B\} ,\{C\}\} our performance-influence model would yield an expected time of 9 second.
+Thus, for the configuration containing \{\{A\}, \{B\}, \{C\}\} our performance-influence model would yield an expected time of 9 second.
 
 We build a performance-influence model from the date collected by both approaches, the challenge being to produce accurate data
 to produce an accurate model. Since we apply both approaches to the same data, we expect them to produce a comparable performance-influence model.
-We expain how we collect and work with the data in Chapter \ref{ch:Blackbox}%TO DO REF TO WHITEBOX AND BLACKBOX
+We explain how we collect and work with the data in Chapter \ref{ch:Blackbox} and \ref{ch:Whitebox}

@@ -2,32 +2,32 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-Modern software systems are designed to be configurable, we want to provide flexibility to the useer by offering them to turn functionality on 
+Modern software systems are designed to be configurable, we want to provide flexibility to the user by offering them to turn functionality on 
 and off. 
 We also expect a configurable software system to satisfy the demand of multiple users by offering a single software system that 
 contains multiple features. \cite{Feature-Oriented-Software-Product-Lines}. 
 
-An example of such a software system would be the Linux kernel, whose code base itself contains over 6.000.000 lines of code containing more 
-than 1.000 optional features \footnote{https://www.kernel.org/doc/html/v4.14/admin-guide/kernel-parameters.html}. 
+An example of such a software system would be the Linux kernel, whose code base itself contains over 6,000,000 lines of code containing more 
+than 10,000 optional features \cite{Linux-Kernel}. 
 All these optional features allow you to create an operating system that meets your needs. To effectively analyze such systems,
-we present two different model - a white-box and a black box-model.
+we present two different analyses - a white-box and a black box-analysis.
 
-This results in a large number of features that affect the system in different ways, to keep track of all these features and their interactions,
+This results in many features that affect the system in different ways, to keep track of all these features and their interactions,
 we will use a feature model, which is essentially a tree that can contain different kinds of constraints to visualize the relationships 
 between features in a configurable system \cite{KangFeatureOrientedDomain1990}.
 
-In the black-box model, we have only one system that receives an input, in our case a selection of several different features.
-The system is then be executed with our configuration. During execution, we can meassure various metrics, such as memory and energy
-consumption. However, we will focus on the meassured exectuion time.
+In the black-box analysis, we have only one system that receives an input, in our case a selection of several features.
+The system is then be executed with our configuration. During execution, we can measure various metrics, such as memory and energy
+consumption. Whereas we will focus on the measured execution time.
 
 In our white-box model, we have more information because we know the inner workings of the
-system itself, i.e., we know which code contributes to which feature and can therefore meassures the time we spend in each feature by summing
+system itself, i.e., we know which code contributes to which feature and therefore measure the time we spend in each feature by summing
 up the time spent in the code when its executed.
 
 Our two models generate different types of data that we still need to compare and evaluate, for which we use performance-
 influence models. These models represent our configurable system as a polynomial, where each term represents either a feature or an 
-interaction of features \cite{Performance-influence-models-for-highly-configurable-systems}. To build these models we use the data generated 
-by the white-box and black-box models.
+interaction of features \cite{Performance-influence-models-for-highly-configurable-systems}. We build these models by using the data generated 
+by the white-box and black-box analysis.
 
 To show the validity of our models, we establish a ground truth. To do this, we design a small configurable system to test both of our 
 models. This system will contain several features, some of which interact with each other in different ways. 
@@ -35,8 +35,8 @@ Since we developed this system ourselves, we know how each feature should impact
 a baseline performance-influence model to compare our models against.
 
 After confirming the validity of our models, we will apply both models to real world systems, such as the compression tool
-XZ. We will apply both models on the same system and data then reapeat the experiment 30 times for each configuration to reduce external
-factors such as meassuremest noise.
+XZ. We will apply both models on the same system and data then repeat the experiment 30 times for each configuration to reduce external
+factors such as measurement noise.
 
 \section{Goals of this thesis}
 In this thesis the main focus is about comparing performance-influence models between white-box and black-box models. 
@@ -47,8 +47,10 @@ First and foremost, we are interested in whether both models come to the same co
 If they reach the same conclusion, we can already see that it is feasible to use either of the two models to analyze a system, 
 but from there, we still work out the advantages and trade-offs between the models so that the user can choose the one that meets 
 his needs. If they do not reach the same conclusion, we analyze the reason for the differences between them and examine whether one model 
-performs particularly poorly in certain cases and why this is so. We answer the following research questions:\\\\
+performs particularly poorly in certain cases and why this is so. We answer the following research questions:
 
-\noindent \textbf{RQ1}: How accurately does white-box and black-box models detect feature interactions? \\
-\noindent \textbf{RQ2}: Do performance models created by our white-box and black-box reach the same conclusion?\\
-\noindent \textbf{RQ3}: Can we identify the reasons for similarities or differences between performance models?\\
+\begin{itemize}
+\item[RQ1]: How accurately does white-box and black-box models detect feature interactions? 
+\item[RQ2]: Do performance models created by our white-box and black-box reach the same conclusion?
+\item[RQ3]: Can we identify the reasons for similarities or differences between performance models?
+\end{itemize}

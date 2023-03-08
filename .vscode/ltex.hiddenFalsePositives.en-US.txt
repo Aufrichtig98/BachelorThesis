@@ -1,1 +1,3 @@
 {"rule":"ET_AL","sentence":"^\\QTo incorporate both concepts Apel et.al.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q uses a profiling approach, to generate performance-influence models that depict configurability on a method level, to achieve this they first used a JProflier a coarse-grained profiler to learn a performance influence model for every method that have been learned successfully.\\E$"}
+{"rule":"THE_PUNCT","sentence":"^\\QNext, we use these measurements to build a , that becomes more accurate as the number of measured configurations measured increases.\\E$"}

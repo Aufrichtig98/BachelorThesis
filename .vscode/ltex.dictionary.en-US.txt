@@ -3,3 +3,4 @@ performance-influcence
 Multicollinear
 multicollinear
 comprehendable
+ConfigCrusher

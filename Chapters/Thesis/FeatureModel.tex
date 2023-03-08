@@ -16,17 +16,17 @@ represent the system itself. When a feature is selected, it implies that also th
 down the tree we go, the more specific features become. In \ref{fig:car} we see Engine is a feature whose children a concrete types
 of engines, in particular Combustion, Hybrid and Electric.
 
-Each feature can contain a grafical notation indicating whether the feature is mandatory or optional, if the feature is mandatory it is 
-indicated with a black bubble, and if it is optional it is displayed with a empty bubble, in \ref{fig:car} we can see that Engine and
+Each feature can contain a graphical notation indicating whether the feature is mandatory or optional, if the feature is mandatory it is 
+indicated with a black bubble, and if it is optional it is displayed with an empty bubble, in \ref{fig:car} we can see that Engine and
 Model are mandatory features, which make sense since both are necessary for any car, but Comfort\_Feature a optional since they are not
 necessary for a car to function.
 
-In additon to mandatory and optional features, there are also alternative and choice groups. A parent can have one of these groups, an alternative group
-is marked with a empty half circle and a optional group with a filled circle. When a selection group is used, one featur needs to be selected, but
+In addition to mandatory and optional features, there are also alternative and choice groups. A parent can have one of these groups, an alternative group
+is marked with an empty half circle and an optional group with a filled circle. When a selection group is used, one feature needs to be selected, but
 others can be selected as well, a choice group corresponds to the logical or operator. In an alternative group, only one feature can be
-selected, if more then one feature is selected the configuration is invalid. In \ref{fig:car} we see that Engine has a alternative group, which makes sense
+selected, if more than one feature is selected the configuration is invalid. In \ref{fig:car} we see that Engine has a alternative group, which makes sense
 since each car can only contain one Engine, where it makes sense that Comfort\_Feature contains a choice group, you can have a navigation system
-and seat heating in a car without conflics.
+and seat heating in a car without conflict.
 
 In addition, a feature model may contain various constraints that need to be satisfied, these constraints are defined as boolean 
 algebra. In \ref{fig:car} we see that there are two constraints, $Combustion \implies Model\_A$ and 
