@@ -71,7 +71,7 @@ alternative group depends on which features are deselected. \cite{Multicollinear
 \end{table}
 
 Now consider the example of \autoref{tab:alternative}, where we see a configuration example that contains multicollinear features due to an alternative group.
-The example contains a Base feature and 3 features for an alternative A, B, and C, i.e. for each configuration only one of these 3 characteristics can be selected.
+The example contains a Base feature and 3 features for an alternative A, B, and C (i.e. for each configuration only one of these 3 features can be selected).
 This now clearly shows the dependence between these features, because in order for feature C to be selected, B and C needs to be deselected, therefore
 $C = 1 - B - C$ needs to be satisfied. 
 
@@ -103,7 +103,7 @@ together, and we cannot determine the extent to which each feature influences th
     \end{algorithm}
 
 By extending the example code from \hyperref[alg:performanceExample]{Algorithm \ref*{alg:performanceExample}} with an additional condition where $C \equiv D$ holds, 
-so that either C or D can be selected without the other, we insert the code snippet  \hyperref[alg:Colinear]{Algorithm \ref*{alg:Colinear}} 
+so that either C or D can be selected without the other, we insert the code snippet \hyperref[alg:Colinear]{Algorithm \ref*{alg:Colinear}} 
 after \hyperref[alg:code_insertion]{Algorithm \ref*{alg:code_insertion}}.
 
 Now, if we select a configuration c that contains the features \{\{A\}, \{B\}, \{C\}\} we get multiple {\perfInfluenceModel}s:
@@ -128,9 +128,9 @@ between the selected features are as low as possible when selecting the features
 
 \subsection{Collecting data}
 Having decided which features are of interest to us, we can now turn to the question of to collect our data,
-which we can then use to create an \perfInfluenceModel.
+which we can then use to create a \perfInfluenceModel.
 
-Since we are using a black-box analysis, our methods are quite limited. AS shown in \autoref{fig:BBxz}, we are not able to investigate what the system does 
+Since we are using a black-box analysis, our methods are quite limited. As shown in \autoref{fig:BBxz}, we are not able to investigate what the system does 
 in detail and are limited to the properties that we can observe from the outside. 
 In this case, we can measure non-functional properties such as time to completion, energy consumption, memory usage, 
 computational resources used, and basically any value we can observe when looking at the machine the system is running on. 
@@ -140,12 +140,12 @@ If possible, measurements should be repeated at least 30 times to reduce measure
 \subsection{Creating a Performance-Influence Model using Multiple Linear Regression}
 After collecting all of our measurements, we use them to build our \perfInfluenceModel of the system. 
 
-Various approaches are available to build the model, 
- a popular one being is the use of neural networks, but these have significant disadvantages in that the model itself 
-loses its explainability and is usually not comprehensible. 
+Various approaches are available to build the model.
+A popular approach is the use of neural networks, which, however, 
+have the significant disadvantage that the model itself loses its explainability and is usually not comprehensible.
 
 For to these reasons, we decided to use multiple linear regression. Compared to a neural network, the linear model we 
-derived is easy for us humans to understand and interpret, since its structure is very similar to that of an \perfInfluenceModel,
+derived is easy for us humans to understand and interpret, since its structure is already very that of a \perfInfluenceModel,
 and therefore does not require further adaptation.
 
 We use the following formula for linear regression for matrices\cite{Linear-Regression-Performance}:
@@ -163,8 +163,8 @@ The model is used to estimate the relationships between the independent variable
 In our case, $Y$ is a vector with n elements, containing the output of our black-box model, 
 i.e. the measurements for each configuration in our set of configurations $\mathcal{C}$. 
 
-Our independent variable $X$ is an $n \times m$ matrix, where $n$ is the number of configurations used and $m$ is the number of configurations
-in our set of configurations $\mid \mathcal{C} \mid$.
+Our independent variable $X$ is an $n \times m$ matrix, where $n$ is the number of configurations used and $m$ is the number of features and feature
+interactions across all configurations.
 To accommodate feature interactions in this linear model, we add a term for each interaction we want to include. For example,
 if we consider the interaction between features $x_i$ and $x_j$ we add the term $\beta_k x_i x_j$. 
 
@@ -176,15 +176,14 @@ The value of each feature in the matrix is either $1$ if the feature is selected
 If we have numerical features with $l$ different options,
 we split this features into $l$ binary features and encode them as an alternative group in our feature model.
 
-All our measurements have a possible error represented by $\epsilon$ \cite{Linear-Regression}. This is the main difference
-between the linear regression model and a \perfInfluenceModel.
+All our measurements have a possible error represented by $\epsilon$ \cite{Linear-Regression}.
 
 \subsubsection{Ordinary Least Squares}
 Now that we have seen the general formula of multiple linear regression and know what the different components stand for, we still need to figure out 
 how to calculate the regression coefficient $\beta$, the values that tell us the influence of each feature. 
 
 For this purpose, we use the ordinary least squares estimator, which is optimal for the class of linear unbiased estimators, 
-but is unreliable when the independent variables $X$ contain a high degree of multicollinearity.
+but is unreliable when the independent variables $X$ contains a high degree of multicollinearity.
 The principal of ordinary least squares is to minimize the sum of the squared residuals, where the residual is the difference between
 the predicted value of the estimator and the actual value. \cite{Linear-Regression}
 
@@ -283,7 +282,7 @@ configuration we use, the base feature is active, which is why ordinary least sq
 Now we can use the values to create the \perfInfluenceModel:
 
 \begin{equation}
-    \Pi = 1 + 1 \cdot A + 2 \cdot B + 1 \cdot C + 2 \cdot A \cdot B + 0 \cdot A \cdot C
+    \Pi = 1 + 1 \cdot c(A) + 2 \cdot c(B) + 1 \cdot c(C) + 2 \cdot c(A) \cdot B + 0 \cdot c(A) \cdot c(C)
 \end{equation}
 
 We are aware that if our configurations contains multicollinearity then the ordinary least squares estimator is unreliable.
@@ -295,9 +294,9 @@ We compute the VIF using the following equation:
 
 \begin{align}
     VIF_{j} &= \frac{1}{1 - R^{2}_{j}}  \\ \nonumber\\
-    R^{2}_{j} &= 1 - \frac{\sum\limits_{\forall c \in \mathcal{T}} (c(o_j) - \overline{c}(o_j))} {\sum\limits_{\forall c \in \mathcal{T}}c(o_j) - {c}(o_j)}
+    R^{2}_{j} &= 1 - \frac{\sum\limits_{\forall c \in \mathcal{T}} (c(o_j) - \overline{c}(o_j))^2} {\sum\limits_{\forall c \in \mathcal{T}}(c(o_j) - f_j(c \setminus o_j))^2}
 \end{align}
 
 Where $\mathcal{T}$ is the trainings set containing j features $o_j$. The VIF$_{j}$ can be calculated for each feature by using the coefficient
 of determination $R^2$. To do this, we need to calculate $R^2$ for each feature $o_j$, fitting a linear regression function $f_j$ to predict whether $o_j$
-is selected in the configuration $c \setminus o_j$, using all other features as predictors. /cite{Multicollinearity}
+is selected in the configuration $c \setminus o_j$, using all other features as predictors. \cite{Multicollinearity}
