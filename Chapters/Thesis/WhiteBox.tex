@@ -2,9 +2,21 @@
 \section{White-box Model}\label{ch:Whitebox}
 %************************************************
 
-%Irgendwo paper einbauen, maybe start
+While a black-box analysis is very useful for systems where we do not have access to the source code, when we do have that access
+it would be a waste not to work with this additional information. Now instead of a black-box analysis we can use a white-box analysis 
+that takes advantage of these new information and uses them to derive a result differently then the black-box approach.
 
-On the contrary to the black-box the white-box model requires access to the system itself. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{gfx/XZWhitebox.png}
+    \caption{A White-box Version of XZ}
+    \label{fig:WBxz}
+\end{figure}
+
+Let us now inspect our example \autoref{fig:xz} from a white-box perspective
+
+
 We are aware of the inner workings of the system, and given the system an input we can observe how the system uses the input, which functions are called, 
 in what capacity a feature influence the program flow. 
 
