@@ -10,7 +10,7 @@ For this purpose, we can perform a black-box analysis of the system.
 A black-box analysis is conceptually simple, given a configurable system, we select a set of configurations that contains the feature we are interested in. 
 We run the system with different configuration from our set and during execution we measure the non-functional properties we can observe.
 Next, we use these measurements to build a \perfInfluenceModel, that becomes more accurate as the number of measured configurations measured increases.
-In the end, we have a performance-influcence model that represents our system, created with a black-boy analysis.
+In the end, we have a performance-influcence model that represents our system, created with a black-box analysis.
 
 \begin{figure}[h]
     \centering
@@ -45,13 +45,14 @@ larger systems. For example, the Linux kernel contains 10,000 different features
 contains about $10^{79}$ atoms, which is still less than the number of variants a system with 263 features produces, it is already impossible to use brute-force to analyze
 such a system, let alone the Linux kernel.
 
-For this reason, we cannot fully explore the entire configuration space 
-and therefore must select a subset that represent the system with a high accuracy. To achieve this state of the art black-box analyzes use sampling
-strategies to find a suitable subset, such as pair-wise sampling, most-enabled-disabled and random sampling.
+Hence, we cannot fully explore the entire configuration space and therefore must select a subset that 
+represent the system with a high accuracy. For this purpose we take advantage of the findings of Xu et. al. \cite{TooManyKnobs},0
+where they have shown that not all features are equally important and that up to 54,1\% of features are rarely set by users. We use
+this information together with our domain knowledge to extract the most important features we are interested in.
 
 \paragraph{Multicollinear Features}\label{ColinearF}
 We have already mentioned that features that do not influence each other are called independent features, but configurable systems are not composed
-of independent features only. If there is a dependence between more than two features, we call these features multicollinear.
+of independent features only. We call features multicollinear when they occur in the presence of other features.
 
 The reason why multicollinearity is a problem in a black-box analysis is
 that we can only observe nun-functional properties during execution and are not able to correctly assign the influence of each feature
@@ -70,61 +71,72 @@ alternative group depends on which features are deselected. \cite{Multicollinear
     \caption{Configuration example illustrating multicollinearity in an alternative group}\label{tab:alternative}
 \end{table}
 
+
 Now consider the example of \autoref{tab:alternative}, where we see a configuration example that contains multicollinear features due to an alternative group.
 The example contains a Base feature and 3 features for an alternative A, B, and C (i.e. for each configuration only one of these 3 features can be selected).
-This now clearly shows the dependence between these features, because in order for feature C to be selected, B and C needs to be deselected, therefore
-$C = 1 - B - C$ needs to be satisfied. 
+This now clearly shows the dependence between these features, because in order for feature C to be selected, B and C needs to be deselected.
 
 \begin{align*}
-    \Pi(c) &= 0 + 5 \cdot c(A) + 10\cdot c(B) + 20\cdot c(C) \\
-    \Pi(c) &= 5 + 10 \cdot c(A) + 5\cdot c(B) + 20\cdot c(C) \\
-    \Pi(c) &= 8 + 20 \cdot c(A) + 10\cdot c(B) + 7\cdot c(C) \\
+    \Pi_0(c) &= 0 + 5 \cdot c(A) + 10\cdot c(B) + 20\cdot c(C) \\
+    \Pi_1(c) &= 5 + 10 \cdot c(A) + 5\cdot c(B) + 20\cdot c(C) \\
+    \Pi_2(c) &= 8 + 20 \cdot c(A) + 10\cdot c(B) + 7\cdot c(C) \\
 \end{align*}
 
 This leads to multiple performance-influcence model that are accurate with respect to the individual measurement, 
 but make completely different statements when compared.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lllllll}
+    \hline
+    $\Pi$ & Base & A & B & C   & &  $\bm{\Pi(\{Base\})}$   \\ \hline
+    $\Pi_0$ & 0 & 5  & 10 & 20 & &  $\mathbf{0}$         \\
+    $\Pi_1$ & 5 & 10 & 5  & 20 & &  $\mathbf{5}$         \\  
+    $\Pi_2$ & 8 & 20 & 10 & 7  & &  $\mathbf{8}$        \\\hline
+    \end{tabular}
+    \caption{Performance predictions of \autoref{tab:alternative}}\label{tab:Performance-predictions}
+\end{table}
+
+In \autoref{tab:Performance-predictions} we can see the predictions each of the 3 \perfInfluenceModel make under the configurations
+$\{Base\}$. We see that $\Pi_0$, $\Pi_1$, and $\Pi_2$ that were accurate now assign completely different values to the $Base$ feature
+which makes it impossible for us the user to identify the real.
+
 The problem here is that since one child of the alternative must be selected, the others must be deselected. Therefore, we cannot correctly infer the influence
-all features has on to the system, as we can see in our example base is attributed $0$, $5$ and $8$. 
-These values of base or the selected feature can be set in any ratio as long as the sum of the two values is equal to the measured time.
+all features has on to the system.
+Hence, the values of $Base$ or the selected feature can be set in any ratio as long as the sum of the two values is equal to the measured time.
 
 Another way  multicollinearity is introduced into the system is to have features that are mandatory or connected by a condition. 
 If we have features that are mandatory, we cannot distinguish these features with our black-box analysis because they are always selected
 together, and we cannot determine the extent to which each feature influences the system. \cite{Multicollinearity}
 
-\begin{algorithm}[h]
-    \caption{Equivalence \label{alg:Colinear}}
-    \begin{algorithmic}[1]
+When we decide on which features to use in our configuration set, we use our domain knowledge of the system to reduce the amount multicollinear
+features to a minimum.
 
-    \If{$(c \textit{ and }  \lnot d) or (\lnot c \textit{ and } d)$} 
-        \State $c,d \gets False$
-    \EndIf
+%\begin{algorithm}[h]
+%    \caption{Equivalence \label{alg:Colinear}}
+%    \begin{algorithmic}[1]
+%
+%    \If{$(c \textit{ and }  \lnot d) or (\lnot c \textit{ and } d)$} 
+%        \State $c,d \gets False$
+%    \EndIf
+%
+%    \end{algorithmic}
+%    \end{algorithm}
+%
+%By extending the example code from \hyperref[alg:performanceExample]{Algorithm \ref*{alg:performanceExample}} with an additional condition where $C \equiv D$ holds, 
+%so that either C or D can be selected without the other, we insert the code snippet \hyperref[alg:Colinear]{Algorithm \ref*{alg:Colinear}} 
+%after \hyperref[alg:code_insertion]{Algorithm \ref*{alg:code_insertion}}.
 
-    \end{algorithmic}
-    \end{algorithm}
+%Now, if we select a configuration c that contains the features \{\{A\}, \{B\}, \{C\}\} we get multiple {\perfInfluenceModel}s:
 
-By extending the example code from \hyperref[alg:performanceExample]{Algorithm \ref*{alg:performanceExample}} with an additional condition where $C \equiv D$ holds, 
-so that either C or D can be selected without the other, we insert the code snippet \hyperref[alg:Colinear]{Algorithm \ref*{alg:Colinear}} 
-after \hyperref[alg:code_insertion]{Algorithm \ref*{alg:code_insertion}}.
+%\begin{align*}
+%    \Pi_1(c) &= 1 + 1\cdot c(C) + 1 \cdot c(D) + 1\cdot c(C) \cdot c(D) \\
+%    \Pi_2(c) &= 1 + 0\cdot c(C) + 0 \cdot c(D) + 3\cdot c(C) \cdot c(D) \\
+%    \Pi_3(c) &= 1 + 1\cdot c(C) + 2 \cdot c(D) + 0\cdot c(C) \cdot c(D) \\
+%\end{align*}
 
-Now, if we select a configuration c that contains the features \{\{A\}, \{B\}, \{C\}\} we get multiple {\perfInfluenceModel}s:
-
-\begin{align*}
-    \Pi_1(c) &= 1 + 1\cdot c(C) + 1 \cdot c(D) + 1\cdot c(C) \cdot c(D) \\
-    \Pi_2(c) &= 1 + 0\cdot c(C) + 0 \cdot c(D) + 3\cdot c(C) \cdot c(D) \\
-    \Pi_3(c) &= 1 + 1\cdot c(C) + 2 \cdot c(D) + 0\cdot c(C) \cdot c(D) \\
-\end{align*}
-
-In $\Pi_1(c)$ and $\Pi_2(c)$, all features are assigned different values from what we would expect when looking at Algorithm \ref{alg:performanceExample},
-while the \perfInfluenceModel of $\Pi_C(c)$ assigns the expected values.
-
-\subsection{Selecting the configuration space}
-Software products are constantly being improved, and to add more functionality, the number of optional features is also increased, which also dramatically increases 
-the configuration space, but it has already been shown by Tianyin Xu et. al. \cite{TooManyKnobs} that not all features are equally important and that up to
-54,1\% of features are rarely set by users.
-
-We take advantage of this knowledge to solve the combinatorial explosion problem by using our domain knowledge to extract the most important
-features we are interested in. This also helps us to mitigate the influence of multicollinear features, as we can ensure that the dependencies 
-between the selected features are as low as possible when selecting the features to include in our configuration space.
+%In $\Pi_1(c)$ and $\Pi_2(c)$, all features are assigned different values from what we would expect when looking at Algorithm \ref{alg:performanceExample},
+%while the \perfInfluenceModel of $\Pi_C(c)$ assigns the expected values.
 
 \subsection{Collecting data}
 Having decided which features are of interest to us, we can now turn to the question of to collect our data,

@@ -14,11 +14,12 @@ we present two different analyses - a white-box and a black box-analysis.
 
 This results in many features that affect the system in different ways, to keep track of all these features and their interactions,
 we will use a feature model, which is essentially a tree that can contain different kinds of constraints to visualize the relationships 
-between features in a configurable system \cite{KangFeatureOrientedDomain1990}.
+between features in a configurable system \cite{Feature-Oriented-Software-Product-Lines}.
 
 In the black-box analysis, we have only one system that receives an input, in our case a selection of several features.
 The system is then be executed with our configuration. During execution, we can measure various metrics, such as memory and energy
-consumption. Whereas we will focus on the measured execution time.
+consumption. Whereas we will focus on the measured execution time. We will use the measurement we collect to learn the influence
+each feature has on the system by using multiple linear regression.
 
 In our white-box model, we have more information because we know the inner workings of the
 system itself, i.e., we know which code contributes to which feature and therefore measure the time we spend in each feature by summing
