@@ -5,3 +5,5 @@ multicollinear
 comprehendable
 ConfigCrusher
 VaRA
+compositionally
+scenrios
