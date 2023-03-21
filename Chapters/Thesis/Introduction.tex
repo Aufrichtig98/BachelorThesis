@@ -2,62 +2,69 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-Modern software systems are designed to be configurable, we want to provide flexibility to the user by offering them to turn functionality on 
-and off. 
+%Introduction in configureable systems why they exist
+Modern software systems are designed to be configurable; we offer users flexibility by providing them to turn functionality on and off.
 We also expect a configurable software system to satisfy the demand of multiple users by offering a single software system that 
 contains multiple features. \cite{Feature-Oriented-Software-Product-Lines}. 
-To effectively analyze such systems,
-we present two different analyses - a white-box analysis and a black-box analysis.
 
+%Example configureable system linux
+An example of such a configurable software system would be the Linux kernel, whose code base itself contains over 6`000`000 lines of code containing more 
+than 10`000 features \cite{Linux-Kernel}. 
+All these optional features allow the user to create an operating system that meets his needs. 
 
-An example of such a software system would be the Linux kernel, whose code base itself contains over 6,000,000 lines of code containing more 
-than 10,000 optional features \cite{Linux-Kernel}. 
-All these optional features allow you to create an operating system that meets your needs. 
-
-Now all these features may affect the system in different ways, to keep track of all these features and their interactions,
-we will use a feature model, which is essentially a tree that can contain different kinds of constraints to visualize the relationships 
+%Feature model to show overwiew over all these features
+Now all these features affect the system in different ways. To keep track of all these features and their interactions, we use a feature model, 
+which is essentially a tree, that depicts how features interact with another.
+Inside the feature model, there can be different kinds of constraints to visualize the relationships 
 between features in a configurable system \cite{Feature-Oriented-Software-Product-Lines}. 
 
+%After modeling system we want to analyze we explain that we are intrested in the performance of each feature and use 2 analyses
 Now that we have an overview of the system we are interested in what capacity each feature or feature interaction influences the system,
-To identify these influences we present two different analyses - a white-box analysis and a black-box analysis.
+To identify these influences we present two different analyses: a white-box analysis and a black-box analysis.
+However, before this, we analyze the system's configuration space and select the crucial features of the system.
+Then, we create configurations from the selected features that contain the interactions we want to observe.
 
-In the black-box analysis, we first analyze the configuration space of the system and select the features that we are most 
-interested in. Then, from the selected features we create configurations that contain the interactions that we want to observe.
-We run the system with each configuration as input and during execution, we can measure various metrics, such as memory and energy
-consumption. Whereas we will focus on the measured execution time. We will use the measurement we collect to learn the influence
-each feature has on the system by using multiple linear regression.
+%Explains black-box roughly
+In the black-box analysis, we run the system with each configuration as input, and during execution, we can measure various metrics, such as memory and energy consumption.
+Whereas we will focus on measuring the execution time. We will use the measurement we collect to learn each feature's influence on the system 
+using multiple linear regression.
 
-In our white-box model, we have more information because we know the inner workings of the system itself. We use an analysis 
-that helps us to figure out which parts of the code is influenced by which feature. Then during execution we can measure
-the time spent inside these features.
+%Explains white-box roughly
+In our white-box analysis, we have more information because we have access to the system's source code.
+We use an analysis that helps us determine which parts of the code are influenced by which feature.
+Then during execution, we can measure the time spent inside these features.
 
-Now both our analyses generate different types of data that we still need to compare and evaluate, for which we use performance-
-influence models. These models represent our configurable system as a polynomial, where each term represents either a feature or an 
-interaction of features \cite{Performance-influence-models-for-highly-configurable-systems}. We build these models by using the data generated 
-by the white-box and black-box analyzes.
+%Reasoning why we use perf inf models
+Now both our analyses generate different types of data that are different. 
+Therefore, we need to transform this data into a model that we can then use to evaluate both analyses by comparing these models; 
+for this, we use \perfInfluenceModel. These models represent our configurable system as a polynomial, 
+where each term represents either a feature or an interaction of features \cite{Performance-influence-models-for-highly-configurable-systems}.
+We build these models by using the data generated by the white-box analysis and black-box analysis. 
 
+%Reason to why we use a ground truth
 To show the validity of our models, we establish a ground truth. To do this, we design a small configurable system to test both of our 
 models. This system will contain several features, some of which interact with each other in different ways. 
 Since we developed this system ourselves, we know how each feature should impact the runtime of our system, so we create
 a baseline performance-influence model to compare our models against.
 
-After confirming the validity of our models, we will apply both models to real world systems, such as the compression tool
-XZ. We will apply both models on the same system and data then repeat the experiment 30 times for each configuration to reduce external
-factors such as measurement noise.
 
 \section{Goals of this thesis}
-In this thesis the main focus is about comparing performance-influence models between white-box and black-box models. 
-Before we can even compare these models, we need to check whether they are able to detect interactions between features, 
-and if so, how accurate they are. If they can identify the interactions between the features, we can start to compare them. 
+%Simplea goal, what we want to archieve in the thesis
+In this thesis, we aim to determine if white-box and black-box analyses can identify the influence of the different features and 
+feature interactions on a configurable system.
+Furthermore, we are interested in the differences of the \perfInfluenceModel{s} built with data generated by each analysis.
 
-First and foremost, we are interested in whether both models come to the same conclusions, after all, they have both analyzed the same system. 
-If they reach the same conclusion, we can already see that it is feasible to use either of the two models to analyze a system, 
-but from there, we still work out the advantages and trade-offs between the models so that the user can choose the one that meets 
-his needs. If they do not reach the same conclusion, we analyze the reason for the differences between them and examine whether one model 
-performs particularly poorly in certain cases and why this is so. We answer the following research questions:
+%Describing research question
+We are interested in whether both models can correctly identify the influence of each feature.
+If they reach the same conclusion, we can already see that it is feasible to use either of the two models to analyze a system,
+but from there, we still work out the advantages and trade-offs between the models so that the user can choose the one that meets his needs.
+Suppose they reach a different conclusion. In that case, we analyze the reason for the 
+differences between them and examine whether one model performs particularly poorly in some instances and why this is so.
+
+We collect all these interest points to form the following research questions:
 
 \begin{itemize}\label{researchQuestions}
 \item[RQ1]: How accurately does white-box and black-box models detect feature interactions? 
 \item[RQ2]: Do performance models created by our white-box and black-box reach the same conclusion?
-\item[RQ3]: Can we identify the reasons for similarities or differences between performance models?
+\item[RQ3]: What are the reasons for similarities or differences between performance models?
 \end{itemize}

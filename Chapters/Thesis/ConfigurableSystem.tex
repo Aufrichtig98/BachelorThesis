@@ -1,17 +1,19 @@
 \section{Configurable Systems}
 
-Nearly, all modern software systems are configurable, there are multiple reasons for that. 
-We want to give the user flexibility, by offering them to turn functionality on and off. 
-In addition to that a configurable software system satisfies the demand of multiple user by offering a single software system that contains multiple features. 
-\cite{TooManyKnobs}
+%What is a Conf. system and why we use it
+We call a system configurable if it offers options that allow developers and end-users to turn functionality on and off.
+This gives the system the benefit of satisfying the demand of multiple user groups by providing a single software system containing various features
+\cite{TooManyKnobs}.
+
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.6]{gfx/ConfigurableSystemXZ.png}
-    \caption{Scaled down version of xz}
+    \includegraphics[scale=0.55]{gfx/ConfigurableSystemXZ.png}
+    \caption{Simplified version of XZ.}
     \label{fig:xz}
 \end{figure}
 
-As an example let us inspect the compression tool \texttt{xz} \footnote{https://linux.die.net/man/1/xz}. In Figure   \ref{fig:xz}
-we can see a scaled down version of \texttt{xz}, which contains two main functions (In reality many more), encryption and decryption, it is up to the user to 
-decide what he needs, but regardless his choice both functions are contained in a single software.
+%Example for such a system using xz
+As an example, let us inspect the compression tool \textsc{XZ}\footnote{Visited at 21.03.2023 \url{https://tukaani.org/xz/}}.
+In \autoref{fig:xz} depicts a simplified version of \textsc{XZ}, which contains two main functions, encryption, and decryption. 
+It is up to the user to decide what he needs, but regardless of his choice, a single software system contains both functions.
