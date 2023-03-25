@@ -1,89 +1,109 @@
 %************************************************
-\section{Black-box Analysis}\label{ch:Blackbox}
+\section{Building a Performance-influcence Model using Black-Box Analysis}\label{ch:Blackbox}
 %************************************************
-\mycomment{
-When developing a software system, it often happens that we need different frameworks or other systems to develop ours.
-While it would be possible to develop these systems ourselves, in most cases this is inefficient and slows down the release of our system.
-To speed up this process, we can use other systems that are already available to us. However, the question is whether these systems 
-meet our requirements that are not related functionality, such as performance. 
 
-For this purpose, we can perform a black-box analysis of the system. 
-A black-box analysis is conceptually simple, given a configurable system, we select a set of configurations that contains the feature we are interested in. 
-We run the system with different configuration from our set and during execution we measure the non-functional properties we can observe.
-Next, we use these measurements to build a \perfInfluenceModel, that becomes more accurate as the number of measured configurations measured increases.
-In the end, we have a performance-influcence model that represents our system, created with a black-box analysis.
-}
+%Introduction why now black-box
+We have introduced {\perfInfluenceModel} to represent the influence of each feature and feature interaction on a system. In this section, 
+we expand on this topic and introduce the \emph{black-box analysis} a method to collect data to build \perfInfluenceModel.
 
-Now that we have introduced feature models a way to represent a configurable system and \perfInfluenceModel to represent the influence of each feature
-and feature interaction on the system we will now introduce the black-box analysis one way of building a \perfInfluenceModel.
+%What is a black-box and what is the analysis
+A black-box of a configurable system is conceptually simple, we execute a given system with a configuration, and after finishing, we receive an output. 
+However, the critical part is that we are unaware of how the black-box produces the output. 
+Since we cannot see inside the system, we need an approach that does not require this. 
+Therefore, in a black-box analysis, we solve this issue by observing the machine on which the system is executed.
+In \autoref{ch:Black-Box-Analysis} we will explain this process in detail.
 
-A black-box analysis is conceptually simple, however we can not just brute force every possible configuration due to the problem of
-combinatorial explosion in \autoref{section:combinatorial-explosion} we explain how we deal with this problem, to help us select a suitable configuration 
-space.
-
-Now that we settled on the configuration space we have to decide which non-functional properties we want to measure 
+%How we evaluate the data
+Subsequently, in \autoref{ch:linear-regression}, we use our black-box analysis data with \emph{multiple linear regression} to build a \perfInfluenceModel. 
 
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.55]{gfx/BlackBox2_0.png}
-    \caption{Black-box analysis of XZ}
+    \caption{Process of using a black-box analysis to build a \perfInfluenceModel for \textit{XZ}.}
     \label{fig:BBxz}
 \end{figure}
 
-As an example for a black-box analysis use XZ from \autoref{fig:xz}. In \autoref{fig:BBxz} we see a black-box analysis of xz, first focus on finding 
-the features that we are interested in, then we build ourselves multiple configurations that hold different interactions between these features.
-Then, we run the XZ on each configuration, during the execution we can measure different non-functional properties, in our case we are interested
-in the performance of each feature. After we repeated this process for each of the configurations, we now have a collection of measurements.
+%Example of Chapter pipeline
+In \autoref{fig:BBxz}, we use a black-box analysis for \textit{XZ} to build a \perfInfluenceModel.
+We start by focusing on finding the features that we are interested in. 
+Then we build ourselves multiple configurations that hold different interactions between these features.
+Then, we run XZ as a black-box on each configuration; during the execution, we can measure different non-functional properties.
+In our case, we are interested in the performance of each feature. 
+We repeat this process for each configuration during the black-box analysis and collect the measurements.
 Next, we use these measurements together with multiple linear regression to build a \perfInfluenceModel.
 
-\subsection{Disadvantages of black-box model}
-Although a black-box analysis is inherently simple, it faces two major challenges, combinatorial explosion and multicollinear features, both of which
-must be handled carefully to build an accurate performance-influence model.
+\subsection{Black-Box Analysis}\label{ch:Black-Box-Analysis}
 
-\subsection{Combinatorial Explosion}\label{section:combinatorial-explosion}
+%Intro in section, combinatorial explosion
+Before we start analyzing the system, we first have to select the features we are interested in, since for most configurable systems it is 
+not feasible to use the whole configuration space due to its size. This issue is called \emph{combinatorial explosion} in \autoref{section:combinatorial-explosion}
+we explain how we deal with this problem.
+
+%The analysis
+After deciding which features are of interest to us, we can now turn to the question 
+of how we analyze the system and collect the data we need to build a \perfInfluenceModel
+
+As shown in \autoref{fig:BBxz}, we cannot analyze how the system produces the output; 
+therefore, we are limited to the non-functional properties we can observe from the outside. For this reason, 
+we execute the system with each configuration and measure the property we are interested in, such as energy consumption, memory usage, 
+and computational resources used.  
+
+\subsubsection{Combinatorial Explosion}\label{section:combinatorial-explosion}
+%Defining combinatorial explosion
 One of the larger problems we face when using black-box analysis is the issue of combinatorial explosion, 
-which refers to the effect that when features increase linearly, the number of possible configuration, and hence system variants,
+which refers to the effect that when features increase linearly, the number of possible configuration
 increase exponentially \cite{Combinatorial-explosion}.
 
-Suppose we have a configurable system where each feature is a binary option that you can either select or deselect. We also define 
-that in this system each feature is completely independent of another (i.e. the system has no constraints and selecting or deselecting one feature
-has no effect on other features). The number of unique configurations this system can produce is $2^n$, where $2$ refers to
-the type of feature options allowed, binary in our case, and $n$ denotes the number of features. 
+%Explaining exponential groth more in detail
+Suppose we have a configurable system where each feature is a binary option.
+We also define that in this system, each feature is entirely independent of another
+(i.e., the system has no constraints, and selecting or deselecting one feature has no effect on other features).
+The number of unique configurations this system can produce is $2^n$, where $2$ refers to the type of feature options allowed,
+binary in our case, and $n$ denotes the number of features. 
 
+%Why it is a problem, Example
 Here is the problem, because all these different features can interact with each other in different ways, and for very small systems
 we can certainly brute-force our way by benchmarking all possible configuration, however this does not scale, and certainly not feasible for 
-larger systems. For example, the Linux kernel contains 10,000 different features \cite{Linux-Kernel}, for reference it is estimated that the universe
-contains about $10^{79}$ atoms, which is still less than the number of variants a system with 263 features produces, it is already impossible to use brute-force to analyze
+larger systems. For example, the Linux kernel contains 10`000 different features \cite{Linux-Kernel}, for reference it is estimated that the universe
+contains about $10^{79}$ atoms, which is still less than the number of unique configurations a system with 263 features produces, it is already impossible to use brute-force to analyze
 such a system, let alone the Linux kernel.
 
-Hence, we cannot fully explore the entire configuration space and therefore must select a subset that 
-represent the system with a high accuracy. For this purpose we take advantage of the findings of Xu et. al. \cite{TooManyKnobs},0
-where they have shown that not all features are equally important and that up to 54,1\% of features are rarely set by users. We use
-this information together with our domain knowledge to extract the most important features we are interested in.
-
-\subsection{Collecting data}
-Having decided which features are of interest to us, we can now turn to the question of to collect our data,
-which we can then use to create a \perfInfluenceModel.
-
-Since we are using a black-box analysis, our methods are quite limited. As shown in \autoref{fig:BBxz}, we are not able to investigate what the system does 
-in detail and are limited to the properties that we can observe from the outside. 
-In this case, we can measure non-functional properties such as time to completion, energy consumption, memory usage, 
-computational resources used, and basically any value we can observe when looking at the machine the system is running on. 
-If possible, measurements should be repeated at least 30 times to reduce measurement noise during execution \cite{SampleSize}.
+%How wo overcome it
+Hence, we cannot fully explore the entire configuration space and must select a subset representing the system with high accuracy. 
+For this purpose, we take advantage of the findings of Xu et al. \cite{TooManyKnobs}, 
+where they have shown that not all features are equally important and that up to 54,1\% of features are rarely set by users. 
+We use this information with our domain knowledge to extract the most important features we are interested in.
 
 
-\subsection{Creating a Performance-Influence Model using Multiple Linear Regression}
-After collecting all of our measurements, we use them to build our \perfInfluenceModel of the system. 
+\subsection{Multiple Linear Regression} \label{ch:linear-regression}
+%Section overview
+After collecting all our measurements, we use them to build our {\perfInfluenceModel} of the system. 
+This section explains the reasoning behind using \emph{multiple linear regression}. 
+Afterward, in \autoref{ch:OLS}, we explain \emph{ordinary least squares}, an estimator to calculate the coefficient of each term inside the \perfInfluenceModel. 
+While using \emph{ordinary least squares}, we have to handle the problem of \emph{multicollinear features}; we do this in \autoref{ColinearF}. 
+To reduce the degree of \emph{multicollinear features} we introduce the \emph{Variance Inflation Factor} in \autoref{ch:vif}.
 
-Various approaches are available to build the model.
-A popular approach is the use of neural networks, which, however, 
-have the significant disadvantage that the model itself loses its explainability and is usually not comprehensible.
+%Why Multiple limear regression
+When building a \perfInfluenceModel from our black-box data we have the requirement that the model needs to be interpretable. While multiple 
+methods to predict performance have been introduced, such as neural networks, they lack the interpretability of the model, which on contrary
+\emph{multiple linear regression} provides.
 
-For to these reasons, we decided to use multiple linear regression. Compared to a neural network, the linear model we 
-derived is easy for us humans to understand and interpret, since its structure is already very that of a \perfInfluenceModel,
-and therefore does not require further adaptation.
+To illustrate why interpretability is important lets inspect the following \perfInfluenceModel:
 
-We use the following formula for linear regression for matrices\cite{Linear-Regression-Performance}:
+\begin{align*}
+    \Pi_1 &= -1000 + 1001 \cdot \textit{Feature\_A} + 1002 \cdot \textit{feature\_B} - 1000 \cdot \textit{Feature\_A} \cdot \textit{feature\_B} \\
+    \Pi_2 &= 0 + 1 \cdot \textit{Feature\_A} + 2 \cdot \textit{feature\_B} + 0 \cdot \textit{Feature\_A} \cdot \textit{feature\_B}
+\end{align*}
+
+%Example why we need interpretability
+Under the condition that either \textit{Feature\_A} or \textit{Feature\_B} needs to be selected, 
+$\Pi_1$ and $\Pi_2$ predict for any configuration the same amount of time, however, 
+if we take a close look at how $\Pi_1$ assigns the influence of each feature, we can see that this is not interpretable. 
+Here $\Pi_1$ assigns to the \textit{Base} feature an influence of -1000 thousand, 
+which does not make sense since the time spent in the \textit{Base} feature can not be negative. 
+This also leads to $\Pi_1$ assigning unrealistic amounts of time to features or feature interactions. 
+
+We use the following formula for linear regression for matrices ~\cite{Linear-Regression-Performance}:
 
 \begin{align}\label{formula:linReg}
     Y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 ... \beta_n x_n + \epsilon   \\
@@ -94,31 +114,37 @@ We use the following formula for linear regression for matrices\cite{Linear-Regr
     \epsilon &= \textit{Error} \nonumber
 \end{align}
 
+%For what linear reg is used
 The model is used to estimate the relationships between the independent variables and the dependent variable.
-In our case, $Y$ is a vector with n elements, containing the output of our black-box model, 
-i.e. the measurements for each configuration in our set of configurations $\mathcal{C}$. 
+In our case, $Y$ is a vector with \textit{n}  elements containing the output of our black-box model,
+i.e., the measurements for each configuration in our set of configurations $\mathcal{C}$. 
 
-Our independent variable $X$ is an $n \times m$ matrix, where $n$ is the number of configurations used and $m$ is the number of features and feature
-interactions across all configurations.
-To accommodate feature interactions in this linear model, we add a term for each interaction we want to include. For example,
-if we consider the interaction between features $x_i$ and $x_j$ we add the term $\beta_k x_i x_j$. 
+%Exlaining collums of matrix and how they map to our config
+Our independent variable $X$ is an $n \times m$ matrix, where $n$ is the number of configurations used, 
+and $m$ is the number of features and feature interactions across all configurations. 
+To accommodate feature interactions in this linear model, we add a term for each interaction we want to include. 
+For example, if we consider the interaction between features $x_i$ and $x_j$ we add the term $\beta_k x_i x_j$. 
 
-What we are interested in are the values of the coefficients $\beta$, since they quantify the influence of each feature or feature interaction
-on the whole system. In addition, $\beta_0$ denotes the intercept, which for us represents the influence of the base code, meaning
-the part of the code that is executed regardless of the chosen configuration.
+%Explaining coecfficient map to feature
+We are interested in the values of the coefficients $\beta$, since they quantify the influence of each feature or feature interaction on the whole system. 
+In addition, $\beta_0$ denotes the intercept, representing the influence of the base code, 
+meaning the part of the code executed regardless of the chosen configuration.
 
-The value of each feature in the matrix is either $1$ if the feature is selected, or $0$ if it is not selected. 
-If we have numerical features with $l$ different options,
-we split this features into $l$ binary features and encode them as an alternative group in our feature model.
+%Splitting of feature interactions
+The value of each feature in the matrix is $1$ if the feature is selected or $0$ if it is not selected.  If we have numerical features with $l$ different options, 
+we split these features into $l$ binary features and encode them as an alternative group in our feature model.
 
+%Error
 All our measurements have a possible error represented by $\epsilon$ \cite{Linear-Regression}.
 
-\subsection{Ordinary Least Squares}
+\subsubsection{Ordinary Least Squares}\label{ch:OLS}
+%Why we need ols
 Now that we have seen the general formula of multiple linear regression and know what the different components stand for, we still need to figure out 
 how to calculate the regression coefficient $\beta$, the values that tell us the influence of each feature. 
 
+%Why OLS works in detail
 For this purpose, we use the ordinary least squares estimator, which is optimal for the class of linear unbiased estimators, 
-but is unreliable when the independent variables $X$ contains a high degree of multicollinearity.
+but is unreliable when the independent variables $X$ contains a high degree of multicollinearity, we explain this in detail in \autoref{ColinearF}.
 The principal of ordinary least squares is to minimize the sum of the squared residuals, where the residual is the difference between
 the predicted value of the estimator and the actual value. \cite{Linear-Regression}
 
@@ -133,7 +159,8 @@ the predicted value of the estimator and the actual value. \cite{Linear-Regressi
 \end{figure}
 \footnotetext{Visited at 06.03.2023, \url{https://datajobs.com/data-science-repo/OLS-Regression-[GD-Hutcheson].pdf}}
 
-An illustration of an ordinary least squares estimator for a linear regression model can be seen in \autoref{fig:OLS}, where we have only one variable 
+%example illustration
+We see an illustration of an ordinary least squares estimator for a linear regression model in \autoref{fig:OLS}, where we have only one variable 
 X and the corresponding measurements Y, allowing us to compute the single regressor for this linear regression model.
 
 To compute the regression coefficients using ordinary least squares, the following formula is used \cite{Linear-Regression}:
@@ -146,7 +173,7 @@ To compute the regression coefficients using ordinary least squares, the followi
 
 Now $\hat{\beta}$ contains the regression coefficient we are interested in.
 
-As an example, we can refer to our code from \hyperref[alg:performanceExample]{Algorithm \ref*{alg:performanceExample}}
+As an example, we can refer to our code from \autoref{lst:performanceExample}
 and sample some configurations to build a multiple linear regression model using ordinary least squares.
 
 \begin{table}[H]
@@ -164,7 +191,7 @@ and sample some configurations to build a multiple linear regression model using
     1    & 1 & 1 & 1 & 1           & 1           &  &   $\mathbf{7}$  \\ \hline
 
     \end{tabular}  
-    \caption{Configuration samples of \hyperref[alg:performanceExample]{Algorithm \ref*{alg:performanceExample}}}\label{tab:alternative}
+    \caption{Configuration samples of \autoref{lst:performanceExample}}
 \end{table}
 
 Using the configuration samples from \autoref{tab:alternative} we can now determine $\textit{X}$ and $\textit{Y}$:
@@ -201,18 +228,17 @@ Using the ordinary least squares \hyperref[equ:ols]{Equation \ref*{equ:ols}}  we
 \begin{equation}
     \hat{\beta} = 1 + 
     \begin{bmatrix}
-        0 \\
-        1 \\
-        2 \\
-        1 \\
-        2 \\
-        0
+        0,00 \\
+        1,00 \\
+        2,00 \\
+        1,00 \\
+        2,00 \\
+        0,00
     \end{bmatrix}
 \end{equation}
 
 All values have been rounded to 2 decimal places. 
-We can see that all values have been assigned correctly, except for the base feature, which has been assigned 0. The reason for this is that in every
-configuration we use, the base feature is active, which is why ordinary least squares assigns the value of the base to the intercept and not $\beta_1$. 
+We can see that all values have been assigned correctly.
 
 Now we can use the values to create the \perfInfluenceModel:
 
@@ -220,14 +246,25 @@ Now we can use the values to create the \perfInfluenceModel:
     \Pi = 1 + 1 \cdot c(A) + 2 \cdot c(B) + 1 \cdot c(C) + 2 \cdot c(A) \cdot B + 0 \cdot c(A) \cdot c(C)
 \end{equation}
 
-\paragraph{Multicollinear Features}\label{ColinearF}
-We have already mentioned that features that do not influence each other are called independent features, but configurable systems are not composed
-of independent features only. We call features multicollinear when they occur in the presence of other features.
+\subsubsection{Multicollinear Features}\label{ColinearF}
+%Connection/Explantion why multicolinearty is bad
+We already mentioned that ordinary least squares is optimal as long as our configurations do not contain multicollinearity. The reason for that
+is in presence of multicollinearity the variance of the estimator inflates, which in result hurts the interpretability of the model.
+We call features multicollinear when there exist a near linear dependency between these features, meaning we can nearly represent one feature as a combination
+of different features and the feature does only provide a small amount of new information to the system \cite{Linear-Regression}. If a feature does not provide
+any new information to the system, then we speak of perfect multicollinearity.
 
-The reason why multicollinearity is a problem in a black-box analysis is
-that we can only observe nun-functional properties during execution and are not able to correctly assign the influence of each feature
-on the system. One way multicollinearity is introduced into a system is by using alternative groups, since the selection of a feature in the
-alternative group depends on which features are deselected. \cite{Multicollinearity}
+As an example take a look at a {\perfInfluenceModel} for some the monthly expenses of a student:
+\begin{equation*}
+    monthly\_expenses = \textit{food} + \textit{take\_out}
+\end{equation*}
+
+%Explanation and example for perfect multicolinearity
+Now this shows multicollinearity between the features \textit{food} and \textit{take\_out}, since \textit{take\_out} is already present in the cost of \textit{food},
+furthermore it is a case of perfect multicollinearity, since the feature does not provide any new information.
+
+One way multicollinearity is introduced into a system is by using alternative groups, since the selection of a feature in the
+alternative group can be expressed by the combination of all other feature. \cite{Multicollinearity}
 
 \begin{table}[h]
     \centering
@@ -238,13 +275,15 @@ alternative group depends on which features are deselected. \cite{Multicollinear
     1 & 0 & 1 & 0 &  & $\mathbf{10}$  \\  
     1 & 0 & 0 & 1 &  & $\mathbf{15}$  \\\hline
     \end{tabular}  
-    \caption{Configuration example illustrating multicollinearity in an alternative group}\label{tab:alternative}
+    \caption{Configuration example illustrating multicollinearity in an alternative group.
+    Where $\bm{\Pi(*)}$ is the sum of all selected features inside the row}\label{tab:alternative}
 \end{table}
 
-
+%Example alternative group
 Now consider the example of \autoref{tab:alternative}, where we see a configuration example that contains multicollinear features due to an alternative group.
-The example contains a Base feature and 3 features for an alternative A, B, and C (i.e. for each configuration only one of these 3 features can be selected).
-This now clearly shows the dependence between these features, because in order for feature C to be selected, B and C needs to be deselected.
+The example contains a mandatory \textit{Base} feature and 3 features in an alternative \textit{A}, \textit{B}, and \textit{C}.
+Now we can always model the present of a feature in an alternative group due to the absence of other feature, here for feature \textit{C} to be selected, 
+\textit{B} and \textit{A} needs to be deselected.
 
 \begin{align*}
     \Pi_0(c) &= 0 + 5 \cdot c(A) + 10\cdot c(B) + 20\cdot c(C) \\
@@ -267,17 +306,17 @@ but make completely different statements when compared.
     \caption{Performance predictions of \autoref{tab:alternative}}\label{tab:Performance-predictions}
 \end{table}
 
-In \autoref{tab:Performance-predictions} we can see the predictions each of the 3 \perfInfluenceModel make under the configurations
-$\{Base\}$. We see that $\Pi_0$, $\Pi_1$, and $\Pi_2$ that were accurate now assign completely different values to the $Base$ feature
-which makes it impossible for us the user to identify the real.
-
-The problem here is that since one child of the alternative must be selected, the others must be deselected. Therefore, we cannot correctly infer the influence
-all features has on to the system.
-Hence, the values of $Base$ or the selected feature can be set in any ratio as long as the sum of the two values is equal to the measured time.
-
-Another way  multicollinearity is introduced into the system is to have features that are mandatory or connected by a condition. 
+%Explain multicollinearity 
+Another way multicollinearity is introduced into the system is to have features that are mandatory or connected by a condition. 
 If we have features that are mandatory, we cannot distinguish these features with our black-box analysis because they are always selected
 together, and we cannot determine the extent to which each feature influences the system. \cite{Multicollinearity}
+
+%Multicolinearity with mandatory feature explaining examples before
+In \autoref{tab:Performance-predictions}, we can see the predictions each of the 3 \perfInfluenceModel make for the configurations $\{Base\}$. 
+Now $\Pi_0$, $\Pi_1$, and $\Pi_2$, assign completely different values to the \textit{Base} feature, which makes it impossible for us, the user,
+to identify the correct value. The reason is that both \textit{Base} and a feature of the alternative group are mandatory; 
+therefore, we cannot measure one without the presence of the other. 
+Hence, the values of \textit{Base} or the alternative group feature can be set in any ratio as long as the sum of the two values equals the measured time.
 
 When we decide on which features to use in our configuration set, we use our domain knowledge of the system to reduce the amount multicollinear
 features to a minimum.
@@ -308,12 +347,14 @@ features to a minimum.
 %In $\Pi_1(c)$ and $\Pi_2(c)$, all features are assigned different values from what we would expect when looking at Algorithm \ref{alg:performanceExample},
 %while the \perfInfluenceModel of $\Pi_C(c)$ assigns the expected values.
 
-\subsection{Variance Inflation Factor}
+\subsubsection{Variance Inflation Factor}\label{ch:vif}
+In reality, multicollinearity is often unavoidable in configurable systems, when we want to model the influence of a feature interaction between features
+\textit{A} and \textit{B} we introduce a term $A \cdot B$, this feature interaction is only selected when feature \textit{A} and \textit{B} are selected. 
+Due to that reason we can not remove terms that introduce multicollinearity, however we can remove perfect multicollinear since they do not provide our 
+system with new information.
 
-We are aware that if our configurations contains multicollinearity then the ordinary least squares estimator is unreliable.
-To check for multicollinearity we use the variance inflation factor (VIF), where a VIF factor of 0 indicates
-that there is no multicollinearity in our configurations and the thresholds of 5 and 10 indicate moderate and highly problematic multicollinearity 
-respectively. \cite{Multicollinearity}
+To check for perfect multicollinearity we use the variance inflation factor (VIF), where a VIF factor of $\inf$ indicates
+that there is perfect multicollinearity between features of feature interactions \cite{Multicollinearity}.
 
 We compute the VIF using the following equation:
 
@@ -322,6 +363,6 @@ We compute the VIF using the following equation:
     R^{2}_{j} &= 1 - \frac{\sum\limits_{\forall c \in \mathcal{T}} (c(o_j) - \overline{c}(o_j))^2} {\sum\limits_{\forall c \in \mathcal{T}}(c(o_j) - f_j(c \setminus o_j))^2}
 \end{align}
 
-Where $\mathcal{T}$ is the trainings set containing j features $o_j$. The VIF$_{j}$ can be calculated for each feature by using the coefficient
-of determination $R^2$. To do this, we need to calculate $R^2$ for each feature $o_j$, fitting a linear regression function $f_j$ to predict whether $o_j$
-is selected in the configuration $c \setminus o_j$, using all other features as predictors. \cite{Multicollinearity}
+Where $\mathcal{T}$ is the trainings set containing \textit{j} features $o_j$. The VIF$_{j}$ can be calculated for each feature by using the coefficient
+of determination $R^2$. To do this, we need to calculate $R^{2}_j$ for each feature $o_j$, fitting a linear regression function $f_j$ to predict whether $o_j$
+is selected in the configuration $c \setminus o_j$, using all other features as predictors and the overall mean $\overline{c}(o_j)$ \cite{Multicollinearity}.

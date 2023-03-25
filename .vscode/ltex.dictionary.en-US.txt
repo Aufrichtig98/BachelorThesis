@@ -7,3 +7,5 @@ ConfigCrusher
 VaRA
 compositionally
 scenrios
+influcence
+encapsule

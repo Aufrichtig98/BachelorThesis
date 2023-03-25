@@ -46,7 +46,6 @@
 % 2. Personal data and user ad-hoc commands (insert your own data here)
 % ****************************************************************************************************}
 
-\newcommand{\perfInfluenceModel}{performance-influcence model}
 \newcommand{\myThesisType}{Bachelor's Thesis\xspace} % Master's Thesis
 \newcommand{\myTitle}{Feature Performance Analysis: Differences Between Black-Box and White-Box Models in Configurable Systems\xspace}
 \newcommand{\mySubtitle}{\xspace}
@@ -299,3 +298,31 @@
 % Autoref
 %****************************************************************************************************
 \newcommand{\mycomment}[1]{}
+\newcommand{\autorefLine}[1]{\hyperref[#1]{Line \ref*{#1}}}
+\newcommand{\perfInfluenceModel}{{performance-influcence model}}
+
+% Define a custom color
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Define a custom style
+\lstdefinestyle{myStyle}{
+  backgroundcolor=\color{backcolour},   
+  backgroundcolor=\color{backcolour},   
+  commentstyle=\color{codegreen},
+  numberstyle=\tiny\color{black},
+  firstnumber=1,
+  stepnumber=1,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  keepspaces=true,                 
+  numbers=left,       
+  numbersep=5pt,
+  numberfirstline=true,
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,   
+}

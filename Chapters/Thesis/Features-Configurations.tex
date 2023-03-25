@@ -16,8 +16,15 @@ To unify both applications Apel et.al. introduced the following definition:
 
 %Example of feature on xz an definition of configuartion
 Thus, a feature is both an abstract concept that refers to particular functionality of a system and the implementation of that functionality.
-In our example \autoref{fig:xz} both, encryption and decryption, are unique features, they refer to a piece of functionality of the system and the
+In our example \autoref{fig:xz} both, \textit{Compression} and \textit{Decompression}, are unique features, they refer to a piece of functionality of the system and the
 implementation. 
+
+%Numeric and binary feature
+We differentiate between \emph{binary} features \emph{numeric} features. A binary feature can be either selected or deselected; 
+commonly, we denote a binary feature with $1$ if we select it and $0$ otherwise. 
+We denote a numeric feature with a numerical value; these can have various meanings depending on the feature it implements. 
+For \autoref{fig:xz}, \textit{Decompression} could be a binary feature since we either have the option to decrypt a file or not; on the contrary, 
+\textit{Compression} could be implemented as a numeric feature, where the numeric value represents the quality of compression we want. 
 
 %What is a Configuration option
 A configuration option is a predefined way for developers to change the functionality of the configurable system; 

@@ -1,77 +1,76 @@
 \section{Performance-influence models}\label{ch:performance-influence-models}
+%We explain why we introduce perf-inf models to model non-functional 
+In the previous \autoref{ch:Feature Model}, we introduced a way to represent functional properties by using feature models.
+However, while doing so we ignored the non-functional properties which are as equally important inside a configurable system.
+Hence, to model the measurable non-functional properties and to which degree each feature influences the configurable system; 
+we introduce performance-influence models. 
 
-Both of white-box and black-box approach produce data that differ from each other, so we cannot compare them directly, for 
-this reason, we introduce performance-influence models. We generated such a model for each dataset generate by both white-box and black-box, then
-we are able to compare and analyze both model. We use the formal definitions from the paper "Performance-Influence Models for
+%Definition from where
+To define {\perfInfluenceModel}, we use the formal definitions from the paper "Performance-Influence Models for
 Highly Configurable Systems" by Sven Apel et al. \cite{Performance-influence-models-for-highly-configurable-systems}.
 
-A feature performance model is a polynomial that consists of several terms, each term representing either a feature or an interaction
-of features and the influence they have onto the system itself. The sum of all terms represent the time the performance model predicts
-given a configuration of features. All our features are encoded as binary features, meaning they can either be turned on or off. Formally, 
-let $\mathcal{O}$ be the set of all configuration options and $\mathcal{C}$ the set of all configuration, then  let $\emph{c} \in \mathcal{C}$ be
-a function $\emph{c} \textit{ : } \mathcal{O} \implies \mathbb{R}$ that assigns either $0$ or $1$ to each binary option. If we select a feature
-$o$, then $\emph{c}(\emph{o}) = 1$ holds, and if we deselect a feature $\emph{c}(\emph{o}) = 0$. In general, a performance-influence
-model is a function $\Pi$ that maps configurations $\mathcal{C}$ to an estimated time prediction, therefore $\Pi \textit{ : } \mathcal{C} \implies \mathbb{R}$.
+%Definition
+A {\perfInfluenceModel} is a polynomial consisting of several terms, each representing either a feature or an interaction between features, 
+whereas the coefficient in each term represents the degree to which these features influence the system.  
+The sum of all terms represents the time the {\perfInfluenceModel} predicts given a configuration of features.
+Formally, let $\mathcal{O}$ be the set of all configuration options and $\mathcal{C}$ the set of all configurations, 
+then let $\emph{c} \in \mathcal{C}$ be a function $\emph{c} \textit{ : } \mathcal{O} \implies \mathbb{R}$ that assigns either $0$ or $1$ to each binary option. 
+If we select a feature $o$, then $\emph{c}(\emph{o}) = 1$ holds, otherwise $\emph{c}(\emph{o}) = 0$. 
+In general, a performance-influence model is a function $\Pi$ that maps configurations $\mathcal{C}$ to an estimated prediction, 
+therefore $\Pi \textit{ : } \mathcal{C} \implies \mathbb{R}$.
 
-We distinguish between single features $o$ denoted as $\phi_o$ and feature interactions $i ... j$ denoted as $\Phi_{i...j}$. With these
-definitions, we can now define how a performance-influence model formally looks like:
+We encode all our features as binary features and distinguish between single features $o$ denoted as $\phi_o$ and feature interactions $i ... j$ denoted as $\Phi_{i...j}$. 
+Based on these definitions, we define a performance-influence model formally as:
 
 \begin{gather}
     \Pi = \beta_0 + \sum_{i \in \mathcal{O}} \phi_i(c(i)) + \sum_{i...j \in \mathcal{O}} \Phi_{i...j}(c(i)...c(j))
 \end{gather}
 
-While $\beta_0$ denotes the base performance, which refers to the time taken by the system regardless of configuration, $\sum_{i \in \mathcal{O}} \phi_i(c(i))$
-is the sum of each individual feature and $\sum_{i...j \in \mathcal{O}} \Phi_{i...j}(c(i)...c(j))$ is the sum of each feature interaction.
+%Definition 
+While $\beta_0$ denotes the base performance, which refers to the time taken by the system regardless of configuration, $\sum_{i \in \mathcal{O}} \phi_i(c(i))$ 
+is the sum of each feature and $\sum_{i...j \in \mathcal{O}} \Phi_{i...j}(c(i)...c(j))$ is the sum of each feature interaction.
 
+\lstset{style=myStyle}
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[caption={Example code},language=C++,label={lst:performanceExample},escapechar=|]
+void foo() {
+    bool A, B, C, D;
+    assign_feature(A, B, C, D); //Assigns true to each selected feature | \label{line:featureInteraction} |
+    
+    fpcsc::sleep_for_secs(2); //Spending time in base feature | \label{line:feature_base} |
+    if(A)
+        fpcsc::sleep_for_secs(1); | \label{line:feature_A} |
+    if(B)
+        fpcsc::sleep_for_secs(2); | \label{line:feature_B} |
+    if(C)
+        fpcsc::sleep_for_secs(1); | \label{line:feature_C} |
+    if(D)
+        fpcsc::sleep_for_secs(2); | \label{line:feature_D} |
+    if(A && B)                    | \label{line:feature_A_B} |
+        fpcsc::sleep_for_secs(2); | \label{line:feature_A_B_exec} |
+    if(C && D)
+        fpcsc::sleep_for_secs(0); | \label{line:feature_C_D} |
+}
+\end{lstlisting}
+\end{minipage}
 
-\makeatletter
-\def\BState{\State\hskip-\ALG@thistlm}
-\makeatother
-
-\begin{algorithm}
-\caption{Feature Interaction \label{alg:performanceExample}}
-\begin{algorithmic}[1]
-\Procedure{Feature Interaction}{}
-\State $\textit{A,B,C,D} \gets \textit{True or False}$\label{alg:code_insertion}
-\State $\textit{sleep\_for\_seconds(1)}$ $\textit{\#Lets the system sleep for 1 second}$
-\If{$A$} 
-    \State $\textit{sleep\_for\_seconds(1)}$
-\EndIf
-\If{$B$} 
-    \State $\textit{sleep\_for\_seconds(2)}$
-\EndIf
-\If{$C$} 
-    \State $\textit{sleep\_for\_seconds(1)}$ \label{alg:onlyC}
-\EndIf
-\If{$D$} 
-    \State $\textit{sleep\_for\_seconds(2)}$ \label{alg:onlyD}
-\EndIf
-\If{$A \textit{ and } B$} 
-    \State $\textit{sleep\_for\_seconds(2)}$
-\EndIf
-\If{$C \textit{ and } D$} 
-    \State $\textit{sleep\_for\_seconds(0)}$ \label{alg:CandD}
-\EndIf
-
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-
-In Algorithm \ref{alg:performanceExample} we see a simple code snippet with some features that affect the runtime in different ways, in line 
-2 four features A, B, C and D are defined, each of them can be either True or False depending on the configuration chosen. The code in
-line 5,7,9,11 will is executed only if the corresponding features are active. If this is the case, the system sleeps for the specified time. In lines
-12 and 14, we have two feature interactions where $A$ and $B$ must be active, so in order for line 13 to executed, we would attribute the time spend
-in line 13 to the feature interaction \{A, B\} and not to either feature alone.
-The performance-influence model for our system would look like this:
+In Algorithm \autoref{lst:performanceExample} we see a simple code snippet with some features that affect the performance in different ways, 
+in \autorefLine{line:featureInteraction}
+four features A, B, C, and D, are defined; each can be either \emph{true} or \emph{false} depending on the configuration chosen.
+\autorefLine{line:feature_A}, \ref{line:feature_B}, \ref{line:feature_C}, \ref{line:feature_D} will only be executed if the corresponding features are active. 
+If this is the case, the system sleeps for the specified time. 
+In \autorefLine{line:feature_A_B}, we have a feature interaction where \{A, B\} must be active in order for \autorefLine{line:feature_A_B_exec} to be executed, 
+we would attribute the time spent in \autorefLine{line:feature_A_B_exec} to the feature interaction \{A, B\} and not to either feature alone.
+The performance-influence model for our system would look as follows:
 
 \begin{equation*}
     \Pi = 1 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D)
 \end{equation*}
 
-For simplicity, let us assume that the execution of the code takes no time at all and that no additional time is spent on any feature except 
-the specified in the $textit{slee\_for\_seconds}$ function. The constant 1 here refers to $\beta_0$, which is the time we spend in our base 
-feature in line 2. If we decide to turn on features a, b and c the equation would look like this:
+For simplicity, let us assume that the execution of the code takes no time at all, and we spend no time in any feature except the time specified in the 
+\textit{slee\_for\_seconds} function.
+The constant 1 here refers to $\beta_0$, the time we spend in our base feature in \autorefLine{line:feature_base}.
+If we decide on the configuration \{A, B, C, D\} the equation would look like this:
 
 \begin{align*}
     \Pi &= 1 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D) \\
@@ -80,8 +79,4 @@ feature in line 2. If we decide to turn on features a, b and c the equation woul
     \Pi &= 9
 \end{align*}
 
-Thus, for the configuration containing \{\{A\}, \{B\}, \{C\}\} our performance-influence model would yield an expected time of 9 second.
-
-We build a performance-influence model from the date collected by both approaches, the challenge being to produce accurate data
-to produce an accurate model. Since we apply both approaches to the same data, we expect them to produce a comparable performance-influence model.
-We explain how we collect and work with the data in Chapter \ref{ch:Blackbox} and \ref{ch:Whitebox}
+Thus, for the configuration containing \{A, B, C\} our performance-influence model would yield an expected time of 9 second.
