@@ -1,17 +1,15 @@
-\section{Features and Configurations}\label{feature-config}
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
+\subsection{Features and Configurations}\label{feature-config}
 
 %What is a feature
 During the years there have been many definitions to what a \emph{feature} is, on one side, features are used as a means of communication between
 the different stakeholder of a system, where on the other hand, a feature is defined as an implementation-level concept. 
-To unify both applications Apel et.al. introduced the following definition:
+To unify both applications Apel et.al. introduced the following definition~\cite{Feature-Oriented-Software-Product-Lines}:
 
 %Definition
 \begin{definition}
     "A structure that extends and modifies the structure of a
     given program in order to satisfy a stakeholder's requirement, to implement and
-    encapsulate a design decision, and to offer a configuration option."\cite{Feature-Oriented-Software-Product-Lines}     
+    encapsulate a design decision, and to offer a configuration option."     
 \end{definition}
 
 %Example of feature on xz an definition of configuartion
@@ -39,4 +37,4 @@ Therefore, we shall implicitly exclude all invalid configurations whenever we re
 %Example
 As an example, \textsc{XZ} offers the user different features such as \textit{Compression} and \textit{Decompression}, whereas 
 the configuration options \textit{0-9} specify the degree of compression. An invalid configuration would be to select multiple 
-configuration degrees of compression.
+degrees of compression.

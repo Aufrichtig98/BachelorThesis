@@ -9,3 +9,7 @@ compositionally
 scenrios
 influcence
 encapsule
+analyse
+multicolinearity
+VIF
+concpets

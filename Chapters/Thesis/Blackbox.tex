@@ -1,6 +1,12 @@
 %************************************************
-\section{Building a Performance-influcence Model using Black-Box Analysis}\label{ch:Blackbox}
+\section{Black-Box Analysis}\label{ch:Blackbox}
 %************************************************
+In this section, we introduce the first method we use to analyze configurable software systems, the black-box analysis. 
+In \autoref{ch:bb-general-concept}, we explain a black-box and the concepts behind the black-box analysis. 
+We proceed in \autoref{section:combinatorial-explosion} to explain the challenges we encounter when using a black-box analysis.
+After collecting data, we use them with multiple linear regression to build a performance-influence model in \autoref{ch:linear-regression}.
+
+\subsection{General Concepts}\label{ch:bb-general-concept}
 
 %Introduction why now black-box
 We have introduced {\perfInfluenceModel} to represent the influence of each feature and feature interaction on a system. In this section, 
@@ -11,10 +17,6 @@ A black-box of a configurable system is conceptually simple, we execute a given 
 However, the critical part is that we are unaware of how the black-box produces the output. 
 Since we cannot see inside the system, we need an approach that does not require this. 
 Therefore, in a black-box analysis, we solve this issue by observing the machine on which the system is executed.
-In \autoref{ch:Black-Box-Analysis} we will explain this process in detail.
-
-%How we evaluate the data
-Subsequently, in \autoref{ch:linear-regression}, we use our black-box analysis data with \emph{multiple linear regression} to build a \perfInfluenceModel. 
 
 \begin{figure}[h]
     \centering
@@ -27,12 +29,12 @@ Subsequently, in \autoref{ch:linear-regression}, we use our black-box analysis d
 In \autoref{fig:BBxz}, we use a black-box analysis for \textit{XZ} to build a \perfInfluenceModel.
 We start by focusing on finding the features that we are interested in. 
 Then we build ourselves multiple configurations that hold different interactions between these features.
-Then, we run XZ as a black-box on each configuration; during the execution, we can measure different non-functional properties.
+Afterward, we run \textit{XZ} as a black-box on each configuration; during the execution, we analyze the system by measuring different non-functional properties.
 In our case, we are interested in the performance of each feature. 
 We repeat this process for each configuration during the black-box analysis and collect the measurements.
 Next, we use these measurements together with multiple linear regression to build a \perfInfluenceModel.
 
-\subsection{Black-Box Analysis}\label{ch:Black-Box-Analysis}
+\subsubsection{Black-Box Analysis}\label{ch:Black-Box-Analysis}
 
 %Intro in section, combinatorial explosion
 Before we start analyzing the system, we first have to select the features we are interested in, since for most configurable systems it is 
@@ -48,11 +50,11 @@ therefore, we are limited to the non-functional properties we can observe from t
 we execute the system with each configuration and measure the property we are interested in, such as energy consumption, memory usage, 
 and computational resources used.  
 
-\subsubsection{Combinatorial Explosion}\label{section:combinatorial-explosion}
+\subsection{Challenges}\label{section:combinatorial-explosion}
 %Defining combinatorial explosion
 One of the larger problems we face when using black-box analysis is the issue of combinatorial explosion, 
 which refers to the effect that when features increase linearly, the number of possible configuration
-increase exponentially \cite{Combinatorial-explosion}.
+increase exponentially~\cite{Combinatorial-explosion}.
 
 %Explaining exponential groth more in detail
 Suppose we have a configurable system where each feature is a binary option.
@@ -64,13 +66,13 @@ binary in our case, and $n$ denotes the number of features.
 %Why it is a problem, Example
 Here is the problem, because all these different features can interact with each other in different ways, and for very small systems
 we can certainly brute-force our way by benchmarking all possible configuration, however this does not scale, and certainly not feasible for 
-larger systems. For example, the Linux kernel contains 10`000 different features \cite{Linux-Kernel}, for reference it is estimated that the universe
+larger systems. For example, the Linux kernel contains 10`000 different features~\cite{Linux-Kernel}, for reference it is estimated that the universe
 contains about $10^{79}$ atoms, which is still less than the number of unique configurations a system with 263 features produces, it is already impossible to use brute-force to analyze
 such a system, let alone the Linux kernel.
 
 %How wo overcome it
 Hence, we cannot fully explore the entire configuration space and must select a subset representing the system with high accuracy. 
-For this purpose, we take advantage of the findings of Xu et al. \cite{TooManyKnobs}, 
+For this purpose, we take advantage of the findings of Xu et al.~\cite{TooManyKnobs}, 
 where they have shown that not all features are equally important and that up to 54,1\% of features are rarely set by users. 
 We use this information with our domain knowledge to extract the most important features we are interested in.
 
@@ -135,7 +137,7 @@ The value of each feature in the matrix is $1$ if the feature is selected or $0$
 we split these features into $l$ binary features and encode them as an alternative group in our feature model.
 
 %Error
-All our measurements have a possible error represented by $\epsilon$ \cite{Linear-Regression}.
+All our measurements have a possible error represented by $\epsilon$~\cite{Linear-Regression}.
 
 \subsubsection{Ordinary Least Squares}\label{ch:OLS}
 %Why we need ols
@@ -146,7 +148,7 @@ how to calculate the regression coefficient $\beta$, the values that tell us the
 For this purpose, we use the ordinary least squares estimator, which is optimal for the class of linear unbiased estimators, 
 but is unreliable when the independent variables $X$ contains a high degree of multicollinearity, we explain this in detail in \autoref{ColinearF}.
 The principal of ordinary least squares is to minimize the sum of the squared residuals, where the residual is the difference between
-the predicted value of the estimator and the actual value. \cite{Linear-Regression}
+the predicted value of the estimator and the actual value.~\cite{Linear-Regression}
 
 
 \begin{figure}[H]
@@ -163,7 +165,7 @@ the predicted value of the estimator and the actual value. \cite{Linear-Regressi
 We see an illustration of an ordinary least squares estimator for a linear regression model in \autoref{fig:OLS}, where we have only one variable 
 X and the corresponding measurements Y, allowing us to compute the single regressor for this linear regression model.
 
-To compute the regression coefficients using ordinary least squares, the following formula is used \cite{Linear-Regression}:
+To compute the regression coefficients using ordinary least squares, the following formula is used~\cite{Linear-Regression}:
 
 \begin{align}
     \hat{\beta} &=  (\textit{X}^{\top } \textit{X} )^{-1}\textit{X}^{\top} Y \\ \nonumber \\\nonumber
@@ -178,7 +180,7 @@ and sample some configurations to build a multiple linear regression model using
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{llllllll}
+    \begin{tabular}{rrrrrrrr}
     \hline
     Base & A & B & C & A $\land$ B & A $\land$ C &  & $\bm{\Pi(*)}$ \\ \hline
     1    & 0 & 0 & 0 & 0           & 0           &  &  $\mathbf{1}$   \\
@@ -242,7 +244,7 @@ We can see that all values have been assigned correctly.
 
 Now we can use the values to create the \perfInfluenceModel:
 
-\begin{equation}
+\begin{equation}\label{equ:performanceExamplePIMBlackBox}
     \Pi = 1 + 1 \cdot c(A) + 2 \cdot c(B) + 1 \cdot c(C) + 2 \cdot c(A) \cdot B + 0 \cdot c(A) \cdot c(C)
 \end{equation}
 
@@ -251,7 +253,7 @@ Now we can use the values to create the \perfInfluenceModel:
 We already mentioned that ordinary least squares is optimal as long as our configurations do not contain multicollinearity. The reason for that
 is in presence of multicollinearity the variance of the estimator inflates, which in result hurts the interpretability of the model.
 We call features multicollinear when there exist a near linear dependency between these features, meaning we can nearly represent one feature as a combination
-of different features and the feature does only provide a small amount of new information to the system \cite{Linear-Regression}. If a feature does not provide
+of different features and the feature does only provide a small amount of new information to the system~\cite{Linear-Regression}. If a feature does not provide
 any new information to the system, then we speak of perfect multicollinearity.
 
 As an example take a look at a {\perfInfluenceModel} for some the monthly expenses of a student:
@@ -264,7 +266,7 @@ Now this shows multicollinearity between the features \textit{food} and \textit{
 furthermore it is a case of perfect multicollinearity, since the feature does not provide any new information.
 
 One way multicollinearity is introduced into a system is by using alternative groups, since the selection of a feature in the
-alternative group can be expressed by the combination of all other feature. \cite{Multicollinearity}
+alternative group can be expressed by the combination of all other feature.~\cite{Multicollinearity}
 
 \begin{table}[h]
     \centering
@@ -309,7 +311,7 @@ but make completely different statements when compared.
 %Explain multicollinearity 
 Another way multicollinearity is introduced into the system is to have features that are mandatory or connected by a condition. 
 If we have features that are mandatory, we cannot distinguish these features with our black-box analysis because they are always selected
-together, and we cannot determine the extent to which each feature influences the system. \cite{Multicollinearity}
+together, and we cannot determine the extent to which each feature influences the system.~\cite{Multicollinearity}
 
 %Multicolinearity with mandatory feature explaining examples before
 In \autoref{tab:Performance-predictions}, we can see the predictions each of the 3 \perfInfluenceModel make for the configurations $\{Base\}$. 
@@ -354,7 +356,7 @@ Due to that reason we can not remove terms that introduce multicollinearity, how
 system with new information.
 
 To check for perfect multicollinearity we use the variance inflation factor (VIF), where a VIF factor of $\inf$ indicates
-that there is perfect multicollinearity between features of feature interactions \cite{Multicollinearity}.
+that there is perfect multicollinearity between features of feature interactions~\cite{Multicollinearity}.
 
 We compute the VIF using the following equation:
 
@@ -365,4 +367,65 @@ We compute the VIF using the following equation:
 
 Where $\mathcal{T}$ is the trainings set containing \textit{j} features $o_j$. The VIF$_{j}$ can be calculated for each feature by using the coefficient
 of determination $R^2$. To do this, we need to calculate $R^{2}_j$ for each feature $o_j$, fitting a linear regression function $f_j$ to predict whether $o_j$
-is selected in the configuration $c \setminus o_j$, using all other features as predictors and the overall mean $\overline{c}(o_j)$ \cite{Multicollinearity}.
+is selected in the configuration $c \setminus o_j$, using all other features as predictors and the overall mean $\overline{c}(o_j)$~\cite{Multicollinearity}.
+
+\subsubsection{Deciding which terms by using VIF}
+%Explain we cant just remove all mulitcollinear term, but only those introducing perfect algorithm
+Multicollinearity is present in nearly every configurable system. 
+Therefore, we cannot simply remove every term that introduces multicollinearity into the {\perfInfluenceModel}. 
+Therefore, we need a strategy to determine the terms we must remove. For this, we use the VIF to determine the terms that add no new information, 
+meaning the features that introduce perfect multicollinearity. To accomplish this, we use the following algorithm:
+
+\begin{algorithm}
+    \caption{Iterative VIF to check for perfect multicollinearity}\label{alg:vif_iterative}
+    \begin{algorithmic}[1]
+    \State $\textbf{Input: } \textit{Model\_to\_check}$, list containing all the terms we want to check 
+    \State $\textbf{Output: } \textit{Current\_model}$, list containing no terms that introduce perfect multicollinearity
+    \State $\textit{Current\_model} \gets \textbf{[\;]}$ \textbackslash\textbackslash Initialize empty list
+    \State $\textit{Current\_model.add(Model\_to\_check.pop())} $ \label{alg:vif_add_item}
+    \For{$\textit{Term}\;\textbf{in}\;\textit{Model\_to\_check}$} 
+        \State $\textit{Current\_model.add(Term)}$
+        \If{$\infty\;\textbf{in}\;\textit{VIF(Current\_model)}$}\label{alg:vif_check} \\    
+            \qquad$\textit{Current\_model.remove(Terms)}$ 
+        \EndIf
+    \EndFor
+    \Return $\textit{Current\_model}$
+
+    \end{algorithmic}
+\end{algorithm}
+
+%Explaining Algortihm
+In \refAlgorithm{alg:vif_iterative}, we introduce an algorithm that removes all terms that add multicollinearity to our {\perfInfluenceModel}. 
+The algorithm takes as an input $\textit{Model\_to\_check}$ a model with all the terms we want to check for multicollinearity. 
+Afterward, for each $\textit{Term}$ in $\textit{Model\_to\_check}$, 
+we add $\textit{Term}$ to our $\textit{Current\_model}$ and check in \autorefLine{alg:vif_check} if the term introduced multicollinearity, 
+which happens if one VIF value is $\inf$, if this happens we remove $\textit{Term}$ from our $\textit{Current\_model}$. 
+In the end, we return $\textit{Current\_model}$, containing all terms that do not introduce multicollinearity.
+
+\mycomment{
+    Ich würde es alles ein wenig anders strukturieren. Das sollte ohne großen inhaltlichen Mehraufwand recht simpel sein:
+1. Introduction
+1.1 Context/Motivation
+1.2 Goals
+1.3 Contributions
+2. Background
+2.1 Configurable Systems
+2.1.1 General Concepts
+2.1.2 Features and Configs
+2.1.3 Functional/Non-Function Properties
+2.2 Modelling Configurable Systems
+2.2.1 Feature Models
+2.2.2 Feature Diagrams
+-> Ggf. auch keine Einteilung in explizite Unterpunkte für 2.2
+2.3 Analyzing Configurable Systems
+  -> Das ist dein aktuelles 2.5, da ggf. am Ende noch einen kurzen Absatz, welche Analysemöglichkeiten es gibt (BB/WB) aber detaillierte Beschreibung erfolgt in den Unterkapiteln dazu
+2.4 Black-Box-Analysis
+2.4.1 General Concepts
+2.4.2 Challenges (Aktuell 2.6.1.1)
+2.4.3 Multiple Linear Regression (Aktuell 2.6.2)
+2.5 White-Box Analysis
+2.5.1 General Concepts 
+  -> Sollte im Endeffekt, beinhalten was du vor 2.7.1 aktuell hast + 2.7.1 + kurzer Anriss, was Feature Taints sind
+2.5.2 VaRA
+  -> Das was du auch aktuell zu VaRA hast. Die Unterteilung in Unterkapitel ist hilfreich, aber mMn auch nicht zwangsweise notwendig
+}

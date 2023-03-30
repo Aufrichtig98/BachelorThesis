@@ -1,20 +1,20 @@
 \section{Performance-influence models}\label{ch:performance-influence-models}
 %We explain why we introduce perf-inf models to model non-functional 
-In the previous \autoref{ch:Feature Model}, we introduced a way to represent functional properties by using feature models.
+In the previous \autoref{ch:modelling-configsys}, we introduced a way to represent functional properties by using feature models.
 However, while doing so we ignored the non-functional properties which are as equally important inside a configurable system.
 Hence, to model the measurable non-functional properties and to which degree each feature influences the configurable system; 
 we introduce performance-influence models. 
 
 %Definition from where
 To define {\perfInfluenceModel}, we use the formal definitions from the paper "Performance-Influence Models for
-Highly Configurable Systems" by Sven Apel et al. \cite{Performance-influence-models-for-highly-configurable-systems}.
+Highly Configurable Systems" by Sven Apel et al.~\cite{Performance-influence-models-for-highly-configurable-systems}.
 
 %Definition
 A {\perfInfluenceModel} is a polynomial consisting of several terms, each representing either a feature or an interaction between features, 
 whereas the coefficient in each term represents the degree to which these features influence the system.  
 The sum of all terms represents the time the {\perfInfluenceModel} predicts given a configuration of features.
 Formally, let $\mathcal{O}$ be the set of all configuration options and $\mathcal{C}$ the set of all configurations, 
-then let $\emph{c} \in \mathcal{C}$ be a function $\emph{c} \textit{ : } \mathcal{O} \implies \mathbb{R}$ that assigns either $0$ or $1$ to each binary option. 
+then let $\emph{c} \in \mathcal{C}$ be a function $\emph{c} \textit{ : } \mathcal{O} \implies \emph{\{0, 1\}}$ that assigns either $0$ or $1$ to each binary option. 
 If we select a feature $o$, then $\emph{c}(\emph{o}) = 1$ holds, otherwise $\emph{c}(\emph{o}) = 0$. 
 In general, a performance-influence model is a function $\Pi$ that maps configurations $\mathcal{C}$ to an estimated prediction, 
 therefore $\Pi \textit{ : } \mathcal{C} \implies \mathbb{R}$.
@@ -63,20 +63,20 @@ In \autorefLine{line:feature_A_B}, we have a feature interaction where \{A, B\} 
 we would attribute the time spent in \autorefLine{line:feature_A_B_exec} to the feature interaction \{A, B\} and not to either feature alone.
 The performance-influence model for our system would look as follows:
 
-\begin{equation*}
-    \Pi = 1 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D)
-\end{equation*}
+\begin{equation}\label{equ:performanceExamplePIMBaseline}
+    \Pi = 2 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D)
+\end{equation}
 
 For simplicity, let us assume that the execution of the code takes no time at all, and we spend no time in any feature except the time specified in the 
-\textit{slee\_for\_seconds} function.
-The constant 1 here refers to $\beta_0$, the time we spend in our base feature in \autorefLine{line:feature_base}.
+\textit{sleep\_for\_seconds} function.
+The constant 2 here refers to $\beta_0$, the time we spend in our base feature in \autorefLine{line:feature_base}.
 If we decide on the configuration \{A, B, C, D\} the equation would look like this:
 
 \begin{align*}
-    \Pi &= 1 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D) \\
-    \Pi &= 1 + 1 \cdot 1 + 2 \cdot 1 + 1 \cdot 1 + 2 \cdot 0 + 2 \cdot 1 \cdot 1 + 0 \cdot 1 \cdot 0 \\
-    \Pi &= 1 + 1 + 2 + 1 + 2 + 2 \\
-    \Pi &= 9
+    \Pi &= 2 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D) \\
+    \Pi &= 2 + 1 \cdot 1 + 2 \cdot 1 + 1 \cdot 1 + 2 \cdot 0 + 2 \cdot 1 \cdot 1 + 0 \cdot 1 \cdot 0 \\
+    \Pi &= 2 + 1 + 2 + 1 + 2 + 2 \\
+    \Pi &= 10
 \end{align*}
 
-Thus, for the configuration containing \{A, B, C\} our performance-influence model would yield an expected time of 9 second.
+Thus, for the configuration containing \{A, B, C, D\} our performance-influence model would yield an expected time of 10 second.

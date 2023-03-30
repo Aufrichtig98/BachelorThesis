@@ -1,19 +1,11 @@
-\section{Configurable Systems}
+\section{Configurable Systems}\label{ch:configurable-systems}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
 
-%What is a Conf. system and why we use it
-We call a system configurable if it offers options that allow developers and end-users to turn functionality on and off.
-This gives the system the benefit of satisfying the demand of multiple user groups by providing a single software system containing various features
-\cite{TooManyKnobs}.
+In this section, we start of explaining the general concepts behind configurable systems and the reason for using them. 
+We proceed with explaining what a feature and configuration is in \autoref{feature-config}. 
+Additionally, we introduce functional and non-functional properties in \autoref{ch:properties} and show the difference between them.
 
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.55]{gfx/ConfigurableSystemXZ.png}
-    \caption{Simplified version of XZ.}
-    \label{fig:xz}
-\end{figure}
-
-%Example for such a system using xz
-As an example, let us inspect the compression tool \textsc{XZ}\footnote{Visited at 21.03.2023 \url{https://tukaani.org/xz/}}.
-In \autoref{fig:xz} depicts a simplified version of \textsc{XZ}, which contains two main functions, encryption, and decryption. 
-It is up to the user to decide what he needs, but regardless of his choice, a single software system contains both functions.
+\input{Chapters/Thesis/general-concepts}
+\input{Chapters/Thesis/Features-Configurations}
+\input{Chapters/Thesis/Properties}
