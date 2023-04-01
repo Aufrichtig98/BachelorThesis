@@ -34,11 +34,11 @@ is the sum of each feature and $\sum_{i...j \in \mathcal{O}} \Phi_{i...j}(c(i)..
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={Example code},language=C++,label={lst:performanceExample},escapechar=|]
 void foo() {
-    bool A, B, C, D;
+    bool A, B, C, D; | \label{line:feature_declatation} |
     assign_feature(A, B, C, D); //Assigns true to each selected feature | \label{line:featureInteraction} |
     
     fpcsc::sleep_for_secs(2); //Spending time in base feature | \label{line:feature_base} |
-    if(A)
+    if(A)                         | \label{line:feature_A_statement} |
         fpcsc::sleep_for_secs(1); | \label{line:feature_A} |
     if(B)
         fpcsc::sleep_for_secs(2); | \label{line:feature_B} |

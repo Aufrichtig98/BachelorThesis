@@ -1,2 +1,51 @@
 \section{Operationalization}\label{ch:operationalization}
 
+In this section, we explain the reasoning behind picking \hyperref[researchQuestions]{research questions \ref*{researchQuestions}} 
+and formalize how we evaluate them. The focus point of this thesis is to identify if we can use both the white-box and black-box models 
+to evaluate configurable software systems. In the following, we will reintroduce the research questions and explain what the question aims to achieve:\\
+
+\noindent \textbf{RQ1}: How accurately do white-box and black-box models detect feature and feature interactions? \\
+
+One of the main points we research in this thesis is how accurately we can identify features and especially interactions between features. 
+We design multiple small configurable systems in the ground truth section to investigate this. 
+We investigate this using our ground truth because, in these systems, 
+we are fully aware of how much time we should spend in each feature or feature interaction. 
+Therefore, we quantify the difference between the predicted and true influence by calculating for each feature and 
+feature interaction the absolute percentage error (APE) and afterward the accuracy of the whole model by calculating the mean absolute percentage error 
+(MAPE)~\cite{mape}. %Maybe reference
+
+We calculate the APE and MAPE as follows:
+
+\begin{align}
+    \text{APE}(c) &= \frac{\lvert \Pi_{true}(c(o_j)) - \widehat{\Pi}(c(o_j))\rvert}{\Pi_{true}(c(o_j))} \label{equ:APE} \\ \nonumber \\
+    \text{MAPE}(C) &= \frac{\sum_{c \in C} \text{APE}(c)}{\lvert C \rvert} \label{equ:mape}
+\end{align}
+
+Note that $\Pi_{true}(c(o_j))$ is the true influence of the feature $o_j$ that we obtain from the baseline of our ground truth 
+and $\widehat{\Pi}(c(o_j))$ the influence predicted by the {\perfInfluenceModel}s we build.
+The closer MAPE is to $0$, the better the prediction since, 
+for the MAPE to be $0$ the predicted influence of each feature needs to be the same as the true influence; 
+in this case, our performance would be completely accurate. \\
+
+\noindent \textbf{RQ2}: Do performance models created by our white-box and black-box attribute the same influence to each feature?\\
+
+In this research question, we investigate whether the {\perfInfluenceModel}s build-out of the white-box and black-box analyses' data agree, 
+meaning they predict the same influence for each feature. 
+Compared to RQ1, we do not measure if the predictions are accurate regarding the true influence but if both analyses produce similar results. 
+For this, we again use APE and MAPE. However, we need to adjust the formula as follows:
+
+\begin{align}
+    \text{APE}(c) &= \frac{\lvert\Pi_{WB}(c(o_j)) - \Pi_{BB}(c(o_j))\rvert}{\Pi_{WB}(c(o_j))} \label{equ:APE} \\ \nonumber \\
+    \text{MAPE}(C) &= \frac{\sum_{c \in C} \text{APE}(c)}{\lvert C \rvert} \label{equ:mape}
+\end{align}
+
+Here we quantify the difference between the predictions of white-box $\Pi_{WB}$ and black-box $\Pi{BB}$ for each feature $o_j$, 
+the closer the MAPE score is to $0$ the more similar our {\perfInfluenceModel}s are.\\
+
+\noindent \textbf{RQ3}: What are the reasons for similarities or differences between performance models?\\
+
+In RQ2, we investigate how similar both {\perfInfluenceModel}s are with each other. 
+However, we are also interested in why both models are the same or different, but compared to RQ1 and RQ2, these reasons are not quantifiable. 
+As such, we use our knowledge of both white-box and black-box to try and identify the reasons for this. Reasons for a difference could be 
+that the configurable system contains a large amount of multicollinearity; therefore, the black-box analysis estimator is suboptimal. 
+For the white-box analysis, the reasons might be that the taint analysis is unable to follow feature variables throughout the system.
