@@ -48,4 +48,27 @@ In RQ2, we investigate how similar both {\perfInfluenceModel}s are with each oth
 However, we are also interested in why both models are the same or different, but compared to RQ1 and RQ2, these reasons are not quantifiable. 
 As such, we use our knowledge of both white-box and black-box to try and identify the reasons for this. Reasons for a difference could be 
 that the configurable system contains a large amount of multicollinearity; therefore, the black-box analysis estimator is suboptimal. 
-For the white-box analysis, the reasons might be that the taint analysis is unable to follow feature variables throughout the system.
+For the white-box analysis, the reason might be that the taint analysis is unable to follow feature variables throughout the system.
+
+\section{Collecting Data}\label{ch:collect-data}
+After deciding which features interest us, we turn to how we collect our data, which we can use to create the {\perfInfluenceModel}s.
+
+The non-functional property that we decide to analyze is performance because it is one metric of high interest for stakeholders. 
+It is also an easily quantifiable metric that reflects the changes to the system if a feature with a significant influence is selected.
+
+Every measurement is subject to noise, which influences the measured performance during the execution of the system. 
+To reduce this noise, we measure each configuration 30 times and take the mean of the time spent as values to build the {\perfInfluenceModel}s~\cite{SampleSize}.
+
+To collect the data by using the VaRA Tool Suite in which we define an experiment for each project, we analyze. 
+In this experiment, we specify how we want to analyze the project and in which way. For our white-box analysis, 
+we write an experiment that specifies that we want to use VaRA to instrument our code so that during execution, 
+all trace events can be tracked and written into the TEF report file. For our black-box analysis, 
+we wrap the command we want to measure with the Linux time command and write the time spent into a different report. 
+Each measurement is done sequentially and on the same machine. 
+
+\subsection*{Noteworthy tools}
+During both the experiments we use different frameworks and libarys, we will mention the noteworthy ones here.
+
+Besides VaRA Tool Suite we also use plumbum\footnote{Visited at 02.04.2023 https://plumbum.readthedocs.io/en/latest/}
+%SKLearn 
+%statsmodels.stats.outliers_influence import variance_inflation_factor

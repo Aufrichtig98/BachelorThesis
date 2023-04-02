@@ -11,7 +11,7 @@ We investigate all the changes to \autoref{ground-truth:Simple} independent of a
 are inaccurate, therefore, none of the changes are persistent.
 
 
-\subsection{Simple interaction}\label{ground-truth:Simple}
+\paragraph{Simple interaction}\label{ground-truth:Simple}
 For our first system, we use the code from our previous example in \autoref{lst:performanceExample} and provide an additional feature model 
 of the system in \autoref{fig:feature_abcd}. 
 We use this system as our base system, which we extend for each scenario; therefore it is the simplest one, 
@@ -19,14 +19,15 @@ only containing some interactions and no constraints.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.55]{gfx/Feature_ABCD.png}
+    \includegraphics[scale=0.25]{gfx/Feature_ABCD.png}
     \caption{Feature model of \autoref{lst:performanceExample}.}
     \label{fig:feature_abcd}
 \end{figure}
 
 
 \paragraph{Else clause}
-The first modification we do is adding an \emph{else clause} to the if statement of feature \emph{A} in \autorefLine{line:feature_A_statement}
+The first modification we do is adding an \emph{else clause} to the if statement of feature \emph{A} in \autorefLine{line:feature_A_statement}. 
+We encode this as follows:
 
 \begin{minipage}{\linewidth}
     \begin{lstlisting}[language=C++,label={lst:else_case},escapechar=|]
