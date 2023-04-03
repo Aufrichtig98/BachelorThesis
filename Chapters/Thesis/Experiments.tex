@@ -6,22 +6,15 @@
 %System details
 
 This chapter describes the main experiment that is conducted to evaluate both analyses.
-We first explain the general research setup in \autoref{ch:Research-setup} that we use. 
-Last, in \autoref{ch:system-detail} we present the hardware on which we execute the system.
 
 \section{Research setup}\label{ch:Research-setup}
-
-In the following we introduce the compression tool \textsc{XZ} in detail. Furthermore, we define the experiments and projects we use with 
-the VaRA Tool Suite to analyze the system.
-
-\subsection{Compression tool \textsc{XZ}}
 
 The configurable system we analyze is the open source software system \textsc{XZ}, a command line tool written in \textsc{C} and a component of
 \textsc{XZ Utils}\footnote{Visited at 02.04.2023 https://tukaani.org/xz/}.  
 The primary compression algorithm that \textsc{XZ} currently uses is \textsc{LZMA2} to perform lossless data compression.
 We use \textsc{XZ} \textsc{(XZ Utils)} version 5.5.0 with the commit hash "610dde15a88f12cc540424eb3eb3ed61f3876f74"
 
-\subsection*{Configuration Space}
+\section{Configuration Space}
 \textsc{XZ} offers us various features, due to the issue of combinatorial explosion \autoref{section:combinatorial-explosion} we 
 have to select a subset of features so that we can still measure all possible configurations. We decided to select three features
 that all should have a significant influence the performance of the system. We have two numeric features, \emph{compression level} and 
@@ -47,6 +40,3 @@ The number of configurations we can build using these three features is calculat
     \lvert C \rvert &= \lvert \textit{compression level} \rvert \cdot \lvert \textit{extreme} \rvert \cdot \lvert \textit{threads} \rvert \\
     100 &= 10 \cdot 2 \cdot 5 \nonumber
 \end{align}
-
-
-\section{System detail}\label{ch:system-detail}
