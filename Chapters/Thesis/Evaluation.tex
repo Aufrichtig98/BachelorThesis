@@ -3,39 +3,91 @@
 %************************************************
 \lstset{style=myStyle}
 
-This chapter evaluates the thesis core claims.
+This chapter evaluates the thesis core claims. 
+We begin with presenting the results for both the ground truth systems and \textsc{XZ} in \autoref{sec:results}.
+Afterward in \autoref{sec:discussion} we discuss the results. At the end in \autoref{sec:threats}, we explain the threads of validity for the results.
 
 \section{Results}\label{sec:results}
 
-In this section, present the results of your thesis.
+In this section, we present the results of the ground truth and of \textsc{XZ}.
 
-\mycomment{
-    %Baseline and Blackbox
-    Out of \autoref{lst:performanceExample} and \autoref{fig:feature_abcd} we build \autoref{alg:xml-abcd} and declare all the feature variables. The baseline 
-    {\perfInfluenceModel} for this system is shown in \autoref{equ:performanceExamplePIMBaseline} and the {\perfInfluenceModel} build with the black-box
-    analysis data using multiple linear regression is shown in \autoref{equ:performanceExamplePIMBlackBox}. 
-    
-    We analyse \autoref{lst:performanceExample} using our white-box analysis, this produces a TEF report file in \autoref{rep:tef-abcd},
-    afterwards we use this report to calculate the time spend in each feature region described as in \autoref{math:coefficients} and \autoref{math:time}.
-    This produces the following file in \autoref{alg:aggr-tef-abcd}, from which we build the following {\perfInfluenceModel}:
-    
-    \begin{equation}
-        \Pi = 2 + 1 \cdot A + 2 \cdot B + 1 \cdot C + 2 \cdot D + 2 \cdot A \cdot B + 0 \cdot C \cdot D
-    \end{equation}
-    
-    We group our results in to compare them with each other.
-    
-    \begin{table}[H]
-        \centering
-        \begin{tabular}{llllllll}
-        \hline
-        $\Pi$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\ \hline
-        Baseline & 2    & 1 & 2 & 1 & 2 & 2           & 0            \\
-        Black-box & 2    & 1 & 2 & 1 & 2 & 2           & 0           \\
-        White-box & 2    & 1 & 2 & 1 & 2 & 2           & 0           \\ \hline
+\subsection{Ground Truth Results}
+We now proceed with evaluating the different systems, \textsc{Simple Interactions}, \textsc{Else Clause}, \textsc{Function}, \textsc{Multicollinearity} 
+and \textsc{Shared Feature Variable}, that we introduce in \autoref{sec:ground-truth}
+
+\subsubsection*{Simple Interaction Results}
+%Baseline and Blackbox
+We start by constructing the baseline 
+{\perfInfluenceModel} for this system as shown in \autoref{equ:performanceExamplePIMBaseline}.
+
+We now build the {\perfInfluenceModel} for the black-box analysis:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrrr}
+    \toprule
+    $\Pi_{BB}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
+    \midrule
+    Simple Interaction &   2.0 &  1.0 &  2.0 &  1.0 &  2.0 &   2.0 &  3.108624e-15 \\
+    \bottomrule
+    \end{tabular}
+    \caption{{\perfInfluenceModel} for simple interaction using black-box analysis}
+\end{table}
+
+For the white-box analysis out with \autoref{lst:performanceExample} and \autoref{fig:feature_abcd} we build \autoref{alg:xml-abcd} 
+in which we declare all the feature variables of \textsc{Simple Interactions}. 
+We analyse \autoref{lst:performanceExample} using our white-box analysis, this produces a TEF report file in \autoref{rep:tef-abcd},
+afterward we use this report to calculate the time spend in each feature region described as in \autoref{math:coefficients} and \autoref{math:time}.
+This produces the following file in \autoref{alg:aggr-tef-abcd}, from which we build the following {\perfInfluenceModel}:
+
+\begin{equation}
+    \Pi = 2 + 1 \cdot A + 2 \cdot B + 1 \cdot C + 2 \cdot D + 2 \cdot A \cdot B + 0 \cdot C \cdot D
+\end{equation}
+
+We group our results in \autoref{aggr:results-simple-interaction} to compare them with each other.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrrr}
+    \toprule
+    $\Pi$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\ \midrule
+    Baseline & 2    & 1 & 2 & 1 & 2 & 2           & 0            \\
+    Black-box & 2    & 1 & 2 & 1 & 2 & 2           & 0           \\
+    White-box & 2    & 1 & 2 & 1 & 2 & 2           & 0           \\ \bottomrule
+    \end{tabular}  
+    \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel} for \autoref{lst:performanceExample}}\label{aggr:results-simple-interaction}
+\end{table}
+
+Out of \autoref{aggr:results-simple-interaction} we now calculate $\overline{error}$ and %TO DO SIMILARITY
+for both white-box and black-box:
+
+\begin{table}[H]
+\begin{minipage}{.5\linewidth}
+    \centering
+    \begin{tabular}{lr}
+    \toprule
+    RQ1     & $\overline{error}$         \\ \midrule
+    Black-box & 0              \\
+    White-box & 0              \\ \bottomrule
+    \end{tabular}  
+    \caption{Results RQ1}
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+        RQ2     & $similarity$    \\ \midrule
+        Black-box$_\text{WB}$ & 0              \\
+        White-box$_\text{BB}$ & 0              \\ \bottomrule
         \end{tabular}  
-        \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel} for \autoref{lst:performanceExample}}
-    \end{table}}
+        \caption{Results RQ2}
+\end{minipage} 
+\end{table}
+
+\subsubsection*{Else Clause}
+
+The results for the \textsc{Else Clause} system are as follows
+
 
 
 \section{Discussion}\label{sec:discussion}

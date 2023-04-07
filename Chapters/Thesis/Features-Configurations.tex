@@ -1,9 +1,9 @@
 \subsection{Features and Configurations}\label{feature-config}
 
 %What is a feature
-During the years there have been many definitions to what a \emph{feature} is, on one side, features are used as a means of communication between
+During the years there have been many definitions of what a \emph{feature} is, on one side, features are used as a means of communication between
 the different stakeholder of a system, where on the other hand, a feature is defined as an implementation-level concept. 
-To unify both applications Apel et.al. introduced the following definition~\cite{Feature-Oriented-Software-Product-Lines}:
+To unify both usages Apel et.al. introduced the following definition~\cite{Feature-Oriented-Software-Product-Lines}:
 
 %Definition
 \begin{definition}
@@ -14,27 +14,36 @@ To unify both applications Apel et.al. introduced the following definition~\cite
 
 %Example of feature on xz an definition of configuartion
 Thus, a feature is both an abstract concept that refers to particular functionality of a system and the implementation of that functionality.
-In our example \autoref{fig:xz} both, \textit{Compression} and \textit{Decompression}, are unique features, they refer to a piece of functionality of the system and the
-implementation. 
+In our example \autoref{fig:xz} both, \textit{Compression} and \textit{Decompression}, are unique features 
+that refer to a piece of functionality of \textsc{XZ} and the implementation of the functionality. 
+
+%Featuere Interaction
+Inside a configurable software system, features are not independent of one another. 
+Most of the time, features influence the behavior of different features. 
+When this happens, we say that these features interact with each other. 
+Due to this, we are interested in the degree to which a feature interaction influences the system.
 
 %Numeric and binary feature
-We differentiate between \emph{binary} features \emph{numeric} features. A binary feature can be either selected or deselected; 
-commonly, we denote a binary feature with $1$ if we select it and $0$ otherwise. 
-We denote a numeric feature with a numerical value; these can have various meanings depending on the feature it implements. 
-For \autoref{fig:xz}, \textit{Decompression} could be a binary feature since we either have the option to decrypt a file or not; on the contrary, 
+We differentiate between \emph{binary} features and \emph{numeric} features. A binary feature can be either selected or deselected.
+Commonly, when we select a binary feature we represent it with $1$ and $0$ otherwise. 
+A numeric feature is a feature which, if selected, requires a numerical value that specifies a different behavior of that feature.
+These can have various meanings depending on the feature it implements. 
+For \autoref{fig:xz}, \textit{Decompression} could be modeled as a binary feature, since we have the option to decrypt a file or not. On the contrary, 
 \textit{Compression} could be implemented as a numeric feature, where the numeric value represents the quality of compression we want. 
 
 %What is a Configuration option
-A configuration option is a predefined way for developers to change the functionality of the configurable system; 
-these options allow us to select features we want to include or exclude. Thus, a configuration is a set of configuration options, whereas 
-we call a configuration valid as long as it satisfies the system's constraints.
+A configuration option is a predefined way for developers to change the functionality of the configurable system.
+These options allow us to select features we want to include or exclude. Therefore, a configuration is a set of configuration options, whereas 
+we call a configuration valid as long as the selection of configuration option is allowed by the system.
 
 %What is a Configuration space
-The configuration space refers to the set of all configurations. However, some of these configurations are invalid. 
-In practice, we cannot execute systems with invalid configurations. 
-Therefore, we shall implicitly exclude all invalid configurations whenever we refer to a configuration space.
+The configuration space refers to the set of all configurations. Some of these configurations can be invalid. 
+As we cannot execute systems with invalid configurations in practice, our work focuses on valid configuration,
+hence, when we refer to a configuration space we always mean the space of valid configurations, except otherwise noted.
 
+\mycomment{ Appearently does not connect to the section
 %Example
 As an example, \textsc{XZ} offers the user different features such as \textit{Compression} and \textit{Decompression}, whereas 
 the configuration options \textit{0-9} specify the degree of compression. An invalid configuration would be to select multiple 
 degrees of compression.
+}

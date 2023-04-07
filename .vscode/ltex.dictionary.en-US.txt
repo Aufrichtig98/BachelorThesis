@@ -13,3 +13,4 @@ analyse
 multicolinearity
 VIF
 concpets
+introduceinf

@@ -2,24 +2,24 @@
 
 In this section, we explain the reasoning behind picking \hyperref[researchQuestions]{research questions \ref*{researchQuestions}} 
 and formalize how we evaluate them. 
-The focus of this thesis is to work out the differences between white-box and black-box models when analyzing the performance of features of a configurable system. 
-To quantify these differences, we reintroduce the research questions that we use and explain how we answer them and the motivation behind them:\\
+The focus of this work is to work out the differences between white-box and black-box models when analyzing the performance of features of a configurable system. 
+To quantify these differences, we reintroduce the research questions that we pursue and explain the motivation behind them and how we answer them:\\
 
-\noindent \textbf{RQ1}: How accurately do white-box and black-box models detect feature and feature interactions? \\
+\noindent \textbf{RQ1}: How accurately do white-box and black-box models detect features and feature interactions? \\
 
 %Motivation
-Due to the numerous features, it is hard to know the influence each feature or feature interaction has on a configurable system. 
+Due to the sheer number of features, it is hard to know the influence each feature or feature interaction has on a configurable system. 
 Therefore, when we use white-box or black-box analysis to quantify the influence of these features and feature interaction, 
 we are interested in the accuracy of both analyses. 
 To answer this, we research how accurately they can identify the influence of features and feature interactions.
 
 %How we reasearch this
 To investigate this we design multiple small configurable systems in the ground truth section. 
-The reason we use the ground truth systems for this is because, in these systems, 
+We use the ground truth systems for this because, in these systems, 
 we are fully aware of how much time we should spend in each feature or feature interaction. 
 %Reason Mape
-Thus, we quantify the difference between the predicted and true influence of each $f$ in the set of features and feature interactions $F$
-by calculating the \emph{error rate} and afterward the mean of the \emph{error rate} as follows~\cite{mape}. %Maybe reference
+Thus, we quantify the difference between the predicted and true influence of each feature $f$ in the set of features and feature interactions $F$
+by calculating the \emph{error rate} and afterwards its mean, following the approach outlined in~\cite{mape}. %Maybe reference
 
 
 \begin{align}
@@ -28,30 +28,28 @@ by calculating the \emph{error rate} and afterward the mean of the \emph{error r
 \end{align}
 
 Note that $true_f$ is the true influence of the feature or feature interaction $f$ that we obtain from the baseline of our ground truth 
-and $predicted_f$ the influence predicted by the {\perfInfluenceModel}s we build.
-The closer $\overline{error}$ is to $0$, the better the prediction since, 
-for the $\overline{error}$ to be $0$ the predicted influence of each feature needs to be the same as the true influence; 
-in this case, our performance would be completely accurate. \\
+and $predicted_f$ is the influence predicted by the {\perfInfluenceModel}s we build.
+The closer $\overline{error}$ is to $0$, the better the prediction, with an $\overline{error}$ of 0 indicating a perfectly
+accurate \perfInfluenceModel. \\
 
 \noindent \textbf{RQ2}: Do performance models created by our white-box and black-box attribute the same influence to each feature?\\
 
 %Motivation
 Another point we are interested in is to know if the {\perfInfluenceModel}s of both analyses are similar. 
-This is of interest to us because, if they are similar, it will follow that we can use both analyses interchangeably for one another.
+This is of interest because, similar analyses that we can use both analyses interchangeably for one another.
 
 %How we anwser
 To answer this question, we investigate whether the {\perfInfluenceModel}s build-out of the white-box and black-box analyses' data agree, i.e.
 they predict the same influence for each feature. 
 Compared to RQ1, we do not measure if the predictions are accurate regarding the true influence but if both analyses produce similar results. 
-To quantify the difference, we again use the mean of the $error rate$; However, we adjust the formulas as follows:
+To quantify the difference, we again use the mean error rate. However, we adjust the formulas as follows:
 
 \begin{align}
-    error_f &= \frac{\lvert predicted_{WB} - predicted_{BB} \rvert}{predicted_{WB}} \label{equ:APE_RQ1} \\ \nonumber \\
+    error_f &= \frac{\lvert predicted_{f, WB} - predicted_{f, BB} \rvert}{predicted_{f, WB}} \label{equ:APE_RQ1} \\ \nonumber \\
     \overline{error}  &= \frac{\sum_{f \in F} error_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
 \end{align}
 
-Here we quantify the difference between the predictions of white-box $predicted_{WB}$ and black-box $predicted_{BB}$ for each feature $f$, 
-the closer the $\overline{error}$ is to $0$ the more similar the values predicted by {\perfInfluenceModel}s for each feature are.\\
+Here we quantify the difference between the predictions of white-box $predicted_{WB}$ and black-box $predicted_{BB}$ for each feature $f$.\\
 
 \mycomment{
 \noindent \textbf{RQ3}: Given the same configuration do performance models created by our white-box and black-box predict the same value? \\
@@ -82,17 +80,18 @@ that reflects the changes to the system if a feature with a significant influenc
 %Repetition and why we need it
 When measuring with either white-box or black-box analysis, 
 each measurement is subject to noise, which influences the performance during the execution of the system. 
-To reduce this noise, we measure each configuration 30 times and take the mean of the time spent as values to build the {\perfInfluenceModel}s~\cite{SampleSize}.
+To reduce this noise, we follow the suggestions made by Arcuri et.al~\cite{SampleSize}, 
+measure each configuration 30 times, and take the mean of the time spent as values to build the {\perfInfluenceModel}.
 
 %How we collect measurements using VaraTS
 We collect the data for each analysis using the VaRA Tool Suite, in which we define an experiment for each project. 
 For our white-box analysis, we write an experiment that specifies that we want to use VaRA to instrument our code so that during execution, 
 all trace events can be tracked and written into the TEF report file. For our black-box analysis, 
-we wrap the command we want to measure using the Linux time command and write the time spent into a different report. 
+we wrap the command we want to measure using the Linux \texttt{time} command and write the time spent into a different report. 
 
 %Server spezifikation
-All the measurements are performed on a server cluster. To minimize background noise, we ensured that no other job is executed during the measurement. 
-We execute our measurements on a server node that contains an AMD EPYC 72F3 8-Core Processor with 16 threads and 256 GB RAM.
+All the measurements are performed on the same server node. To minimize background noise, we ensured that no other job is executed during the measurement. 
+The server node contains an AMD EPYC 72F3 8-Core Processor with 16 threads and 256 GB RAM.
 
 \mycomment{
 %Libarys Mention

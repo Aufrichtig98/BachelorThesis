@@ -11,11 +11,11 @@ We investigate all the changes to \emph{Simple interaction} system independent o
 are inaccurate, therefore, none of the changes are persistent.
 
 
-\paragraph{Simple interaction}\label{ground-truth:Simple}
+\paragraph{Simple Interaction}\label{ground-truth:Simple}
 For our first system, we use the code from our previous example in \autoref{lst:performanceExample} and provide an additional feature model 
 of the system in \autoref{fig:feature_abcd}. 
-We use this system as our base system, which we extend for each scenario; therefore it is the simplest one, 
-only containing some interactions and no constraints.
+Since we are going to use this as our base system, extending as needed to fit each
+particular scenario, it is kept intentionally simple, only containing some interactions and no constraints.
 
 \begin{figure}[h]
     \centering
@@ -25,7 +25,7 @@ only containing some interactions and no constraints.
 \end{figure}
 
 
-\paragraph{Else clause}
+\paragraph{Else Clause}
 The first modification we do is adding an \emph{else clause} to the if statement of feature \emph{A} in \autorefLine{line:feature_A_statement}. 
 We encode this as follows:
 
@@ -51,7 +51,7 @@ In \autorefLine{line:feature_A} we call the function \emph{waste\_time(1)} inste
 \begin{lstlisting}[language=C++,label={lst:function},escapechar=|]
 void waste_time(int duration){
     fpcsc::sleep_for_secs(duration);
-    }
+}
 \end{lstlisting}
 \end{minipage}
 
@@ -67,9 +67,9 @@ while the black-box analysis should distribute the time spent between \emph{Base
 \paragraph{Shared Feature Variable}\label{ground-truth:Shared}
 We now add an optional feature \emph{E} to the system. 
 However, instead of encoding it like the previous features by specifying a separate variable, 
-we modify the feature variable \emph{D} in \autorefLine{line:feature_declatation} to a \emph{string de = "00"} 
+we modify the feature variable \emph{D} in \autorefLine{line:feature_declatation} to a \texttt{string de = "00"} 
 for which the first character represents feature \emph{D} and the second character \emph{E}. If either is selected, 
-we assign the character for that feature \emph{"1"}. We add another if statement to spend time when \emph{E} is selected and encode this as follows:
+we assign the character for that feature \emph{"1"}. We add another if statement to spend time if \emph{E} is selected and encode this as follows:
 
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[language=C++,label={lst:shared},escapechar=|]
@@ -83,6 +83,5 @@ if(de[1] == '1')
 \end{lstlisting}
 \end{minipage}
 
-We expect the black-box analysis to work still as intended. 
-However, the white-box analysis to be inaccurate since both features \emph{D} and \emph{E} share the same feature variable. 
+We expect the black-box analysis to still work as intended, but the white-box analysis to be inaccurate since both features \emph{D} and \emph{E} share the same feature variable. 
 Each feature region of \emph{D} or \emph{E} should now be influenced by the feature interaction \emph{\{D, E\}}.

@@ -189,13 +189,13 @@ here the if approach would mark \autorefLine{line:foo} and \autorefLine{line:bar
 We call the second approach the \emph{Dominator Approach}, in here, \textsc{VaRA} uses domination relationships to identify feature regions.
 
 To do this, \textsc{VaRA} works with basic blocks of the control flow graph, whereas a basic block is an instruction sequence that contains an entry label, 
-which is the entry point for this code, and a terminator at the end, which determine the control flow of the block. 
+which is the entry point for the code, and a terminator at the end, which determine the control flow of the block. 
 An example of a terminator is an if condition that uses a feature variable.
 
 To discover these domination relationships, \textsc{VaRA} checks out which basic block dominates other basic blocks with dependent terminator instructions. 
 A basic block $BB_1$ dominates a different basic block $BB_2$ when the terminator of $BB_1$ decides if $BB_2$ is executed. 
 Now instructions in $BB_2$ would depend on the terminator instruction of $BB_1$. 
-The feature for the feature region of $BB_2$ is the feature that corresponds to the feature variable used by the terminator of $BB_2$~\cite{VaRA-Tom}.
+The feature for the feature region of $BB_2$ is the feature that corresponds to the feature variable used by the terminator of $BB_1$~\cite{VaRA-Tom}.
 
 
 \subsubsection{Locating feature variables}
