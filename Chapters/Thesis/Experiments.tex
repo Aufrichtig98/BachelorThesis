@@ -7,6 +7,8 @@
 
 This chapter describes the main experiment that is conducted to evaluate both analyses.
 
+
+
 \section{Research setup}\label{ch:Research-setup}
 
 The configurable system we analyze is the open source software system \textsc{XZ}, a command line tool written in \textsc{C} and a component of
@@ -25,16 +27,13 @@ We have to select a subset of features \textsc{XZ} offers to still measure all p
 We selected three core features of \textsc{XZ} that should significantly influence the system's performance: 
 two numeric features, \emph{compression level} and \emph{threads}, and one binary feature, \emph{extreme}. 
 The value of \emph{compression level} ranges between \emph{0} and \emph{9} whereas \emph{threads} can either be \emph{0, 1, 2, 4} or \emph{8}. 
-
 %Compression
 The feature \emph{compression level} sets the compression preset level, which influences the compression ratio.
 This increases the necessary memory needed during compression and decompression, as well as the compression speed. 
 This feature is encoded as an alternative group.
-
 %extreme
 When \emph{extreme} is enabled \textsc{LZMA} uses a slower variant of the selected compression preset to achieve a potentially better compression ratio.
 This feature is optional.
-
 %threads
 The feature \emph{threads} specifies the number of worker threads to use, whereas the option $0$ makes \textsc{XZ}  use as many threads as there are cores available.
 Multithreading allows \emph{XZ} to split the input into different blocks and compress them independently of another.

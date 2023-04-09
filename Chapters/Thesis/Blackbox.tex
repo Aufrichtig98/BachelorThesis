@@ -17,7 +17,7 @@ After using the black-box analysis, we use the obtained data, to build a perform
 In \autoref{fig:BBxz}, we use a black-box analysis for \textit{XZ} to build a \perfInfluenceModel.
 We start by focusing on finding the features that we are interested in. 
 Then we build ourselves multiple configurations that hold different interactions between these features.
-Afterwards, we run \textit{XZ} as a black-box on each configuration; during the execution, we analyze the system by measuring different non-functional properties.
+Afterwards, we run \textit{XZ} as a black-box on each configuration. During the execution, we analyze the system by measuring different non-functional properties.
 In our case, we are interested in the performance of each feature. 
 We repeat this process for each configuration during the black-box analysis and collect the measurements.
 Next, we use these measurements together with multiple linear regression to build a \perfInfluenceModel.
@@ -347,13 +347,14 @@ To measure the degree of multicolinearity inside a system, we introduce the vari
 \subsubsection{Variance Inflation Factor}\label{ch:vif}
 In reality, multicollinearity is often unavoidable in configurable systems, when we want to model the influence of a feature interaction between features
 \textit{A} and \textit{B} we introduce a term $A \cdot B$, this feature interaction is only selected when feature \textit{A} and \textit{B} are selected. 
-Due to that reason we can not remove terms that introduce multicollinearity, however we can remove perfect multicollinear since they do not provide our 
+Due to that we can not remove terms that introduce multicollinearity, however we can remove perfect multicollinear terms since they do not provide our 
 system with new information.
 
-To check for perfect multicollinearity we use the variance inflation factor (VIF), where a VIF factor of $\inf$ indicates
-that there is perfect multicollinearity between features of feature interactions~\cite{Multicollinearity}.
+Thus, we need a method to identify perfect multicollinear features to remove them.
+To check for perfect multicollinearity, we use the variance inflation factor (VIF), where a VIF factor of $\inf$ indicates
+that there is perfect multicollinearity in our system~\cite{Multicollinearity}.
 
-We compute the VIF using the following equation:
+We compute the VIF score using the following equation:
 
 \begin{align}
     VIF_{j} &= \frac{1}{1 - R^{2}_{j}}  \\ \nonumber\\
@@ -364,11 +365,15 @@ Where $\mathcal{T}$ is the trainings set containing \textit{j} features $o_j$. T
 of determination $R^2$. To do this, we need to calculate $R^{2}_j$ for each feature $o_j$, fitting a linear regression function $f_j$ to predict whether $o_j$
 is selected in the configuration $c \setminus o_j$, using all other features as predictors and the overall mean $\overline{c}(o_j)$~\cite{Multicollinearity}.
 
+Using the VIF we can determine which features introduce multicollinearity into the system and to which degree they do. In the following Section we 
+explain how we use the VIF score to identify perfect multicollinear feature in our system.
+
 \subsubsection{Deciding which terms by using VIF}
 %Explain we cant just remove all mulitcollinear term, but only those introducing perfect algorithm
 Multicollinearity is present in nearly every configurable system. 
 Therefore, we cannot simply remove every term that introduces multicollinearity into the {\perfInfluenceModel}. 
-Therefore, we need a strategy to determine the terms we must remove. For this, we use the VIF to determine the terms that add no new information, 
+So to handle multicolinearity, we need a strategy to determine the terms we must remove. 
+For this, we use the VIF to identify the terms that add no new information, 
 meaning the features that introduce perfect multicollinearity. To accomplish this, we use the following algorithm:
 
 \begin{algorithm}
@@ -390,37 +395,12 @@ meaning the features that introduce perfect multicollinearity. To accomplish thi
 \end{algorithm}
 
 %Explaining Algortihm
-In \refAlgorithm{alg:vif_iterative}, we introduce an algorithm that removes all terms that add multicollinearity to our {\perfInfluenceModel}. 
-The algorithm takes as an input $\textit{Model\_to\_check}$ a model with all the terms we want to check for multicollinearity. 
-Afterward, for each $\textit{Term}$ in $\textit{Model\_to\_check}$, 
-we add $\textit{Term}$ to our $\textit{Current\_model}$ and check in \autorefLine{alg:vif_check} if the term introduced multicollinearity, 
+The \refAlgorithm{alg:vif_iterative} takes as an input a $\textit{Model\_to\_check}$ with all the terms we want to check for multicollinearity. 
+Afterwards, the algorithm for each $\textit{Term}$ in $\textit{Model\_to\_check}$, 
+add $\textit{Term}$ to our $\textit{Current\_model}$ and check in \autorefLine{alg:vif_check} if the term introduced multicollinearity, 
 which happens if one VIF value is $\inf$, if this happens we remove $\textit{Term}$ from our $\textit{Current\_model}$. 
 In the end, we return $\textit{Current\_model}$, containing all terms that do not introduce multicollinearity.
 
-\mycomment{
-    Ich würde es alles ein wenig anders strukturieren. Das sollte ohne großen inhaltlichen Mehraufwand recht simpel sein:
-1. Introduction
-1.1 Context/Motivation
-1.2 Goals
-1.3 Contributions
-2. Background
-2.1 Configurable Systems
-2.1.1 General Concepts
-2.1.2 Features and Configs
-2.1.3 Functional/Non-Function Properties
-2.2 Modelling Configurable Systems
-2.2.1 Feature Models
-2.2.2 Feature Diagrams
--> Ggf. auch keine Einteilung in explizite Unterpunkte für 2.2
-2.3 Analyzing Configurable Systems
-  -> Das ist dein aktuelles 2.5, da ggf. am Ende noch einen kurzen Absatz, welche Analysemöglichkeiten es gibt (BB/WB) aber detaillierte Beschreibung erfolgt in den Unterkapiteln dazu
-2.4 Black-Box-Analysis
-2.4.1 General Concepts
-2.4.2 Challenges (Aktuell 2.6.1.1)
-2.4.3 Multiple Linear Regression (Aktuell 2.6.2)
-2.5 White-Box Analysis
-2.5.1 General Concepts 
-  -> Sollte im Endeffekt, beinhalten was du vor 2.7.1 aktuell hast + 2.7.1 + kurzer Anriss, was Feature Taints sind
-2.5.2 VaRA
-  -> Das was du auch aktuell zu VaRA hast. Die Unterteilung in Unterkapitel ist hilfreich, aber mMn auch nicht zwangsweise notwendig
-}
+In the end, we have a model that contains no perfect multicollinearity, 
+meaning that each feature or feature interaction adds new information to our model and that none of our features is redundant. 
+This increases the accuracy when using ordinary least squares as an estimator to build the \perfInfluenceModel.

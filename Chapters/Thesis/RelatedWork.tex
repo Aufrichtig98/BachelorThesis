@@ -2,10 +2,40 @@
 \chapter{Related Work}\label{ch:relatedwork}
 %************************************************
 
-This chapter presents related work.
+\section{Strategies}\label{analyzing-strats}
+%Introducing 3 Strategies
+When analyzing systems using a white-box approach, different strategies have been introduced. 
+In this chapter, we explain the strategies the tools, \textsc{ConfigCrusher} and \textsc{Comprex} use, 
+both model configurability on a feature level, whereas Weber et al. introduce a strategy that models configurability on a method level.
 
-For example, \citet{KG:SME06} investigated \dots
+%Config Crusher
+Velez et al. introduced us to \textsc{ConfigCrusher}~\cite{ConfigCrusher}, 
+a white-box analysis that uses static data-flow analysis to see how features influence variables and the control flow of the system. 
+In addition, ConfigCrusher leverages three insights about configurable systems from previous works, namely irrelevance, orthogonality, 
+and low interaction degree. They use irrelevance to identify features relevant to the system's data flow, 
+reducing the number of configurations required to analyze the system. They use orthogonality to identify features that do not interact with each other and, 
+therefore, can be measured together. Since only a few features interact, 
+\textsc{ConfigCrusher} focuses on the configurations with interacting features to reduce the number of configurations to be analyzed. 
+From these findings, two techniques are developed, namely compression and composition. 
+They use compression to reduce the number of configurations required to analyze the system by simultaneously analyzing regions that are independent of each other 
+so that they can use a single configuration to analyze different features. 
+Whereas composition takes advantage of the fact that {\perfInfluenceModel} can be built compositionally by building a performance-influcence model 
+for each region separately and then assembling all local {\perfInfluenceModel} into one model for the entire system.
+After using the data-flow analysis to generate a control flow graph and a statement influcence map, which maps statements to the configuration options 
+that influence that statement.
+Afterward, they use both the control flow graph and statement influcence map to instrument the regions in the system that correspond to features and execute
+the instrumented system to track execution time of each feature. From these measurements, they build the {\perfInfluenceModel} for the system.
 
-\citet{ABKS:BOOK2013} analyzed \dots
+%Comprex
+Velez et al. introduced \textsc{Comprex}~\cite{Comprex}, an approach that builds on \textsc{ConfigCrusher} 
+but uses an iterative dynamic taint analysis instead of static analysis to determine how and to what extent features affect the control flow of the given system.
+By doing so, they identify which code regions are influenced by which configurations and, during execution measure the time spent in these regions to then build 
+the {\perfInfluenceModel}.
 
-In earlier work~\cite{KAK:GPCE09,ABKS:BOOK2013}, they have shown \dots
+%Method level
+Compared to \textsc{ConfigCrusher} and \textsc{Comprex}, Weber et al. 
+\cite{White-box-Profiling} uses a profiling approach to generate performance-influence models that analyze configurability on a method level. 
+To achieve this, they first used \textsc{JProflier}, a coarse-grained profiler, 
+to learn a performance-influence model for every method that has been learned successfully. To identify the hard-to-learn methods, 
+they use filtering techniques and then \textsc{KIEKER}, a fine-grained profiler, to learn these methods. At the end, for each method, they
+obtain a {\perfInfluenceModel} that shows how strong each feature influences the performance of that method.

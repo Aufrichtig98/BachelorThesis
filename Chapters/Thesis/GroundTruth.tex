@@ -1,15 +1,14 @@
 \section{Ground Truth}\label{sec:ground-truth}
-In this section, we introduce a ground truth to establish that both black-box analysis from \autoref{ch:Blackbox} 
-and white-box analysis from \autoref{ch:Whitebox} can analyze simple, configurable systems and identify weaknesses. 
+In this section, we introduce our ground truth to establish that both black-box analysis 
+and white-box analysis can analyze simple, configurable systems and identify weaknesses. 
 
 To do so, we design multiple configurable systems that test both analyses in different scenarios. 
-Afterward, we evaluate them using the research questions from \autoref{ch:operationalization}. 
+Afterward, we evaluate as described in \autoref{ch:operationalization}. 
 Since we design these systems ourselves, we have a baseline that we use to build a {\perfInfluenceModel} for each system manually. 
 We design all the systems with different focuses in mind, such as a system that includes multicollinearity, 
 to see to what extent they influence the analyses. 
-We investigate all the changes to \emph{Simple interaction} system independent of another to pinpoint the reason if the analyses
-are inaccurate, therefore, none of the changes are persistent.
 
+Each system uses \emph{Simple Interaction} as the base system, however, they extend or change the system in different ways.
 
 \paragraph{Simple Interaction}\label{ground-truth:Simple}
 For our first system, we use the code from our previous example in \autoref{lst:performanceExample} and provide an additional feature model 
@@ -55,8 +54,7 @@ void waste_time(int duration){
 \end{lstlisting}
 \end{minipage}
 
-This modification should not affect the black-box analysis since the overall time spent in each feature does not change. 
-We would like to see if the white-box analysis can still attribute the time correctly to the feature.
+Both white-box and black-box analysis should be able to still correctly attribute the time spent in each feature.
 
 \paragraph{Multicollinearity}\label{ground-truth:Multicollinearity}
 Instead of modifying the system's code, we add a restriction to the feature model of \autoref{fig:feature_abcd}. 

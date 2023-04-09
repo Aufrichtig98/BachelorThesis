@@ -1,18 +1,18 @@
 \section{Performance-influence models}\label{ch:performance-influence-models}
 %We explain why we introduce perf-inf models to model non-functional 
-In the previous Section, we introduced a way to represent variability by using feature models.
+In the previous section, we introduced a way to represent variability by using feature models.
 However, while doing so we ignored the non-functional properties which are as important for configurable software systems.
 To model the measurable non-functional properties and to which degree each feature influences the configurable system,
-we introduce performance-influence models. 
-A {\perfInfluenceModel} is a polynomial consisting of several terms, each representing either a feature or an interaction between features, 
-whereas the coefficient in each term represents the degree to which these features influence the system.  
+we introduce \emph{performance-influence models}. 
+A {\perfInfluenceModel} is a polynomial consisting of several terms, each representing either a feature or an interaction between features.
+The coefficient in each term represents the degree to which these features influence the system.  
 The sum of all terms represents the time the {\perfInfluenceModel} predicts given a configuration of features~\cite{Performance-influence-models-for-highly-configurable-systems}.
 
 %Definition
 Formally, let $\mathcal{O}$ be the set of all configuration options and $\mathcal{C}$ the set of all configurations, 
 then let $\emph{c} \in \mathcal{C}$ be a function $\emph{c} \textit{ : } \mathcal{O} \implies \emph{\{0, 1\}}$ that assigns either $0$ or $1$ to each binary option. 
 If we select a feature $o$, then $\emph{c}(\emph{o}) = 1$ holds, otherwise $\emph{c}(\emph{o}) = 0$. 
-In general, a performance-influence model is a function $\Pi$ that maps configurations $\mathcal{C}$ to an estimated prediction, 
+In general, a performance-influence model is a function $\Pi$ that maps configurations $\mathcal{C}$ to a prediction, 
 therefore $\Pi \textit{ : } \mathcal{C} \implies \mathbb{R}$~\cite{Performance-influence-models-for-highly-configurable-systems}. 
 
 We encode all our features as binary features and distinguish between single features $o$ denoted as $\phi_o$ and feature interactions $i ... j$ denoted as $\Phi_{i...j}$. 
@@ -58,7 +58,6 @@ If this is the case, the system sleeps for the specified time.
 In \autorefLine{line:feature_A_B}, we have a feature interaction where \{\emph{A}, \emph{B}\} must be active in order for \autorefLine{line:feature_A_B_exec} to be executed, 
 we would attribute the time spent in \autorefLine{line:feature_A_B_exec} to the feature interaction \{\emph{A}, \emph{B}\} and not to either feature alone.
 The performance-influence model for our system would look as follows:
-
 \begin{equation}\label{equ:performanceExamplePIMBaseline}
     \Pi = 2 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D)
 \end{equation}
@@ -67,7 +66,6 @@ For simplicity, let us assume that the execution of the code takes no time at al
 \textit{sleep\_for\_seconds} function.
 The constant 2 here refers to $\beta_0$, the time we spend in our base feature in \autorefLine{line:feature_base}.
 If we decide on the configuration \{\emph{A}, \emph{B}, \emph{C}, \emph{D}\} the model would evaluate like this:
-
 \begin{align*}
     \Pi &= 2 + 1 \cdot c(A) + 2\cdot c(B) + 1\cdot c(C) + 2\cdot c(D) + 2 \cdot c(A)\cdot c(B) + 0\cdot c(C) \cdot c(D) \\
     \Pi &= 2 + 1 \cdot 1 + 2 \cdot 1 + 1 \cdot 1 + 2 \cdot 0 + 2 \cdot 1 \cdot 1 + 0 \cdot 1 \cdot 0 \\

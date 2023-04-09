@@ -360,108 +360,70 @@
 \end{lstlisting}
 
 
-\begin{tabular}{lrrrrrrr}
+\begin{table}[H]
+    \centering
+    \input{Tables/WhiteBox/GTBasic.txt}
+    \caption{White-box {\perfInfluenceModel} for simple interaction}
+\end{table}
+    
+
+\begin{table}[H]
+    \centering
+    \input{Tables/WhiteBox/GTELSE.txt}
+    \caption{White-box {\perfInfluenceModel} for else case}
+ \end{table}
+
+
+ \begin{table}[H]
+    \centering
+    \input{Tables/WhiteBox/GTFunction.txt}
+    \caption{White-box {\perfInfluenceModel} for function}
+ \end{table}
+        
+ \begin{table}[H]
+    \centering
+    \input{Tables/WhiteBox/GTMulticollinearity.txt}
+    \caption{White-box {\perfInfluenceModel} for multicollinearity}
+ \end{table}
+
+
+ \begin{table}[H]
+    \centering
+    \input{Tables/WhiteBox/GTSharedFeature.txt}
+    \caption{White-box {\perfInfluenceModel} for shared feature}
+ \end{table}
+
+
+\begin{tabular}{lrrrrr}
     \toprule
-    {} &  base &    a &    b &    c &    d &  a, b &          c, d \\
+    {} &       Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
     \midrule
-    GTBasic &   2.0 &  1.0 &  2.0 &  1.0 &  2.0 &   2.0 &  3.108624e-15 \\
+    Base                &   0.759000 &   6.405667 &   2.844667 &   1.119333 &   0.250667 \\
+    compression\_level\_1 &   0.271000 &   2.441667 &   1.078667 &   0.390000 &   0.108333 \\
+    compression\_level\_2 &   1.066000 &   9.904000 &   4.148333 &   1.741000 &   0.531000 \\
+    compression\_level\_3 &   2.757333 &  20.859333 &   9.201333 &   3.803000 &   1.128333 \\
+    compression\_level\_4 &   4.440667 &  28.496333 &  12.312667 &   4.763667 &   0.983000 \\
+    compression\_level\_5 &   7.546333 &  47.278667 &  19.124667 &   7.207667 &   1.250333 \\
+    compression\_level\_6 &   7.811000 &  49.184333 &  19.872667 &   7.491333 &   1.352667 \\
+    compression\_level\_7 &  17.261333 &  53.346333 &  16.777000 &   0.878000 &  -0.227333 \\
+    compression\_level\_8 &  41.542667 &  40.312333 &  -2.765000 &  -1.131667 &  -0.308667 \\
+    compression\_level\_9 &  91.876667 &  -0.393667 &  -2.575667 &  -1.177333 &  -0.180667 \\
     \bottomrule
 \end{tabular}
-    
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    {} &  base &    a &    b &    c &    d &  a, b &          c, d \\
-    \midrule
-    GTFunction &   2.0 &  1.0 &  2.0 &  1.0 &  2.0 &   2.0 &  3.108624e-15 \\
-    \bottomrule
-    \end{tabular}
-    
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    {} &     base &    a &         b &         c &         d &      a, b &      c, d \\
-    \midrule
-    GTElse &  4.00025 & -1.0 &  2.000333 &  0.999667 &  1.999667 &  1.999667 &  0.000333 \\
-    \bottomrule
-    \end{tabular}
-    
-    \begin{tabular}{lrrrrrr}
+
+\begin{tabular}{lrrrrr}
         \toprule
-        {} &  base &    a &             b &    c &    d &  c, d \\
+        {} &      Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
         \midrule
-        GTMulticollinearity &   4.0 &  3.0 &  2.220446e-16 &  1.0 &  2.0 &   0.0 \\
+        Base                &  2.743667 &  28.790333 &  12.409667 &   4.855667 &   1.124333 \\
+        compression\_level\_1 &  0.510333 &  35.168667 &  15.168333 &   6.246333 &   1.914000 \\
+        compression\_level\_2 &  0.617667 &  37.456000 &  16.133333 &   6.649000 &   1.978000 \\
+        compression\_level\_3 &  1.029667 &  40.189333 &  17.567000 &   7.193000 &   2.171000 \\
+        compression\_level\_4 & -0.563667 &  39.905667 &  16.609333 &   5.804667 &   0.680333 \\
+        compression\_level\_5 & -2.245667 &  48.860333 &  18.286667 &   5.505000 &  -0.863000 \\
+        compression\_level\_6 & -2.339000 &  50.476667 &  18.719667 &   5.551667 &  -0.966667 \\
+        compression\_level\_7 & -1.485333 &  56.680000 &  16.838333 &  -0.346667 &  -1.753333 \\
+        compression\_level\_8 &  0.835667 &  45.689333 &  -1.603333 &  -0.290000 &   0.469667 \\
+        compression\_level\_9 &  8.915333 &   9.152667 &   5.483667 &   7.371000 &   8.297667 \\
         \bottomrule
-        \end{tabular}
-
-        \begin{tabular}{lrrrrrrrr}
-            \toprule
-            {} &  base &    a &    b &    c &    d &    e &  a, b &          c, d \\
-            \midrule
-            GTSharedFeature &   2.0 &  1.0 &  2.0 &  1.0 &  2.0 &  1.0 &   2.0 & -2.109424e-15 \\
-            \bottomrule
-        \end{tabular}
-
-
-        
-
-
-
-
-        \begin{tabular}{lrrrrr}
-            \toprule
-            {} &       Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
-            \midrule
-            Base                &   0.759000 &   6.405667 &   2.844667 &   1.119333 &   0.250667 \\
-            compression\_level\_1 &   0.271000 &   2.441667 &   1.078667 &   0.390000 &   0.108333 \\
-            compression\_level\_2 &   1.066000 &   9.904000 &   4.148333 &   1.741000 &   0.531000 \\
-            compression\_level\_3 &   2.757333 &  20.859333 &   9.201333 &   3.803000 &   1.128333 \\
-            compression\_level\_4 &   4.440667 &  28.496333 &  12.312667 &   4.763667 &   0.983000 \\
-            compression\_level\_5 &   7.546333 &  47.278667 &  19.124667 &   7.207667 &   1.250333 \\
-            compression\_level\_6 &   7.811000 &  49.184333 &  19.872667 &   7.491333 &   1.352667 \\
-            compression\_level\_7 &  17.261333 &  53.346333 &  16.777000 &   0.878000 &  -0.227333 \\
-            compression\_level\_8 &  41.542667 &  40.312333 &  -2.765000 &  -1.131667 &  -0.308667 \\
-            compression\_level\_9 &  91.876667 &  -0.393667 &  -2.575667 &  -1.177333 &  -0.180667 \\
-            \bottomrule
-            \end{tabular}
-    
-            \begin{tabular}{lrrrrr}
-                \toprule
-                {} &      Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
-                \midrule
-                Base                &  2.743667 &  28.790333 &  12.409667 &   4.855667 &   1.124333 \\
-                compression\_level\_1 &  0.510333 &  35.168667 &  15.168333 &   6.246333 &   1.914000 \\
-                compression\_level\_2 &  0.617667 &  37.456000 &  16.133333 &   6.649000 &   1.978000 \\
-                compression\_level\_3 &  1.029667 &  40.189333 &  17.567000 &   7.193000 &   2.171000 \\
-                compression\_level\_4 & -0.563667 &  39.905667 &  16.609333 &   5.804667 &   0.680333 \\
-                compression\_level\_5 & -2.245667 &  48.860333 &  18.286667 &   5.505000 &  -0.863000 \\
-                compression\_level\_6 & -2.339000 &  50.476667 &  18.719667 &   5.551667 &  -0.966667 \\
-                compression\_level\_7 & -1.485333 &  56.680000 &  16.838333 &  -0.346667 &  -1.753333 \\
-                compression\_level\_8 &  0.835667 &  45.689333 &  -1.603333 &  -0.290000 &   0.469667 \\
-                compression\_level\_9 &  8.915333 &   9.152667 &   5.483667 &   7.371000 &   8.297667 \\
-                \bottomrule
-        \end{tabular}
-
-
-
-        \begin{tabular}{lrrrrrr}
-            \toprule
-            {} &  Base &  FeatureA &  FeatureC &  FeatureD &  FeatureB &  FeatureA $\land$ FeatureB \\
-            \midrule
-            \{\}           &   2.0 &       0.0 &       0.0 &       0.0 &       0.0 &                   0.0 \\
-            \{A\}          &   2.0 &       1.0 &       0.0 &       0.0 &       0.0 &                   0.0 \\
-            \{A, B\}       &   2.0 &       1.0 &       0.0 &       0.0 &       2.0 &                   2.0 \\
-            \{A, B, C\}    &   3.0 &       1.0 &       0.0 &       0.0 &       2.0 &                   2.0 \\
-            \{A, B, C, D\} &   2.0 &       1.0 &       1.0 &       2.0 &       2.0 &                   2.0 \\
-            \{A, B, D\}    &   2.0 &       1.0 &       0.0 &       2.0 &       2.0 &                   2.0 \\
-            \{A, C\}       &   3.0 &       1.0 &       0.0 &       0.0 &       0.0 &                   0.0 \\
-            \{A, C, D\}    &   2.0 &       1.0 &       1.0 &       2.0 &       0.0 &                   0.0 \\
-            \{A, D\}       &   2.0 &       1.0 &       0.0 &       2.0 &       0.0 &                   0.0 \\
-            \{B\}          &   2.0 &       0.0 &       0.0 &       0.0 &       2.0 &                   0.0 \\
-            \{B, C\}       &   3.0 &       0.0 &       0.0 &       0.0 &       2.0 &                   0.0 \\
-            \{B, C, D\}    &   2.0 &       0.0 &       1.0 &       2.0 &       2.0 &                   0.0 \\
-            \{B, D\}       &   2.0 &       0.0 &       0.0 &       2.0 &       2.0 &                   0.0 \\
-            \{C\}          &   3.0 &       0.0 &       0.0 &       0.0 &       0.0 &                   0.0 \\
-            \{C, D\}       &   2.0 &       0.0 &       1.0 &       2.0 &       0.0 &                   0.0 \\
-            \{D\}          &   2.0 &       0.0 &       0.0 &       2.0 &       0.0 &                   0.0 \\
-            \bottomrule
-            \end{tabular}
-            
+\end{tabular}

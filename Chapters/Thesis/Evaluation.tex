@@ -3,46 +3,46 @@
 %************************************************
 \lstset{style=myStyle}
 
-This chapter evaluates the thesis core claims. 
+This chapter evaluates the thesis core claims.  
 We begin with presenting the results for both the ground truth systems and \textsc{XZ} in \autoref{sec:results}.
 Afterward in \autoref{sec:discussion} we discuss the results. At the end in \autoref{sec:threats}, we explain the threads of validity for the results.
 
 \section{Results}\label{sec:results}
 
-In this section, we present the results of the ground truth and of \textsc{XZ}.
+In this section, we present the results of the ground truth and of \textsc{XZ}. All values are in seconds which been rounded to 3 decimal places.
 
-\subsection{Ground Truth Results}
+\subsection*{Ground Truth Results}
 We now proceed with evaluating the different systems, \textsc{Simple Interactions}, \textsc{Else Clause}, \textsc{Function}, \textsc{Multicollinearity} 
 and \textsc{Shared Feature Variable}, that we introduce in \autoref{sec:ground-truth}
 
 \subsubsection*{Simple Interaction Results}
 %Baseline and Blackbox
 We start by constructing the baseline 
-{\perfInfluenceModel} for this system as shown in \autoref{equ:performanceExamplePIMBaseline}.
+{\perfInfluenceModel} for this system as shown in \autoref{equ:performanceExamplePIMBaseline} and build the {\perfInfluenceModel} for the black-box analysis:
 
-We now build the {\perfInfluenceModel} for the black-box analysis:
+\begin{table}[H]
+    \centering
+    \input{Tables/BlackBox/GTBasic.txt}
+    \caption{Black-box {\perfInfluenceModel} for simple interaction}
+\end{table}
+
+For the white-box analysis with \autoref{lst:performanceExample} and \autoref{fig:feature_abcd} we build \autoref{alg:xml-abcd} 
+in which we declare all the feature variables of \textsc{Simple Interactions}. 
+We analyze \autoref{lst:performanceExample} using our white-box analysis, this produces a TEF report file in \autoref{rep:tef-abcd}.
+Afterward we use this report to calculate the time spend in each feature region described as in \autoref{math:time} and \autoref{math:coefficients}.
+This produces the following file in \autoref{alg:aggr-tef-abcd}, from which we build the following {\perfInfluenceModel}:
 
 \begin{table}[H]
     \centering
     \begin{tabular}{lrrrrrrr}
     \toprule
-    $\Pi_{BB}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
+    $\Pi_{WB}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
     \midrule
-    Simple Interaction &   2.0 &  1.0 &  2.0 &  1.0 &  2.0 &   2.0 &  3.108624e-15 \\
+    Simple Interaction &   2.0 &  1.0 &  2.0 &  1.0 &  2.0 &   2.0 &  0.0 \\
     \bottomrule
     \end{tabular}
-    \caption{{\perfInfluenceModel} for simple interaction using black-box analysis}
+    \caption{White-box {\perfInfluenceModel} for simple interaction}
 \end{table}
-
-For the white-box analysis out with \autoref{lst:performanceExample} and \autoref{fig:feature_abcd} we build \autoref{alg:xml-abcd} 
-in which we declare all the feature variables of \textsc{Simple Interactions}. 
-We analyse \autoref{lst:performanceExample} using our white-box analysis, this produces a TEF report file in \autoref{rep:tef-abcd},
-afterward we use this report to calculate the time spend in each feature region described as in \autoref{math:coefficients} and \autoref{math:time}.
-This produces the following file in \autoref{alg:aggr-tef-abcd}, from which we build the following {\perfInfluenceModel}:
-
-\begin{equation}
-    \Pi = 2 + 1 \cdot A + 2 \cdot B + 1 \cdot C + 2 \cdot D + 2 \cdot A \cdot B + 0 \cdot C \cdot D
-\end{equation}
 
 We group our results in \autoref{aggr:results-simple-interaction} to compare them with each other.
 
@@ -84,10 +84,32 @@ for both white-box and black-box:
 \end{minipage} 
 \end{table}
 
-\subsubsection*{Else Clause}
+\subsubsection*{Else Clause Results}
 
-The results for the \textsc{Else Clause} system are as follows
+The results for the \textsc{Else Clause} system are as follows. The \perfInfluenceModel of the baseline is as follows:
 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrrr}
+    \toprule
+    $\Pi_{Baseline}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
+    \midrule
+    Baseline &   4 &  -1 &  2 &  1 &  2 &   2 &  0 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Baseline {\perfInfluenceModel} for \emph{Else Clause}}
+\end{table}
+
+We attributed the time spend in the else case to the base feature, since it represents the time spent in the system when no feature is selected.
+Therefore, when selecting feature \emph{A} the system gets faster by one second. 
+
+\begin{table}[H]
+    \centering
+    \input{Tables/BlackBox/GTElse.txt}
+\end{table}
+
+
+To build the {\perfInfluenceModel} for the white-box we have to take a closer look at 
 
 
 \section{Discussion}\label{sec:discussion}
