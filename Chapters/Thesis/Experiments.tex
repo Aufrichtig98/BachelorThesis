@@ -1,22 +1,12 @@
-%************************************************
-\chapter{Experiment}\label{ch:experiment}
-%************************************************
-%XZ
-%Collecting data
-%System details
-
-This chapter describes the main experiment that is conducted to evaluate both analyses.
-
-
-
-\section{Research setup}\label{ch:Research-setup}
+\section{Experiment operationalization}\label{ch:Research-setup}
+This section describes the main experiment that is conducted to evaluate both analyses.
 
 The configurable system we analyze is the open source software system \textsc{XZ}, a command line tool written in \textsc{C} and a component of
-\textsc{XZ Utils}\footnote{Visited at 02.04.2023 https://tukaani.org/xz/}.  
+\textsc{XZ Utils}\footnote{Visited at 02.04.2023\\ \url{https://tukaani.org/xz/}}.  
 The primary compression algorithm that \text{XZ} currently uses to perform lossless data compression is LZMA2.
-We use \textsc{XZ} \textsc{(XZ Utils)} version 5.5.0 with the commit hash "610dde15a88f12cc540424eb3eb3ed61f3876f74".
+We use \textsc{XZ} \textsc{(XZ Utils)} version 5.5.0\footnote{Commit hash "610dde15a88f12cc540424eb3eb3ed61f3876f74"}.
 
-The file we compress is a geographic map encoded as a \textsc{JSON} file of size 203 MB\footnote{Visited at 03.04.2023 \url{https://github.com/simonepri/geo-maps/releases/latest/download/countries-land-1m.geo.json}},
+The file we compress is a geographic map encoded as a \textsc{JSON} file of size 203 MB\footnote{Visited at 03.04.2023\\ \url{https://github.com/simonepri/geo-maps/releases/latest/download/countries-land-1m.geo.json}},
 which ensures that we spend a significant amount of time so that all features can be measured.
 
 \subsection{Configuration Space}

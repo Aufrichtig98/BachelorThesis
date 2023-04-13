@@ -2,67 +2,49 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-%Introduction in configureable systems why they exist
-Modern software systems are designed to be configurable; they offer users flexibility by providing them to turn functionality on and off.
-This flexibility allows a configurable software system to satisfy the demand of multiple users by offering a single software system that 
-contains multiple features~\cite{Feature-Oriented-Software-Product-Lines}. 
+Nowadays, all modern software systems are configurable and offer a large variety of functionality to satisfy multiple 
+interest groups with a single software system. These functionalities are represented as features that the user chooses by selecting the 
+configuration options corresponding to that feature. With the increasing complexity of modern configurable software systems, 
+the number of features the system contains also increases.
 
-%Example configureable system linux
-An example of such a configurable software system would be the Linux kernel, whose code base itself contains over 6`000`000 lines of code consist of more 
-than 10`000 features~\cite{Linux-Kernel}. 
-All these features implement functionality, which allows the user to select the features he wants to create an operating system that meets the user's needs. 
+An example of such a configurable software system would be the Linux kernel, whose
+code base itself contains over 6‘000‘000 lines of code with more than 10‘000 features~\cite{Linux-Kernel}.
+All these features implement functionality, which allows the user to select the features he
+wants to create an operating system that meets the user’s needs.
 
-%Feature model to show overwiew over all these features
-All these features affect the system in different ways. To keep track of all features and their interactions, we use a feature model, 
-that describes how features interact with another.
-Inside the feature model, there can be different kinds of constraints to visualize the relationships 
-between features in a configurable system~\cite{Feature-Oriented-Software-Product-Lines}. 
+All these features make it increasingly difficult to understand how much a feature influences the overall runtime of a configurable software 
+analysis. Furthermore, all these features might interact with one another, which also changes the software system's behavior and runtime. 
+To identify to which degree these features and their interactions influence the system, previous research introduced two different analyses: 
+white-box and black-box.
 
-%After modeling system we want to analyze we explain that we are intrested in the performance of each feature and use 2 analyses
-Now that we have an overview of the system we are interested in what capacity each feature or feature interaction influences the system,
-To identify these influences we present two different analyses: a white-box analysis and a black-box analysis.
-However, before this, we analyze the system's configuration space and select the crucial features of the system.
-Then, we create configurations from the selected features that contain the interactions we want to observe.
+For the black-box analysis, 
+it is not necessary to have access to the source code since we only measure the time spent when executing the system using different features. 
+We repeat this measurement process for all the features and feature interactions we want to measure. 
+Afterwards, we need to infer the time spent for each feature. For this, we can use machine learning methods like multiple linear regression. 
 
-%Explains black-box roughly
-In the black-box analysis, we run the system with each configuration as input, and during execution, we can measure various metrics.
-Whereas we will focus on measuring the execution time. We will use the measurement we collect to learn each feature's influence on the system 
-using multiple linear regression.
+If we have access to the system's source code, we can use a white-box analysis that uses this information to archive a more fine-grained 
+view of the system. A white-box analysis uses different strategies to analyze the time spent inside features or feature interactions, 
+such as a taint analysis.
 
-%Explains white-box roughly
-In our white-box analysis, we have more information because we have access to the system's source code.
-We use an analysis that helps us determine which parts of the code are influenced by which feature.
-During execution, we can measure the time spent inside these features.
+Our primary interest point is to compare both analyses, however, they both produce a different form of data as output. 
+Therefore, we need to find a model which makes the data comparable. 
+Thus, we introduce {\perfInfluenceModel}s a way to model configurable software systems by assigning the expected influence to each feature 
+and feature interaction. When giving the {\perfInfluenceModel} a selection of features, it maps them to the estimated runtime for the system.
 
-%Reasoning why we use perf inf models
-Now both our analyses generate different types of data that are different. 
-Therefore, we need to transform this data into a model that we can then use to evaluate both analyses by comparing these models; 
-for this, we use \perfInfluenceModel, which are machine learning models that have been used successfully in previous works.
-We build these models by using the data generated by the white-box analysis and black-box analysis. 
+\subsection{Goal of this Thesis}
+In this work, we compare white-box analysis and black-box analysis with each other. 
+We investigate how accurately both analyses can identify the influence of features and their interactions,
+ to identify potential advantages and disadvantages of one method over the other. 
+ Additionally, we are interested in how similar the {\perfInfluenceModel}s we build are. 
+ Since they are built for the same system, we want to know if the models agree.
 
-%Reason to why we use a ground truth
-To show the validity of our models, we establish a ground truth. To do this, we design a small configurable system to test both of our 
-analyses. This system will contain several features, some of which interact with each other in different ways. 
-Since we developed this system ourselves, we know how each feature should impact the runtime of our system, so we create
-a baseline performance-influence model to compare our models against.
-
-
-\section{Goals of this thesis}
-%Simplea goal, what we want to archieve in the thesis
-In this thesis, we aim to determine if white-box and black-box analyzes can identify the influence of the different features and 
-feature interactions of a configurable system.
-Furthermore, we are interested in the differences of the \perfInfluenceModel{s} built with data generated by each analysis.
-
-%Describing research question
-We are interested in whether both models can correctly identify the influence of each feature and feature interactions and
-if they reach the same results.
-We are particularly interested in the %Draft!!!
-differences between them and examine whether one model performs particularly poorly in some instances and why this is so.
-
-We collect all these interest points to form the following research questions that we answer during this thesis:
+We collect all these interest points to form the following research questions that we answer during this thesis: 
 
 \begin{itemize}\label{researchQuestions}
-\item[RQ1]: How accurately does white-box and black-box models detect feature and feature interactions? 
-\item[RQ2]: Do performance models created by our white-box and black-box attribute the same influence to each feature?
-\item[RQ3]: What are the reasons for similarities or differences between performance models?
+    \item[RQ1]: How accurately does white-box and black-box models detect feature and feature interactions? 
+    \item[RQ2]: Do performance models created by our white-box and black-box attribute the same influence to each feature?
 \end{itemize}
+
+\subsection{Contributions}
+We answer both research questions we design five different configurable software systems. 
+In addition, we use both analyses on the real world compression tool \textsc{XZ}.

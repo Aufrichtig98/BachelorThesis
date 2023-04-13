@@ -1,9 +1,10 @@
 \section{Research Questions and Operationalization}\label{ch:operationalization}
 
-In the following, we introduce our \hyperref[researchQuestions]{research questions} and formalize how we evaluate them. 
+In the following, we introduce our \hyperref[researchQuestions]{research questions} and formalize how we evaluate them. Afterward,
+we explain how we collect our data we use for the evaluation and introduce the experiment we conduct. 
 The goal of this work is to work out the differences between white-box and black-box models when analyzing the feature performance of configurable
 software systems. 
-To quantify these differences, ask:\\
+To quantify these differences, we ask:\\
 
 \noindent \textbf{RQ1}: How accurately do white-box and black-box models detect features and feature interactions? \\
 
@@ -14,10 +15,6 @@ we are interested in the accuracy of both analyses.
 Another point of interest is if we can identify a group of features for which either analysis performs worse than its counterpart.
 To answer this, we research how accurately they can identify the influence of features and feature interactions.
 
-%How we reasearch this
-To investigate this we design multiple small configurable systems in the ground truth section. 
-We use the ground truth systems for this because, in these systems, 
-we are fully aware of how much time we should spend in each feature or feature interaction. 
 %Reason Mape
 Thus, we quantify the difference between the predicted and true influence of each feature $f$ in the set of features and feature interactions $F$
 by calculating the \emph{error rate} and afterwards its mean, following the approach outlined in~\cite{mape}. %Maybe reference
@@ -33,7 +30,12 @@ and $predicted_f$ is the influence predicted by the {\perfInfluenceModel}s we bu
 The closer $\overline{error}$ is to $0$, the better the prediction, with an $\overline{error}$ of 0 indicating a perfectly
 accurate \perfInfluenceModel. 
 
-Another, point of interest is how similar the {\perfInfluenceModel}s are, we anwser this in the following research question.\\
+%How we reasearch this
+To investigate this, we use a qualitative measurement by using the ground truth systems we design. 
+We build a {\perfInfluenceModel} with each analysis method, and afterwards use the formula of \autoref{equ:MAPE_RQ1}. 
+Since for these systems, we know the actual values for each feature and feature interaction.
+
+Another, point of interest is how similar the {\perfInfluenceModel}s are, we answer this in the following research question.\\
 
 \noindent \textbf{RQ2}: Do performance models created by our white-box and black-box attribute the same influence to each feature?\\
 
@@ -42,36 +44,27 @@ Another point we are interested in is to know if the {\perfInfluenceModel}s of b
 This is of interest because, similar analyses that we can use both analyses interchangeably for one another.
 
 %How we anwser
-To answer this question, we investigate whether the {\perfInfluenceModel}s build-out of the white-box and black-box analyses' data agree, i.e.
+To answer this question, we investigate whether the {\perfInfluenceModel}s build-out of the white-box and black-box analyses data agree, i.e.
 they predict the same influence for each feature. 
 Compared to RQ1, we do not measure if the predictions are accurate regarding the true influence but if both analyses produce similar results. 
-To quantify the difference, we again use the mean error rate. However, we adjust the formulas as follows:
+To quantify the difference, we use the following formulas as follows:
 
 \begin{align}
-    similarity_f &= \frac{\lvert predicted_{f, Model_1} - predicted_{f, Model_2} \rvert}{predicted_{f, Model_1}} \label{equ:APE_RQ1} \\ \nonumber \\
-    \overline{similarity_f}  &= \frac{\sum_{f \in F} error_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
+    similarity_f &= \frac{\lvert predicted_{WB,F} - predicted_{BB,F} \rvert}{\Pi_{BB}} \label{equ:APE_RQ1} \\ \nonumber \\
+    \overline{similarity_f}  &=  \frac{\sum_{f \in F} similarity_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
 \end{align}
 
-Here we quantify the similarity between the predictions of models for each feature \emph{f}. Since the similarity between
-white-box and black-box model is not the same as the similarity between black-box and white-box model, we have to calculate it for both models.
+Here WB stands for white-box and BB for black-box. How two features are is calculated by $similarity_f$, 
+where we normalize the absolute difference of the time prediction for each feature by the overall time of one of the {\perfInfluenceModel}s. 
+It does not matter if we choose $\Pi_{BB}$ or $\Pi{WB}$ since the summed uptime for the models is the same. 
+Only the distribution among the different features and feature interactions is different. 
+Afterward, we calculate the mean similarity $overline{similarity_f}$ by dividing through the number of features and feature interactions $F$. 
+A $overline{similarity_f}$ of 0 indicates that both {\perfInfluenceModel}s are perfectly similar.
+%Maybe aussage von mean sim begründen also was die werte aussagen 0=perfekt, 1 = komplett unterschiedlich
 
-\mycomment{
-\noindent \textbf{RQ3}: Given the same configuration do performance models created by our white-box and black-box predict the same value? \\
-
-At last, we are interested if the prediction for all configurations we measured are similar. Which helps us to identify if the 
-
-To answer this research question, we investigate whether the {\perfInfluenceModel}s build-out of the white-box and black-box analyses' predict
-the same values for the same configurations. In comparison to RQ2 we compare how similar the predictions for each configuration are instead
-of the prediction for each feature. Therefore, we calculate the \emph{error rate} for each configuration $c \in C$ and afterward the 
-mean \emph{error rate} for $C$, by using the following formulas:
-
-\begin{align}
-    \text{APE}_{RQ3}(c) &= \frac{\lvert \Pi_{WB}(c) - \widehat{\Pi}_{BB}(c)\rvert}{\Pi_{WB}(c)} \label{equ:APE_RQ3} \\ \nonumber \\
-    \text{MAPE}_{RQ3}(C) &= \frac{\sum_{c \in C} \text{APE}(c)}{\lvert C \rvert} \label{equ:MAPE_RQ3}
-\end{align}
-
-For this research question the $\overline{error}$ quantifys how similar the predictions of the {\perfInfluenceModel}s are for the same configurations.
-}
+To evaluate this question, we use both qualitative and quantitative measurements. 
+For the qualitative measurements, we use the ground truth systems we design to identify why the {\perfInfluenceModel}s differ. 
+For the quantitative measurements, we use experimental results to investigate the reasons for similarities and differences.
 
 \section{Collecting Data}\label{ch:collect-data}
 %Intro
@@ -99,6 +92,8 @@ The server node contains an AMD EPYC 72F3 8-Core Processor with 16 threads and 2
 
 %Libarys Mention
 During evaluation, we use different libraries, we will mention the noteworthy ones.
-To build the {\perfInfluenceModel} we the implementation of multiple linear regression by \textsc{scikit-learn}\footnote{Visited at 03.04.2023 \url{https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html}}.
-In addition to that we use the implementation of the variance inflation factor implemented in the \textsc{statsmodels} library\footnote{Visited at 03.04.2023 \url{https://www.statsmodels.org/stable/generated/statsmodels.stats.outliers_influence.variance_inflation_factor.html}}.
+To build the {\perfInfluenceModel} we the implementation of multiple linear regression by \textsc{scikit-learn}\footnote{Visited at 03.04.2023\\ \url{https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html}}.
+In addition to that we use the implementation of the variance inflation factor implemented in the \textsc{statsmodels} library\footnote{Visited at 03.04.2023\\ \url{https://www.statsmodels.org/stable/generated/statsmodels.stats.outliers_influence.variance_inflation_factor.html}}.
 %%%%%%%%%%%%%%%%
+
+\input{Chapters/Thesis/Experiments.tex}
