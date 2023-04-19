@@ -106,7 +106,8 @@ the interaction \emph{A} $\land$ \emph{B} the black-box is inaccurate, whereas t
 \end{table}
 
 For the \emph{Shared Feature Variables}, we encoded two features \emph{D}, and \emph{E} as a single string. We expected that the white-box analysis is unable
-to be unable to distinguish between these features and instead encode them as one.
+to be unable to distinguish between these features and instead encode them as one. 
+However, unexpectedly we did not identify any features besides the base feature during the analysis.
 
 \subsection{Experiment Results}
 
@@ -134,7 +135,7 @@ shown.
     Black-box & 0 & 0 & 0 & 0 & 0 & 0      \\
     White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
-    \caption{}
+    \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Simple Interaction} system.}
 \end{minipage}%
 \hspace{7mm}
 \begin{minipage}{.3\linewidth}
@@ -145,7 +146,7 @@ shown.
         Black-box & 0              \\
         White-box & 0              \\ \bottomrule
         \end{tabular}  
-        \caption{}
+        \caption{$\overline{error}$ score for white-box and black-box }
     \end{minipage}
 \end{table}
 
@@ -159,7 +160,7 @@ shown.
         Black-box & 0 & 0 & 0 & 0 & 0 & 0      \\
         White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
         \end{tabular}
-        \caption{}
+        \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Else Clause} system.}
     \end{minipage}%
     \hspace{7mm}
     \begin{minipage}{.3\linewidth}
@@ -184,7 +185,7 @@ shown.
         Black-box & 0 & 0 & 0 & 0 & 0 & 0      \\
         White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
         \end{tabular}
-        \caption{}
+        \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Function} system.}
     \end{minipage}%
     \hspace{7mm}
     \begin{minipage}{.3\linewidth}
@@ -209,7 +210,7 @@ shown.
             Black-box & 1 & 2 & 1 & 0 & 0 & 1      \\
             White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
             \end{tabular}
-            \caption{}
+            \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Multicollinearity} system.}
         \end{minipage}%
         \hspace{7mm}
         \begin{minipage}{.3\linewidth}
@@ -234,7 +235,7 @@ shown.
                 Black-box & 1 & 2 & 1 & 0 & 0 & 0       \\
                 White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
                 \end{tabular}
-                \caption{}
+                \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Shared Feature Variable} system.}
             \end{minipage}%
             \hspace{7mm}
             \begin{minipage}{.3\linewidth}

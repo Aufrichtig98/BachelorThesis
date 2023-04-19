@@ -1,10 +1,10 @@
 \section{Research Questions and Operationalization}\label{ch:operationalization}
 
-In the following, we introduce our \hyperref[researchQuestions]{research questions} and formalize how we evaluate them. Afterward,
+In the following, we introduce our research questions and formalize how we evaluate them. Afterward,
 we explain how we collect our data we use for the evaluation and introduce the experiment we conduct. 
 The goal of this work is to work out the differences between white-box and black-box models when analyzing the feature performance of configurable
 software systems. 
-To quantify these differences, we ask:\\
+To quantify these differences, we want to answer the following research question:\\
 
 \noindent \textbf{RQ1}: How accurately do white-box and black-box models detect features and feature interactions? \\
 
@@ -21,19 +21,19 @@ by calculating the \emph{error rate} and afterwards its mean, following the appr
 
 
 \begin{align}
-    error_f &= \frac{\lvert true_f - predicted_f \rvert}{true_f} \label{equ:APE_RQ1} \\ \nonumber \\
+    error_f &= \frac{\lvert actual\_true_f - predicted_f \rvert}{actual\_true_f} \label{equ:APE_RQ1} \\ \nonumber \\
     \overline{error}  &= \frac{\sum_{f \in F} error_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
 \end{align}
 
-Note that $true_f$ is the true influence of the feature or feature interaction $f$ that we obtain from the baseline of our ground truth 
+Note that $actual\_true_f$ is the true influence of the feature or feature interaction $f$ that we obtain from the baseline of our ground truth 
 and $predicted_f$ is the influence predicted by the {\perfInfluenceModel}s we build.
 The closer $\overline{error}$ is to $0$, the better the prediction, with an $\overline{error}$ of 0 indicating a perfectly
 accurate \perfInfluenceModel. 
 
 %How we reasearch this
 To investigate this, we use a qualitative measurement by using the ground truth systems we design. 
-We build a {\perfInfluenceModel} with each analysis method, and afterwards use the formula of \autoref{equ:MAPE_RQ1}. 
-Since for these systems, we know the actual values for each feature and feature interaction.
+We build a {\perfInfluenceModel} with each analysis method, and afterwards use the formula of \autoref{equ:MAPE_RQ1},
+since for these systems, we know the actual values for each feature and feature interaction.
 
 Another, point of interest is how similar the {\perfInfluenceModel}s are, we answer this in the following research question.\\
 
@@ -54,12 +54,12 @@ To quantify the difference, we use the following formulas as follows:
     \overline{similarity_f}  &=  \frac{\sum_{f \in F} similarity_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
 \end{align}
 
-Here WB stands for white-box and BB for black-box. How two features are is calculated by $similarity_f$, 
+Here $WB$ stands for white box and $BB$ for black box. How similar two features are is calculated by $similarity_f$, 
 where we normalize the absolute difference of the time prediction for each feature by the overall time for the black-box {\perfInfluenceModel}s. 
 Ideally, the overall time for both {\perfInfluenceModel}s should be the same, with only the time distribution between features being different. 
 However, the measurement code we use creates an overhead, which is minimal for the black-box analysis since we only measure when we start the system and when it ends.
-Afterward, we calculate the mean similarity $overline{similarity_f}$ by dividing through the number of features and feature interactions $F$. 
-A $overline{similarity_f}$ of 0 indicates that both {\perfInfluenceModel}s are perfectly similar.
+Afterward, we calculate the mean similarity $\overline{similarity_f}$ by dividing through the number of features and feature interactions $F$. 
+A $\overline{similarity_f}$ of 0 indicates that both {\perfInfluenceModel}s are perfectly similar.
 %Maybe aussage von mean sim begründen also was die werte aussagen 0=perfekt, 1 = komplett unterschiedlich
 
 To evaluate this question, we use both qualitative and quantitative measurements. 
@@ -68,7 +68,7 @@ For the quantitative measurements, we use experimental results to investigate th
 
 \section{Collecting Data}\label{ch:collect-data}
 %Intro
-Now that we have defined how we answer the research questions, we explain on how we collect the data using both analyses.
+Now that we have defined how we answer the research questions, we explain how we collect the data using both analyses.
 
 %NFP we measure and why
 The non-functional property that we decide to analyze is runtime, due to it being a quantifiable metric
@@ -87,8 +87,8 @@ all trace events can be tracked and written into the TEF report file. For our bl
 we wrap the command we want to measure using the Linux \texttt{time} command and write the time spent into a different report. 
 
 %Server spezifikation
-All the measurements are performed on the same server node. To minimize background noise, we ensured that no other job is executed during the measurement. 
-The server node contains an AMD EPYC 72F3 8-Core Processor with 16 threads and 256 GB RAM.
+All measurements are performed on the same server node. To minimize background noise, we ensured that no other job is executed during the measurement. 
+The server node contains an AMD EPYC $72$F$3$  $8$-Core Processor with $16$ threads and $256$ GB RAM.
 
 %Libarys Mention
 During evaluation, we use different libraries, we will mention the noteworthy ones.

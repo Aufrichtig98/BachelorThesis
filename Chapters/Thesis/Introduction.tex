@@ -9,33 +9,37 @@ the number of features the system contains also increases~\cite{Feature-Oriented
 
 An example of such a configurable software system would be the Linux kernel, whose
 code base itself contains over 6‘000‘000 lines of code with more than 10‘000 features~\cite{Linux-Kernel}.
-All these features implement functionality, which allows the user to select the features he
+All these features implement functionality, which allows the user to select the desired features
 wants to create an operating system that meets the user’s needs.
 
 All these features make it increasingly difficult to understand how much they influence the qualitative and quantitative
 aspects of a configurable software system. 
 Furthermore, all these features might interact with one another, which changes the software systems behavior and runtime. 
 To identify to which degree these features and their interactions influence the system, previous research introduced two different analyses: 
-white-box and black-box~\cite{Comprex}~\cite{ConfigCrusher}~\cite{Linear-Regression-Performance}.
+white-box~\cite{Comprex}~\cite{ConfigCrusher} and black-box~\cite{Linear-Regression-Performance}~\cite{Performance-influence-models-for-highly-configurable-systems}.
 
 For the black-box analysis, 
 it is not necessary to have access to the source code, because we only measure the time spent when executing the system using different features. 
 We repeat this measurement process for all the features and feature interactions we want to measure. 
-Afterwards, we need to infer the time spent for each feature. For this, we can use machine learning methods like multiple linear regression~\cite{Linear-Regression-Performance}. 
+Afterwards, we need to infer the time spent for each feature. 
+For this purpose, machine-learning methods already have been established in literature such as multiple linear regression, 
+classification and regression tree, and random forest~\cite{Interplay-of-sampling}~\cite{Performance-influence-models-for-highly-configurable-systems}~\cite{Linear-Regression-Performance}.
 
-However, if we have access to the system's source code, we can use a white-box analysis that uses this information to archive a more fine-grained 
-view of the system. Different approaches for the white-box analysis exist of which we will give a broader overview in \autoref{analyzing-strats}.
+However, if we have access to the system's source code, we can use a white-box analysis. 
+White-box analysis uses this information to achieve a more fine-grained 
+view of the system. 
+Different approaches for the white-box analysis exist to identify the time spent inside the different features and interactions~\cite{Comprex}~\cite{ConfigCrusher}.
 
-Our primary interest point is to compare both analyses, however, they both produce a different form of data as output. 
+Our primary interest point is to compare both analyses. However, they both produce a different form of data as output. 
 Therefore, we need to find a model which makes the data comparable. 
-Thus, we introduce {\perfInfluenceModel}s a way to model configurable software systems by assigning the expected influence to each feature 
-and feature interaction. When giving the {\perfInfluenceModel} a selection of features, it maps them to the estimated runtime for the system~\cite{Performance-influence-models-for-highly-configurable-systems}. 
+Thus, we introduce {\perfInfluenceModel}s an established way to model configurable software systems by assigning the expected influence to each feature 
+and feature interaction~\cite{Performance-influence-models-for-highly-configurable-systems}. 
 
 \section{Goal of this Thesis}
 In this work, we compare white-box analysis and black-box analysis with each other. 
 We investigate how accurately both analyses can identify the influence of features and their interactions,
 to identify potential advantages and disadvantages of one method over the other. 
-Additionally, we are interested in how similar the {\perfInfluenceModel}s we build are. 
+Additionally, we are interested in the performance-influence models of both analyses are. 
 Since they are built for the same system, we want to know if the models agree.
 
 We collect all these interest points to form the following research questions that we answer during this thesis: 
@@ -45,7 +49,6 @@ We collect all these interest points to form the following research questions th
     \item[RQ2]: Do performance models created by our white-box and black-box attribute the same influence to each feature?
 \end{itemize}
 
-\section{Contributions}
 We provide an overview if white-box and black-box analyses detect the same features and feature interactions.
 Furthermore, we introduce an approach to compare white-box and black-box {\perfInfluenceModel}s that can be used in 
 further studies. In addition, we implement 5 different configurable software systems that can serve as a baseline for future evaluations.

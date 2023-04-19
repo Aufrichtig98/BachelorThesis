@@ -1,20 +1,23 @@
 \section{Experiment operationalization}\label{ch:Research-setup}
 This section describes the main experiment that is conducted to evaluate both analyses.
 
-The configurable system we analyze is the open source software system \textsc{XZ}, a command line tool written in \textsc{C} and a component of
+The configurable system we analyze is the open source software system \textsc{XZ}, a command-line tool written in \textsc{C} and a component of
 \textsc{XZ Utils}\footnote{Visited at 02.04.2023\\ \url{https://tukaani.org/xz/}}.  
 The primary compression algorithm that \text{XZ} currently uses to perform lossless data compression is LZMA2.
 We use \textsc{XZ} \textsc{(XZ Utils)} version 5.5.0\footnote{Commit hash "610dde15a88f12cc540424eb3eb3ed61f3876f74"}.
 
 The file we compress is a geographic map encoded as a \textsc{JSON} file of size 203 MB\footnote{Visited at 03.04.2023\\ \url{https://github.com/simonepri/geo-maps/releases/latest/download/countries-land-1m.geo.json}},
-which ensures that we spend a significant amount of time so that all features can be measured.
+which we choose because \textsc{XZ} achieves a compression rate of at least $70\%$. 
+This ensures that for a file 203 MB, a significant amount of time is spent in each feature and feature interaction we want to measure.
 
 \subsection{Configuration Space}
 %Why config space an features we are interested in
-Due to the challenge of combinatorial explosion explained in \autoref{section:combinatorial-explosion}.
-We have to select a subset of features \textsc{XZ} offers to still measure all possible configurations and ensure the accuracy of the black-box analysis. 
+Due to the challenge of combinatorial explosion explained in \autoref{section:combinatorial-explosion}, 
+we have to select a subset of features \textsc{XZ} offers to measure all possible configurations still 
+and ensure the accuracy of the black-box analysis. 
 
-We selected three core features of \textsc{XZ} that should significantly influence the system's performance: 
+
+We selected three core features of \textsc{XZ} that the documentation says to have a significant influence on the system's performance: 
 two numeric features, \emph{compression level} and \emph{threads}, and one binary feature, \emph{extreme}. 
 The value of \emph{compression level} ranges between \emph{0} and \emph{9} whereas \emph{threads} can either be \emph{0, 1, 2, 4} or \emph{8}. 
 %Compression
@@ -37,6 +40,9 @@ The number of configurations we can build using these three features is calculat
     \lvert C \rvert &= \lvert \textit{compression level} \rvert \cdot \lvert \textit{extreme} \rvert \cdot \lvert \textit{threads} \rvert \\
     100 &= 10 \cdot 2 \cdot 5 \nonumber
 \end{align}
+
+Here $\lvert \textit{compression level} \rvert$, $\lvert \textit{extreme} \rvert$, and $\lvert \textit{threads} \rvert$ are the number of 
+configuration options for the respective feature.
 
 To identify the \emph{Base} feature for \textsc{XZ}, we need to identify the time spent in compression no matter which features are selected. 
 However, \textsc{XZ} does not allow us to select the mode compression without choosing a compression level. 
