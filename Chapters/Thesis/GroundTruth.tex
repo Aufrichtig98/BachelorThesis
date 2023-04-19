@@ -60,7 +60,7 @@ Both white-box and black-box analysis should be able to still correctly attribut
 Instead of modifying the system's code, we add a restriction to the feature model of \autoref{fig:feature_abcd}. 
 We change feature \emph{B} from optional to mandatory. This introduces multicollinearity into the system. 
 The white-box analysis should still be able to identify correctly the time spent in \emph{Base} and feature \emph{B}, 
-while the black-box analysis should distribute the time spent between \emph{Base} and \emph{B} differently.
+while the black-box analysis should distribute the time spent between the features differently.
 
 \paragraph{Shared Feature Variable}\label{ground-truth:Shared}
 We now add an optional feature \emph{E} to the system. 

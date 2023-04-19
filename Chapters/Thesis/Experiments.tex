@@ -38,5 +38,7 @@ The number of configurations we can build using these three features is calculat
     100 &= 10 \cdot 2 \cdot 5 \nonumber
 \end{align}
 
-We select the features \emph{compression level 1} and \emph{threads 0} as our base feature since it represents the least amount of time 
-\textsc{XZ} spends for compression.
+To identify the \emph{Base} feature for \textsc{XZ}, we need to identify the time spent in compression no matter which features are selected. 
+However, \textsc{XZ} does not allow us to select the mode compression without choosing a compression level. 
+Therefore, as the \emph{Base} feature, we choose the configuration with the minimal time spent compressing, 
+which is \emph{compression level 0} and \emph{threads 0}.

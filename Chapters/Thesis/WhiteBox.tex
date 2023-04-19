@@ -294,3 +294,16 @@ To calculate the time spent in the region, we compute $ts_E - ts_B$.
 \autoref{math:coefficients} is a sequence of the total time spent in each feature or feature interaction we measured in the \textit{TEF Report}. 
 Now that we obtained all the coefficients that represent the influence of each feature and feature interaction, we use them to build the \perfInfluenceModel.
 By that, we build up a {\perfInfluenceModel} from feature specific white-box performance measurements.
+
+To build up the {\perfInfluenceModel}, we must combine the knowledge of which features are selected for that configuration and which 
+feature regions we measured. Since, when we measure the time spent inside a region, 
+it does not imply that the feature that influences the region is selected. 
+An example where this is the case is in \autoref{alg:Vara_feature_regions} in \autorefLine{line:bar}.
+Here we need to combine these measurements with the selected features because otherwise,
+we would attribute the time spent in \emph{bar()} in not encryption to the feature \emph{Encryption}.
+
+%To grammarly und das up adden berechenen
+Therefore, to attribute the time spent for each feature and feature interaction, we calculate the difference 
+between the measured influcence when the feature is selected for that configuration and when it is unselected. 
+The time spent in the regions when the feature is deselected are added up to the other selected features in that region, if
+none of the features is selected we add the influcence solely to the \emph{Base} feature.

@@ -9,55 +9,23 @@ Afterward, we discuss the results in \autoref{sec:discussion}. At the end in \au
 
 \section{Results}\label{sec:results}
 
+%To Review
 In this section, we present the results of the ground truth and of \textsc{XZ}. 
-All values are in seconds and are rounded to 3 decimal places.
+All values are in seconds and are rounded to 3 decimal places, this should not influence the comparability of our models, since in comparison
+to the overall time spent inside the system this influence is insignificant. Due to that, for the white-box we also discard all features
+and feature interaction for which the summed up time spent in these regions is less than one millisecond.
 
+\subsection{Ground Truth Results}
+We now proceed with evaluating the ground truth systems \emph{Simple Interactions}, \emph{Else Clause}, \emph{Function}, \emph{Multicollinearity} 
+and \emph{Shared Feature Variable}, which we introduced in \autoref{sec:ground-truth} and present the resulting {\perfInfluenceModel}s.
 
-\subsection*{Ground Truth Results}
-We now proceed with evaluating the ground truth systems \textsc{Simple Interactions}, \textsc{Else Clause}, \textsc{Function}, \textsc{Multicollinearity} 
-and \textsc{Shared Feature Variable}, which we introduced in \autoref{sec:ground-truth}.
-
-\subsubsection*{Simple Interaction Results}
-%Baseline and Blackbox
-
-For the baseline, we have already constructed the {\perfInfluenceModel} in 
-\autoref{equ:performanceExamplePIMBaseline} and now proceed with building the model out of the black-box analysis:
-
-\begin{table}[H]
-    \centering
-    \input{Tables/BlackBox/GTBasic.txt}
-    \caption{Black-box {\perfInfluenceModel} for simple interaction}
-\end{table}
-
-As expected, the black-box analysis correctly attributes the time spent for each feature in \emph{Simple Interactions}.
-
- 
-For the white-box analysis with \autoref{lst:performanceExample} and \autoref{fig:feature_abcd} we build \autoref{alg:xml-abcd} 
-in which we declare all the feature variables of \textsc{Simple Interactions}. 
-We analyze \autoref{lst:performanceExample} using our white-box analysis, which produces a TEF report file in \autoref{rep:tef-abcd}. 
-Afterwards, we use this report to calculate the time spent in each feature region described as in \autoref{math:time} 
-and \autoref{math:coefficients}. This produces the following file in \autoref{alg:aggr-tef-abcd},
-from which we build the following {\perfInfluenceModel}:
+\subsubsection*{Simple Interaction}
 
 \begin{table}[H]
     \centering
     \begin{tabular}{lrrrrrrr}
     \toprule
-    $\Pi_{White-box}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
-    \midrule
-    Simple Interaction &   2.0 &  1.0 &  2.0 &  1.0 &  2.0 &   2.0 &  0.0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{White-box {\perfInfluenceModel} for simple interaction}
-\end{table}
-
-We group our results in \autoref{aggr:results-simple-interaction} to compare them with each other.
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    $\Pi$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\ \midrule
+    $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
     Baseline & 2    & 1 & 2 & 1 & 2 & 2           & 0            \\
     Black-box & 2    & 1 & 2 & 1 & 2 & 2           & 0           \\
     White-box & 2    & 1 & 2 & 1 & 2 & 2           & 0           \\ \bottomrule
@@ -65,83 +33,16 @@ We group our results in \autoref{aggr:results-simple-interaction} to compare the
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Simple Interaction}}\label{aggr:results-simple-interaction}
 \end{table}
 
-Out of \autoref{aggr:results-simple-interaction} we now calculate $\overline{error}$ and $\overline{similarity}$
-for both white-box and black-box {\perfInfluenceModel}s:
+The \emph{Simple Interaction} system is designed to test if both analyses can identify interactions between features, 
+as we can see in \autoref{aggr:results-simple-interaction} both {\perfInfluenceModel}s were able to identify these interactions.
 
-\begin{table}[H]
-\begin{minipage}{.5\linewidth}
-    \centering
-    \begin{tabular}{lr}
-    \toprule
-    RQ1     & $\overline{error}$         \\ \midrule
-    Black-box & 0              \\
-    White-box & 0              \\ \bottomrule
-    \end{tabular}  
-    \caption{Results RQ1}
-\end{minipage}%
-\begin{minipage}{.5\linewidth}
-    \centering
-    \begin{tabular}{lr}
-        \toprule
-        RQ2     & $\overline{similarity}$    \\ \midrule
-        Black-box$_\text{WB}$ & 0              \\
-        White-box$_\text{BB}$ & 0              \\ \bottomrule
-        \end{tabular}  
-        \caption{Results RQ2}
-\end{minipage} 
-\end{table}
-
-\subsubsection*{Else Clause Results}
-
-For \textsc{Else Clause} system we add an else cause that is executed when \emph{A} is not selected. 
-The \perfInfluenceModel of the baseline is as follows:
+\subsubsection*{Else Clause}
 
 \begin{table}[H]
     \centering
     \begin{tabular}{lrrrrrrr}
     \toprule
-    $\Pi_{Baseline}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
-    \midrule
-    Else Clause &   4 &  -1 &  2 &  1 &  2 &   2 &  0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Baseline {\perfInfluenceModel} for \emph{Else Clause}}
-\end{table}
-
-We attributed the time spent in the else case to \emph{Base} since it represents the time spent in the system when no feature is selected.
-Therefore, when selecting feature \emph{A}, the system gets faster by one second. 
-
-\begin{table}[H]
-    \centering
-    \input{Tables/BlackBox/GTElse.txt}
-\end{table}
-
-To build the {\perfInfluenceModel} for the white-box we have to take a closer look at \autoref{table:WB-Else-Case} 
-especially the configurations \{\} and \{\emph{A}\} in which we can see that even when the feature \emph{A} is not selected 
-it still got an influence of \emph{2} seconds but when selected its influence is reduced to \emph{1} second.
-This means that the selection of feature \emph{A} increases the run time by \emph{1} second and the \emph{Base} 
-feature is \emph{4} seconds.
-With this information in mind, we build the following {\perfInfluenceModel}:
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    $\Pi_{White-box}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
-    \midrule
-    Else Clause &   4 &  -1 &  2 &  1 &  2 &   2 &  0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{White-box {\perfInfluenceModel} for \emph{Else Clause}}
-\end{table}
-
-We group the {\perfInfluenceModel}s for \emph{Else Clause} in the following table:
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    $\Pi$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\ \midrule
+    $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
     Baseline & 4    & -1 & 2 & 1 & 2 & 2           & 0            \\
     Black-box & 4    & -1 & 2 & 1 & 2 & 2           & 0           \\
     White-box & 4    & -1 & 2 & 1 & 2 & 2           & 0           \\ \bottomrule
@@ -149,86 +50,16 @@ We group the {\perfInfluenceModel}s for \emph{Else Clause} in the following tabl
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Else Clause}}\label{aggr:results-else-clause}
 \end{table}
 
-As we can see, we were able to build correct {\perfInfluenceModel} with both analyses. 
-However, we had to incorporate domain-specific knowledge and analyze the measurement results to build the white-box model. 
-We now calculate $\overline{error}$ and $\overline{similarity}$ for both white-box and black-box {\perfInfluenceModel}s:
-
-\begin{table}[H]
-    \begin{minipage}{.5\linewidth}
-        \centering
-        \begin{tabular}{lr}
-        \toprule
-        RQ1     & $\overline{error}$         \\ \midrule
-        Black-box & 0              \\
-        White-box & 0              \\ \bottomrule
-        \end{tabular}  
-        \caption{Results RQ1}
-    \end{minipage}%
-    \begin{minipage}{.5\linewidth}
-        \centering
-        \begin{tabular}{lr}
-            \toprule
-            RQ2     & $\overline{similarity}$   \\ \midrule
-            Black-box$_\text{WB}$ & 0              \\
-            White-box$_\text{BB}$ & 0              \\ \bottomrule
-            \end{tabular}  
-            \caption{Results RQ2}
-    \end{minipage} 
-    \end{table}
-
-Since the {\perfInfluenceModel}s are all the same both scores are 0.
+The \emph{Else Clause} system is designed to see how both analysis attribute the time spent in the else clause, as expected, we see in
+\autoref{aggr:results-else-clause} that they were both able to attribute the time correctly.
 
 \subsubsection*{Function}
-We now add a function call to our system in which we spend time instead of in the main function. 
-We hypothesize that this should neither change the {\perfInfluenceModel}s for white-box and black-box. 
-The baseline {\perfInfluenceModel} is as follows:
 
 \begin{table}[H]
     \centering
     \begin{tabular}{lrrrrrrr}
     \toprule
-    $\Pi_{Baseline}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
-    \midrule
-    Function &   2 &  1 &  2 &  1 &  2 &   2 &  0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Baseline {\perfInfluenceModel} for \emph{Function}}
-\end{table}
-
-Since we did not increase the time spent inside feature \emph{A} and instead spent the time inside a function, 
-the baseline {\perfInfluenceModel} does not change compared to the one in \emph{Simple Interaction}. The {\perfInfluenceModel} for 
-the black-box is as follows: 
-
-\begin{table}[H]
-    \centering
-    \input{Tables/BlackBox/GTFunction.txt}
-    \caption{Black-box {\perfInfluenceModel} for \emph{Function}}
-\end{table}
-    
-As expected, the black-box {\perfInfluenceModel} did not change since the measurements are nearly identical as those for the 
-\emph{Simple Interaction} system. Therefore, the models learned from the data should be the same. 
-The {\perfInfluenceModel} we build from the white-box analysis measurements from \autoref{table:WB-Function} as follows:
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    $\Pi_{White-box}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
-    \midrule
-    Function &   2 &  1 &  2 &  1 &  2 &   2 &  0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Baseline {\perfInfluenceModel} for \emph{Function}}
-\end{table}
-
-The white-box {\perfInfluenceModel} also looks as expected since \textsc{VaRA} is able to successfully trace the time 
-spent inside functions as well. We group the {\perfInfluenceModel}s for \emph{Function} in the following table:
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    $\Pi$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\ \midrule
+    $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
     Baseline & 2    & 1 & 2 & 1 & 2 & 2           & 0            \\
     Black-box & 2   & 1 & 2 & 1 & 2 & 2           & 0            \\
     White-box & 2   & 1 & 2 & 1 & 2 & 2           & 0            \\ \bottomrule
@@ -236,113 +67,284 @@ spent inside functions as well. We group the {\perfInfluenceModel}s for \emph{Fu
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Function}}\label{aggr:results-function}
 \end{table}
 
-Now when comparing the {\perfInfluenceModel} with each other, we see that both white-box and black-box are accurate for the \emph{Function}
-system. We still calculate $\overline{error}$ and $\overline{similarity}$ to answer our research questions:
-
-\begin{table}[H]
-    \begin{minipage}{.5\linewidth}
-        \centering
-        \begin{tabular}{lr}
-        \toprule
-        RQ1     & $\overline{error}$         \\ \midrule
-        Black-box & 0              \\
-        White-box & 0              \\ \bottomrule
-        \end{tabular}  
-        \caption{Results RQ1}
-    \end{minipage}%
-    \begin{minipage}{.5\linewidth}
-        \centering
-        \begin{tabular}{lr}
-            \toprule
-            RQ2     & $\overline{similarity}$   \\ \midrule
-            Black-box$_\text{WB}$ & 0              \\
-            White-box$_\text{BB}$ & 0              \\ \bottomrule
-            \end{tabular}  
-            \caption{Results RQ2}
-    \end{minipage} 
-    \end{table}
-
-Since all the {\perfInfluenceModel} for the \emph{function} system are the same both $\overline{error}$ and $\overline{similarity}$ 
-are 0.
+In the \emph{Function} system, we test how the analyses handle it when we spend time in a different function than the main function. 
+We see in \autoref{aggr:results-function} that both analyses were still able to attribute the time correctly.
 
 \subsubsection*{Multicollinearity}
-For the \emph{Multicollinearity} system, we introduce multicollinearity by changing feature \emph{B} from optional to mandatory. 
-This, in consequence, changes the number of configurations from 16 to 8. The {\perfInfluenceModel} for the baseline looks as follows:
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}   
-    \toprule
-    $\Pi_{Baseline}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
-    \midrule
-    Multicollinearity &   2 &  1 &  2 &  1 &  2 &   2 &  0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Baseline {\perfInfluenceModel} for \emph{Multicollinearity}}
-\end{table}
-
-When comparing the baseline {\perfInfluenceModel} of \emph{Simple Interaction} and \emph{Multicollinearity} system 
-we see that they are the same, since the time spent in each feature did not change at all. We proceed with 
-the {\perfInfluenceModel} for the black-box analysis:
-
-\begin{table}[H]
-    \centering
-    \input{Tables/BlackBox/GTMulticollinearity.txt}
-    \caption{Black-box {\perfInfluenceModel} for \emph{Multicollinearity}}
-\end{table}
-
-As we can see, the {\perfInfluenceModel} of the black-box analysis is severely different due to the introduction of multicollinearity. 
-The first change that we see is that due to feature \emph{B} being mandatory, 
-the feature \emph{A} and the feature interaction $A \land B$ are perfect Multicollinear since feature \emph{B} 
-is always selected in for every configuration with feature \emph{A}. Since we add features iteratively 
-as described in \autoref{ch:iterative-vif}, therefore, since $A \land B$ introduces perfect multicollinearity, 
-the feature interaction is not added to the model. 
-
-In addition, due to multicollinearity, the time distribution also changed. While features \emph{C} and \emph{D} are still correct, 
-we have a change for features \emph{Base} with an increase of 2 seconds, 
-\emph{A} with an increase of 2 seconds, and \emph{B} with a decrease of 2 seconds. 
-We assume that the time spent in \emph{B} is attributed to \emph{Base} since for the black-box, 
-they are indistinguishable and the 2 seconds spent in the interaction $A \land B$ is attributed to \emph{A}.
-
-We now build the \perfInfluenceModel for the white-box from the measurements of \autoref{table:WB-Multicollinearity}:
 
 \begin{table}[H]
     \centering
     \begin{tabular}{lrrrrrrr}
     \toprule
-    $\Pi_{Whitebox}$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\
-    \midrule
-    Multicollinearity &   2 &  1 &  2 &  1 &  2 &   2 &  0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Whitebox {\perfInfluenceModel} for \emph{Multicollinearity}}
-\end{table}
-
-As we can see, the white-box {\perfInfluenceModel} still correctly attribute the time spent in each feature and feature
-interaction, since the number of configurations does not change the detection of feature regions and thereby does not 
-change the \perfInfluenceModel. We group the {\perfInfluenceModel}s as follows:
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}
-    \toprule
-    $\Pi$    & Base & A & B & C & D & A $\land$ B & C $\land$ D  \\ \midrule
+    $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
     Baseline & 2    & 1 & 2 & 1 & 2 & 2           & 0            \\
     Black-box & 4   & 3 & 0 & 1 & 2 & 0           & 0            \\
     White-box & 2   & 1 & 2 & 1 & 2 & 2           & 0            \\ \bottomrule
     \end{tabular}  
-    \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Multicolinearity}}
-    \label{aggr:results-mullti  }
+    \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Multicollinearity}}
+    \label{aggr:results-mullticollinearity}
 \end{table}
 
-Since the term $A \land B$ does not exist in the black-box {\perfInfluenceModel} we add and assign an influence of 0. 
-This is possible since we only remove terms before using multiple linear regression to get a better fit of the model.
-Therefore, adding a term with 0 influence does not change the {\perfInfluenceModel}. 
-We now calculate $\overline{error}$ and $\overline{similarity}$:
+For the \emph{Multicollinearity} system, we change feature \emph{B} from an optional to a mandatory feature, 
+for which we expect the black-box analysis to be unable to attribute the time for the affected features accurately. 
+As we can see in \autoref{aggr:results-mullticollinearity}, for the features \emph{Base}, \emph{A}, \emph{B} and 
+the interaction \emph{A} $\land$ \emph{B} the black-box is inaccurate, whereas the white-box remains unaffected.
+
+\subsubsection*{Shared Feature Variables}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrrrr}
+    \toprule
+    $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{E}& \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
+    Baseline & 2    & 1 & 2 & 1 & 2 & 1 & 2           & 0            \\
+    Black-box & 4   & 3 & 0 & 1 & 2 & 1 & 0           & 0            \\
+    White-box & 12   & 0 & 0 & 0 & 0 & 0 & 0           & 0            \\ \bottomrule
+    \end{tabular}  
+    \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Shared Feature Variables}}
+    \label{aggr:results-shared-feature}
+\end{table}
+
+For the \emph{Shared Feature Variables}, we encoded two features \emph{D}, and \emph{E} as a single string. We expected that the white-box analysis is unable
+to be unable to distinguish between these features and instead encode them as one.
+
+\subsection{Experiment Results}
+
+We now present the {\perfInfluenceModel}s for \textsc{XZ}. The {\perfInfluenceModel} build from the black-box analysis can be seen
+in the Appendix, where we split the table in two tables, where in \autoref{table:BB-XZ-noExtreme} the feature \emph{Extreme} in 
+deselected and in \autoref{table:BB-XZ-Extreme} \emph{Extreme} is selected. The {\perfInfluenceModel} build from the white-box analysis 
+can be seen in %Whitebox.
+
+\subsection{Results Research Questions}
+We now present our results for the research questions, for both we discard feature interactions that have an influence of 0 
+across all {\perfInfluenceModel}s for the same system.
+
+\subsection*{Results RQ1}
+
+We now present the results for research question 1 by evaluating the ground truth systems using the {\perfInfluenceModel} previously
+shown.
+
+\subsubsection*{Simple Interaction}
+
+\begin{table}[H]
+\begin{minipage}{.5\linewidth}
+    \centering
+    \begin{tabular}{lrrrrrr}    \toprule
+    $error$     & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+    Black-box & 0 & 0 & 0 & 0 & 0 & 0      \\
+    White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+    \end{tabular}
+    \caption{}
+\end{minipage}%
+\hspace{7mm}
+\begin{minipage}{.3\linewidth}
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+                  & $\overline{error}$   \\ \midrule
+        Black-box & 0              \\
+        White-box & 0              \\ \bottomrule
+        \end{tabular}  
+        \caption{}
+    \end{minipage}
+\end{table}
+
+\subsubsection*{Else Clause}
+
+\begin{table}[H]
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \begin{tabular}{lrrrrrr}    \toprule
+        $error$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+        Black-box & 0 & 0 & 0 & 0 & 0 & 0      \\
+        White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+        \end{tabular}
+        \caption{}
+    \end{minipage}%
+    \hspace{7mm}
+    \begin{minipage}{.3\linewidth}
+        \centering
+        \begin{tabular}{lr}
+            \toprule
+                      & $\overline{error}$   \\ \midrule
+            Black-box & 0              \\
+            White-box & 0              \\ \bottomrule
+            \end{tabular} 
+            \caption{}
+        \end{minipage}
+    \end{table}
+    
+\subsubsection*{Function}
+
+\begin{table}[H]
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \begin{tabular}{lrrrrrr}    \toprule
+        $error$     & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+        Black-box & 0 & 0 & 0 & 0 & 0 & 0      \\
+        White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+        \end{tabular}
+        \caption{}
+    \end{minipage}%
+    \hspace{7mm}
+    \begin{minipage}{.3\linewidth}
+        \centering
+        \begin{tabular}{lr}
+            \toprule
+                      & $\overline{error}$   \\ \midrule
+            Black-box & 0              \\
+            White-box & 0              \\ \bottomrule
+            \end{tabular}
+            \caption{}
+        \end{minipage}
+    \end{table}
+    
+    \subsubsection*{Multicollinearity}
+
+    \begin{table}[H]
+        \begin{minipage}{.5\linewidth}
+            \centering
+            \begin{tabular}{lrrrrrr}    \toprule
+            $error$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+            Black-box & 1 & 2 & 1 & 0 & 0 & 1      \\
+            White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+            \end{tabular}
+            \caption{}
+        \end{minipage}%
+        \hspace{7mm}
+        \begin{minipage}{.3\linewidth}
+            \centering
+            \begin{tabular}{lr}
+                \toprule
+                          & $\overline{error}$   \\ \midrule
+                Black-box & $\frac{5}{6}$              \\
+                White-box & 0              \\ \bottomrule
+                \end{tabular}
+                \caption{}
+            \end{minipage}
+        \end{table}
+
+        \subsubsection*{Shared Feature Variable} %TO DO WHITE BOX 
+
+        \begin{table}[H]
+            \begin{minipage}{.5\linewidth}
+                \centering
+                \begin{tabular}{lrrrrrr}    \toprule
+                $error$    \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{E} & \emph{A} $\land$ \emph{B}   \\ \midrule
+                Black-box & 1 & 2 & 1 & 0 & 0 & 0       \\
+                White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+                \end{tabular}
+                \caption{}
+            \end{minipage}%
+            \hspace{7mm}
+            \begin{minipage}{.3\linewidth}
+                \centering
+                \begin{tabular}{lr}
+                    \toprule
+                              & $\overline{error}$   \\ \midrule
+                    Black-box & $\frac{5}{6}$              \\
+                    White-box & 0              \\ \bottomrule
+                    \end{tabular}
+                    \caption{}  
+                \end{minipage}
+            \end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RQ 2 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Results RQ2}
+
+We now present the results for research question 1 by evaluating the ground truth systems and the experiment using the {\perfInfluenceModel} 
+previously shown.
+
+\subsubsection*{Simple Interaction}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrr}    \toprule
+               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+    \end{tabular}
+    \caption{The $\overline{similarity}$ score for \emph{Simple Interaction} is $0$.}
+\end{table}
+
+\subsubsection*{Else Clause}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrr}    \toprule
+               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+    \end{tabular}
+    \caption{The $\overline{similarity}$ score for \emph{Else Clause} is $0$.}
+\end{table}
+
+\subsubsection*{Function}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrr}    \toprule
+               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+    \end{tabular}
+    \caption{The $\overline{similarity}$ score for \emph{Function} is $0$.}
+\end{table}
+    
+\subsubsection*{Multicollinearity}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrr}    \toprule
+               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
+    $similarity$ & $\frac{2}{12}$ & $ \frac{2}{12}$ &  $\frac{2}{12}$ & 0 & 0 &  $\frac{2}{12}$      \\ \bottomrule
+    \end{tabular}
+    \caption{The $\overline{similarity}$ score for \emph{Multicollinearity} is $\frac{1}{9}$.}
+\end{table}
+
+\subsubsection*{Shared Feature Variable} %TO DO WHITE BOX 
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrrrr}    \toprule
+               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{E} & \emph{A} $\land$ \emph{B}   \\ \midrule
+    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+    \end{tabular}
+    \caption{The $\overline{similarity}$ score for \emph{Shared Feature Variable} is $0$.}
+\end{table}
+
+\subsubsection*{XZ Results}
 
 \section{Discussion}\label{sec:discussion}
 
-In this section, discuss your results.
+%Intro into the section
+In this section, we discuss the results of both analyses. We will first discuss the resulting {\perfInfluenceModel}s 
+for both the ground truth systems and \textsc{XZ} and afterwards the results of the research questions.
+
+%Analysis correct for the first three systems
+We first take a look at the {\perfInfluenceModel} created by both analyses, 
+for which we start by inspecting the {\perfInfluenceModel}s for the ground truth system \emph{Simple Interactions}, 
+\emph{Else Cause}, and \emph{Function}, as expected the {\perfInfluenceModel}s for all three systems are identical to another. 
+This means that both analyses accurately identified the influence of all features and feature interactions for simple systems.
+
+%Multicollinearity
+For the \emph{Multicollinearity} system, our hypothesis holds the white-box analysis still identifies the time spent inside the multicollinear features correctly, whereas the {\perfInfluenceModel} of the black-box analysis is severely different. The first change that we see is that due to feature \emph{B} being mandatory, the feature \emph{A} and the feature interaction $A \land B$ are perfectly Multicollinear since feature \emph{B} 
+is always selected together with feature \emph{A}. 
+This is detected when we decide which terms to add to our multiple linear regression model by \refAlgorithm{alg:vif_iterative} 
+and thus $A \land B$ is not added to the model. In addition, due to multicollinearity, the time distribution between features in the 
+{\perfInfluenceModel} changed. While features \emph{C} and \emph{D} are still correctly attributed, 
+we have a change for features \emph{Base} with an increase of 2 seconds, \emph{A} with an increase of 2 seconds, 
+and \emph{B} with a decrease of 2 seconds. We assume that the time spent in \emph{B} is attributed to \emph{Base} since for the black-box, 
+they are indistinguishable, and the 2 seconds spent in the interaction $A \land B$ is attributed to \emph{A} due to the perfect multicollinearity 
+between these features.
+
+Next, we inspect the results for the \emph{Shared Feature Variables} system. 
+As expected, the black-box analysis identified the influence of all features correctly. 
+However, for the white-box analysis, something unexpected happened. 
+We expected that the white-box analysis could not correctly identify the influence of feature \emph{D} and \emph{E} since they share one 
+feature variable. However, we were unable to identify and feature. When we inspect \autoref{table:WB-Shared-Feature}, 
+we see that for each configuration we analyzed \textsc{VaRA} only found the \emph{Base} feature, 
+although we did not change the feature variables for \emph{A}, \emph{B}, \emph{C}.
 
 \section{Threats to Validity}\label{sec:threats}
 

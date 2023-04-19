@@ -50,14 +50,14 @@ Compared to RQ1, we do not measure if the predictions are accurate regarding the
 To quantify the difference, we use the following formulas as follows:
 
 \begin{align}
-    similarity_f &= \frac{\lvert predicted_{WB,F} - predicted_{BB,F} \rvert}{\Pi_{BB}} \label{equ:APE_RQ1} \\ \nonumber \\
+    similarity_f &= \frac{\lvert predicted^{WB}_{f} - predicted^{BB}_{f} \rvert}{\Pi_{BB}} \label{equ:APE_RQ1} \\ \nonumber \\
     \overline{similarity_f}  &=  \frac{\sum_{f \in F} similarity_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
 \end{align}
 
 Here WB stands for white-box and BB for black-box. How two features are is calculated by $similarity_f$, 
-where we normalize the absolute difference of the time prediction for each feature by the overall time of one of the {\perfInfluenceModel}s. 
-It does not matter if we choose $\Pi_{BB}$ or $\Pi{WB}$ since the summed uptime for the models is the same. 
-Only the distribution among the different features and feature interactions is different. 
+where we normalize the absolute difference of the time prediction for each feature by the overall time for the black-box {\perfInfluenceModel}s. 
+Ideally, the overall time for both {\perfInfluenceModel}s should be the same, with only the time distribution between features being different. 
+However, the measurement code we use creates an overhead, which is minimal for the black-box analysis since we only measure when we start the system and when it ends.
 Afterward, we calculate the mean similarity $overline{similarity_f}$ by dividing through the number of features and feature interactions $F$. 
 A $overline{similarity_f}$ of 0 indicates that both {\perfInfluenceModel}s are perfectly similar.
 %Maybe aussage von mean sim begründen also was die werte aussagen 0=perfekt, 1 = komplett unterschiedlich
