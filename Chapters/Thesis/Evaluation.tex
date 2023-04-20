@@ -136,9 +136,10 @@ shown.
     White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
     \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Simple Interaction} system.}
+    \label{rq1:simple-interaction}
 \end{minipage}%
 \hspace{7mm}
-\begin{minipage}{.3\linewidth}
+\begin{minipage}{.37\linewidth}
     \centering
     \begin{tabular}{lr}
         \toprule
@@ -146,9 +147,14 @@ shown.
         Black-box & 0              \\
         White-box & 0              \\ \bottomrule
         \end{tabular}  
-        \caption{$\overline{error}$ score for white-box and black-box }
+        \caption{$\overline{error}$ score for white-box and black-box for the \emph{Simple Interaction} system}
+        \label{rq1:simple-interaction-mean}
     \end{minipage}
 \end{table}
+
+In \autoref{rq1:simple-interaction} we see the \emph{error} score for each 
+feature and feature interaction which is $0$ for both analyses for the \emph{Simple Interaction} system. 
+Furthermore, \autoref{rq1:simple-interaction-mean} shows the $\overline{error}$ score which is $0$ for both analyses.
 
 \subsubsection*{Else Clause}
 
@@ -161,9 +167,10 @@ shown.
         White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
         \end{tabular}
         \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Else Clause} system.}
+        \label{rq1:else-clause}
     \end{minipage}%
     \hspace{7mm}
-    \begin{minipage}{.3\linewidth}
+    \begin{minipage}{.37\linewidth}
         \centering
         \begin{tabular}{lr}
             \toprule
@@ -171,10 +178,15 @@ shown.
             Black-box & 0              \\
             White-box & 0              \\ \bottomrule
             \end{tabular} 
-            \caption{}
+            \caption{$\overline{error}$ score for white-box and black-box for the \emph{Else Clause} system}
+            \label{rq1:else-clause-mean}
         \end{minipage}
     \end{table}
     
+In \autoref{rq1:else-clause} we see the \emph{error} for each feature and feature interaction for both white-box and black-box 
+analyses for the \emph{Else Clause} system. The $\overline{error}$ can be seen in \autoref{rq1:else-clause-mean} and 
+both \emph{error} and $\overline{error}$ scores are $0$.
+
 \subsubsection*{Function}
 
 \begin{table}[H]
@@ -186,9 +198,10 @@ shown.
         White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
         \end{tabular}
         \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Function} system.}
+        \label{rq1:function}
     \end{minipage}%
     \hspace{7mm}
-    \begin{minipage}{.3\linewidth}
+    \begin{minipage}{.37\linewidth}
         \centering
         \begin{tabular}{lr}
             \toprule
@@ -196,9 +209,13 @@ shown.
             Black-box & 0              \\
             White-box & 0              \\ \bottomrule
             \end{tabular}
-            \caption{}
+            \caption{$\overline{error}$ score for white-box and black-box for the \emph{Function} system}
+            \label{rq1:function-mean}
         \end{minipage}
     \end{table}
+
+\autoref{rq1:function} presents the $error$ scores for the \emph{Function} system, for which all are $0$. In addition, 
+\autoref{rq1:function-mean} shows a $\overline{error}$ score of $0$ for the white-box and black-box analyses.
     
     \subsubsection*{Multicollinearity}
 
@@ -211,21 +228,29 @@ shown.
             White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
             \end{tabular}
             \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Multicollinearity} system.}
+            \label{rq1:multicollinearity}
         \end{minipage}%
         \hspace{7mm}
-        \begin{minipage}{.3\linewidth}
-            \centering
-            \begin{tabular}{lr}
-                \toprule
-                          & $\overline{error}$   \\ \midrule
-                Black-box & $\frac{5}{6}$              \\
-                White-box & 0              \\ \bottomrule
-                \end{tabular}
-                \caption{}
-            \end{minipage}
-        \end{table}
+    \begin{minipage}{.37\linewidth}
+        \centering
+        \begin{tabular}{lr}
+            \toprule
+                        & $\overline{error}$   \\ \midrule
+            Black-box & $\frac{5}{6}$              \\
+            White-box & 0              \\ \bottomrule
+            \end{tabular}
+            \caption{$\overline{error}$ score for white-box and black-box for the \emph{Multicollinearity} system}
+            \label{rq1:multicollinearity-mean}
+        \end{minipage}
+    \end{table}
 
-        \subsubsection*{Shared Feature Variable} %TO DO WHITE BOX 
+In \autoref{rq1:multicollinearity}, we see the \emph{error} scores for both white-box and black-box analyses. 
+The score for the white-box analysis remains the same, whereas for the black-box we can see a different \emph{score} for the features \emph{Base}, 
+\emph{A}, and the feature interaction \emph{A} $\land$ \emph{B}. 
+Therefore, the $\overline{error}$ score presented in \autoref{rq1:multicollinearity-mean} for the black-box analyses is $\frac{5}{6}$. 
+However, the score for the white-box analysis remains $0$. 
+
+    \subsubsection*{Shared Feature Variable} %TO DO WHITE BOX 
 
         \begin{table}[H]
             \begin{minipage}{.5\linewidth}
@@ -236,19 +261,21 @@ shown.
                 White-box & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
                 \end{tabular}
                 \caption{Respective \emph{error} scores for white-box and black-box {\perfInfluenceModel}s for the \emph{Shared Feature Variable} system.}
+                \label{rq1:shared-feature-variable}
             \end{minipage}%
             \hspace{7mm}
-            \begin{minipage}{.3\linewidth}
-                \centering
-                \begin{tabular}{lr}
-                    \toprule
-                              & $\overline{error}$   \\ \midrule
-                    Black-box & $\frac{5}{6}$              \\
-                    White-box & 0              \\ \bottomrule
-                    \end{tabular}
-                    \caption{}  
-                \end{minipage}
-            \end{table}
+        \begin{minipage}{.37\linewidth}
+            \centering
+            \begin{tabular}{lr}
+                \toprule
+                            & $\overline{error}$   \\ \midrule
+                Black-box & $\frac{5}{6}$              \\
+                White-box & 0              \\ \bottomrule
+                \end{tabular}
+                \caption{$\overline{error}$ score for white-box and black-box for the \emph{Shared Feature Variable} system}
+                \label{rq1:shared-feature-variable-mean}
+            \end{minipage}
+        \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % RQ 2 
@@ -267,7 +294,7 @@ previously shown.
                & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
-    \caption{The $\overline{similarity}$ score for \emph{Simple Interaction} is $0$.}
+    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Simple Interaction} system.}
 \end{table}
 
 \subsubsection*{Else Clause}
@@ -278,7 +305,7 @@ previously shown.
                & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
-    \caption{The $\overline{similarity}$ score for \emph{Else Clause} is $0$.}
+    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Else Clause} system.}
 \end{table}
 
 \subsubsection*{Function}
@@ -289,7 +316,7 @@ previously shown.
                & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
-    \caption{The $\overline{similarity}$ score for \emph{Function} is $0$.}
+    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Function} system.}
 \end{table}
     
 \subsubsection*{Multicollinearity}
@@ -300,7 +327,7 @@ previously shown.
                & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
     $similarity$ & $\frac{2}{12}$ & $ \frac{2}{12}$ &  $\frac{2}{12}$ & 0 & 0 &  $\frac{2}{12}$      \\ \bottomrule
     \end{tabular}
-    \caption{The $\overline{similarity}$ score for \emph{Multicollinearity} is $\frac{1}{9}$.}
+    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $\frac{1}{9}$ for the \emph{Multicollinearity} system.}
 \end{table}
 
 \subsubsection*{Shared Feature Variable} %TO DO WHITE BOX 
@@ -311,7 +338,7 @@ previously shown.
                & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{E} & \emph{A} $\land$ \emph{B}   \\ \midrule
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
-    \caption{The $\overline{similarity}$ score for \emph{Shared Feature Variable} is $0$.}
+    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $\frac{1}{9}$ for the \emph{Shared Feature Variable} system.}
 \end{table}
 
 \subsubsection*{XZ Results}
