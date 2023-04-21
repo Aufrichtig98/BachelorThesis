@@ -9,15 +9,16 @@ To quantify these differences, we want to answer the following research question
 \noindent \textbf{RQ1}: How accurately do white-box and black-box models detect features and feature interactions? \\
 
 %Motivation
-Due to the sheer number of features, it is hard to know the influence each feature or feature interaction has on a configurable system. 
+Due to the number of features, it is hard to know the influence of each feature or feature interaction on a configurable system. 
 Therefore, when we use white-box or black-box analysis to quantify the influence of these features and feature interaction, 
 we are interested in the accuracy of both analyses. 
 Another point of interest is if we can identify a group of features for which either analysis performs worse than its counterpart.
 To answer this, we research how accurately they can identify the influence of features and feature interactions.
 
 %Reason Mape
-Thus, we quantify the difference between the predicted and true influence of each feature $f$ in the set of features and feature interactions $F$
-by calculating the \emph{error rate} and afterwards its mean, following the approach outlined in~\cite{mape}. %Maybe reference
+Thus, we quantify the difference between the predicted and true influence of each feature or feature interaction $f$ 
+in the set of features and feature interactions $F$ by calculating $error_f$ and afterwards its mean $\overline{error}$, 
+following the approach outlined in~\cite{mape}. %Maybe reference
 
 
 \begin{align}
@@ -25,29 +26,29 @@ by calculating the \emph{error rate} and afterwards its mean, following the appr
     \overline{error}  &= \frac{\sum_{f \in F} error_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
 \end{align}
 
-Note that $actual\_true_f$ is the true influence of the feature or feature interaction $f$ that we obtain from the baseline of our ground truth 
-and $predicted_f$ is the influence predicted by the {\perfInfluenceModel}s we build.
+Note that $actual\_true_f$ is the true influence of the feature or feature interaction $f$ that we obtain from the baseline of our ground truth.
+Whereas $predicted_f$ is the influence predicted by the {\perfInfluenceModel}s we build.
 The closer $\overline{error}$ is to $0$, the better the prediction, with an $\overline{error}$ of 0 indicating a perfectly
 accurate \perfInfluenceModel. 
 
 %How we reasearch this
-To investigate this, we use a qualitative measurement by using the ground truth systems we design. 
-We build a {\perfInfluenceModel} with each analysis method, and afterwards use the formula of \autoref{equ:MAPE_RQ1},
-since for these systems, we know the actual values for each feature and feature interaction.
+To investigate this, we use a qualitative measurement using the ground truth systems we design. 
+We build a {\perfInfluenceModel} with each analysis method, and use \autoref{equ:MAPE_RQ1},
+we know the actual values for each feature and feature interaction.
 
-Another, point of interest is how similar the {\perfInfluenceModel}s are, we answer this in the following research question.\\
+Another, point of interest is how similar the {\perfInfluenceModel}s are. We answer this in the following research question.\\
 
 \noindent \textbf{RQ2}: Do performance models created by our white-box and black-box attribute the same influence to each feature?\\
 
 %Motivation
-Another point we are interested in is to know if the {\perfInfluenceModel}s of both analyses are similar.
-This is of interest because, similar analyses that we can use both analyses interchangeably for one another.
+This is of interest because, because if both analyses produce similar results we can use them both interchangeable with each other and 
+therefore choose the analysis we prefer without compromising its accuracy.
 
 %How we anwser
 To answer this question, we investigate whether the {\perfInfluenceModel}s build-out of the white-box and black-box analyses data agree, i.e.
 they predict the same influence for each feature. 
 Compared to RQ1, we do not measure if the predictions are accurate regarding the true influence but if both analyses produce similar results. 
-To quantify the difference, we use the following formulas as follows:
+To quantify the difference, we use the following formulas:
 
 \begin{align}
     similarity_f &= \frac{\lvert predicted^{WB}_{f} - predicted^{BB}_{f} \rvert}{\Pi_{BB}} \label{equ:APE_RQ1} \\ \nonumber \\
@@ -57,7 +58,7 @@ To quantify the difference, we use the following formulas as follows:
 Here $WB$ stands for white box and $BB$ for black box. How similar two features are is calculated by $similarity_f$, 
 where we normalize the absolute difference of the time prediction for each feature by the overall time for the black-box {\perfInfluenceModel}s. 
 Ideally, the overall time for both {\perfInfluenceModel}s should be the same, with only the time distribution between features being different. 
-However, the measurement code we use creates an overhead, which is minimal for the black-box analysis since we only measure when we start the system and when it ends.
+However, the measurement code creates an overhead, which is minimal for the black-box analysis since we only measure when the system starts and when it ends.
 Afterward, we calculate the mean similarity $\overline{similarity_f}$ by dividing through the number of features and feature interactions $F$. 
 A $\overline{similarity_f}$ of 0 indicates that both {\perfInfluenceModel}s are perfectly similar.
 %Maybe aussage von mean sim begründen also was die werte aussagen 0=perfekt, 1 = komplett unterschiedlich

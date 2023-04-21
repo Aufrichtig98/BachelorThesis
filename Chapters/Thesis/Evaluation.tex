@@ -99,7 +99,7 @@ the interaction \emph{A} $\land$ \emph{B} the black-box is inaccurate, whereas t
     $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{E}& \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
     Baseline & 2    & 1 & 2 & 1 & 2 & 1 & 2           & 0            \\
     Black-box & 4   & 3 & 0 & 1 & 2 & 1 & 0           & 0            \\
-    White-box & 12   & 0 & 0 & 0 & 0 & 0 & 0           & 0            \\ \bottomrule
+    White-box  &  6.001 &  0.0 &  0.0 &  0.0 &  0.0 &  0.0 &     0.0 &     0.0\\\bottomrule
     \end{tabular}  
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Shared Feature Variables}}
     \label{aggr:results-shared-feature}
@@ -214,7 +214,7 @@ both \emph{error} and $\overline{error}$ scores are $0$.
         \end{minipage}
     \end{table}
 
-\autoref{rq1:function} presents the $error$ scores for the \emph{Function} system, for which all are $0$. In addition, 
+In \autoref{rq1:function} we present the $error$ scores for the \emph{Function} system, for which all are $0$. In addition, 
 \autoref{rq1:function-mean} shows a $\overline{error}$ score of $0$ for the white-box and black-box analyses.
     
     \subsubsection*{Multicollinearity}
@@ -245,7 +245,7 @@ both \emph{error} and $\overline{error}$ scores are $0$.
     \end{table}
 
 In \autoref{rq1:multicollinearity}, we see the \emph{error} scores for both white-box and black-box analyses. 
-The score for the white-box analysis remains the same, whereas for the black-box we can see a different \emph{score} for the features \emph{Base}, 
+The score for the white-box analysis remains the same as before, whereas for the black-box we can see a different \emph{score} for the features \emph{Base}, 
 \emph{A}, and the feature interaction \emph{A} $\land$ \emph{B}. 
 Therefore, the $\overline{error}$ score presented in \autoref{rq1:multicollinearity-mean} for the black-box analyses is $\frac{5}{6}$. 
 However, the score for the white-box analysis remains $0$. 
@@ -295,7 +295,11 @@ previously shown.
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
     \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Simple Interaction} system.}
+    \label{rq2:simple-interaction}
 \end{table}
+
+In \autoref{rq2:simple-interaction}, we see the \emph{similarity} scores for the \emph{Simple Interaction} system with a 
+$\overline{similarity}$ score of $0$
 
 \subsubsection*{Else Clause}
 
@@ -306,7 +310,11 @@ previously shown.
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
     \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Else Clause} system.}
+    \label{rq2:else-clause}
 \end{table}
+
+The $similarity$ score for the \emph{Else Clause} system can be seen in \autoref{rq2:else-clause}, for which the 
+$\overline{error}$ is $0$.
 
 \subsubsection*{Function}
 
@@ -317,8 +325,11 @@ previously shown.
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
     \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Function} system.}
+    \label{rq2:function}
 \end{table}
     
+The \autoref{rq2:function} shows the $similarity$ scores for the \emph{Function} system with a $\overline{similarity}$ score of $0$.
+
 \subsubsection*{Multicollinearity}
 
 \begin{table}[H]
@@ -328,7 +339,13 @@ previously shown.
     $similarity$ & $\frac{2}{12}$ & $ \frac{2}{12}$ &  $\frac{2}{12}$ & 0 & 0 &  $\frac{2}{12}$      \\ \bottomrule
     \end{tabular}
     \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $\frac{1}{9}$ for the \emph{Multicollinearity} system.}
+    \label{rq2:multicollinearity}
 \end{table}
+
+The $similarity$ scores for the \emph{Multicollinearity} system are in \autoref{rq2:multicollinearity}, we see that the $similarity$
+scores for the features \emph{Base}, \emph{A}, \emph{B} and feature interaction \emph{A} $\land$ \emph{B} changed. Here the 
+value $12$ is the time of the black-box {\perfInfluenceModel} $\Pi_{BB}$. The $\overline{similarity}$ score is $\frac{1}{9}$.
+
 
 \subsubsection*{Shared Feature Variable} %TO DO WHITE BOX 
 
@@ -339,6 +356,7 @@ previously shown.
     $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
     \end{tabular}
     \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $\frac{1}{9}$ for the \emph{Shared Feature Variable} system.}
+    \label{rq2:shared-feature-variable}
 \end{table}
 
 \subsubsection*{XZ Results}
@@ -354,17 +372,32 @@ We first take a look at the {\perfInfluenceModel} created by both analyses,
 for which we start by inspecting the {\perfInfluenceModel}s for the ground truth system \emph{Simple Interactions}, 
 \emph{Else Cause}, and \emph{Function}, as expected the {\perfInfluenceModel}s for all three systems are identical to another. 
 This means that both analyses accurately identified the influence of all features and feature interactions for simple systems.
+These results are in line with the results for the research questions for these systems. For both analyses
+we have a $\overline{error}$ score of $0$ which confirms that our {\perfInfluenceModel} are identical to the baseline and therefore 
+accurate. Hence, if both analyses {\perfInfluenceModel} are identical to the baseline, they are also identical themselves,
+which the $\overline{similarity}$ score of $0$ confirms.
+
 
 %Multicollinearity
 For the \emph{Multicollinearity} system, our hypothesis holds the white-box analysis still identifies the time spent inside the multicollinear features correctly, whereas the {\perfInfluenceModel} of the black-box analysis is severely different. The first change that we see is that due to feature \emph{B} being mandatory, the feature \emph{A} and the feature interaction $A \land B$ are perfectly Multicollinear since feature \emph{B} 
 is always selected together with feature \emph{A}. 
 This is detected when we decide which terms to add to our multiple linear regression model by \refAlgorithm{alg:vif_iterative} 
-and thus $A \land B$ is not added to the model. In addition, due to multicollinearity, the time distribution between features in the 
+and thus \emph{A} $\land$ \emph{B} is not added to the model. In addition, due to multicollinearity, the time distribution between features in the 
 {\perfInfluenceModel} changed. While features \emph{C} and \emph{D} are still correctly attributed, 
 we have a change for features \emph{Base} with an increase of 2 seconds, \emph{A} with an increase of 2 seconds, 
-and \emph{B} with a decrease of 2 seconds. We assume that the time spent in \emph{B} is attributed to \emph{Base} since for the black-box, 
-they are indistinguishable, and the 2 seconds spent in the interaction $A \land B$ is attributed to \emph{A} due to the perfect multicollinearity 
-between these features.
+and \emph{B} with a decrease of 2 seconds.
+%%%
+We assume that the time spent in \emph{B} is attributed to \emph{Base} since for the black-box analysis, both features are mandatory and
+thus, in every configuration we measure, which makes them indistinguishable. 
+The 2 seconds spent in the interaction \emph{A} $\land$ \emph{B} is attributed to \emph{A} due to the perfect multicollinearity 
+between these features. 
+%%%
+Now when inspecting the \emph{error} scores, this difference shows for the features affected by multicollinearity, 
+which results in an average percentage error of $\frac{5}{6}$, 
+which indicates a high average error when using black-box model for multicollinear systems.
+For this system we have a $\overline{similarity}$ score of $frac{1}{9}$, which means that each feature got an average 
+difference of $11\%$ compared to the overall time of $12$ seconds which significant difference for these models and 
+means that they are not interchangeable for systems that contain multicollinearity.
 
 Next, we inspect the results for the \emph{Shared Feature Variables} system. 
 As expected, the black-box analysis identified the influence of all features correctly. 
@@ -376,4 +409,17 @@ although we did not change the feature variables for \emph{A}, \emph{B}, \emph{C
 
 \section{Threats to Validity}\label{sec:threats}
 
-In this section, discuss the threats to internal and external validity.
+In this section, we discuss threats to internal and external validity of our evaluation.
+
+A threat to the internal validity is that during the execution of the system, 
+external influences can affect the performance of the server node and, therefore our measurements. 
+To minimize this, we ensured that the only thing being executed on the server node during the measurements is our system. 
+In addition, we repeated every measurement $30$ times to reduce the impact of outliers.  
+
+Another threat to the internal validity is the evaluation of the black-box data. 
+For the evaluation we used well known library such as \emph{sklearn} and \emph{statsmodels} 
+to minimize the chance for an implementation error by our side.
+
+A threat to the external validity is that the systems we choose favor one analysis over the other. 
+To prevent this we build different systems in our ground truth that tested both the black-box and white-box analysis 
+in various manners.
