@@ -82,8 +82,8 @@ To reduce this noise, we follow the suggestions made by Arcuri et.al~\cite{Sampl
 measure each configuration 30 times, and take the mean of the time spent as values to build the {\perfInfluenceModel}.
 
 %How we collect measurements using VaraTS
-We collect the data for each analysis using the VaRA Tool Suite, in which we define an experiment for each project. 
-For our white-box analysis, we write an experiment that specifies that we want to use VaRA to instrument our code so that during execution, 
+We collect the data for each analysis using the \textsc{VaRA Tool Suite}, in which we define an experiment for each project. 
+For our white-box analysis, we write an experiment that specifies that we want to use \textsc{VaRA} to instrument our code so that during execution, 
 all trace events can be tracked and written into the TEF report file. For our black-box analysis, 
 we wrap the command we want to measure using the Linux \texttt{time} command and log the time spent in a different report. 
 
