@@ -5,7 +5,7 @@
 
 This chapter evaluates the thesis's core claims.  
 We present the results for both the ground truth systems and \textsc{XZ} in \autoref{sec:results}.
-Afterward, we discuss the results in \autoref{sec:discussion}. At the end in \autoref{sec:threats}, we explain the threads of validity for the results.
+Afterward, we discuss the results in \autoref{sec:discussion}. At the end in \autoref{sec:threats}, we explain the threats to validity for the results.
 
 \section{Results}\label{sec:results}
 
@@ -16,7 +16,7 @@ to the overall time spent inside the system this influence is insignificant. Due
 and feature interaction for which the summed up time spent in these regions is less than one millisecond.
 
 \subsection{Ground Truth Results}
-We now proceed with evaluating the ground truth systems \emph{Simple Interactions}, \emph{Else Clause}, \emph{Function}, \emph{Multicollinearity} 
+We now evaluate the ground truth systems \emph{Simple Interactions}, \emph{Else Clause}, \emph{Function}, \emph{Multicollinearity} 
 and \emph{Shared Feature Variable}, which we introduced in \autoref{sec:ground-truth} and present the resulting {\perfInfluenceModel}s.
 
 \subsubsection*{Simple Interaction}
@@ -33,8 +33,9 @@ and \emph{Shared Feature Variable}, which we introduced in \autoref{sec:ground-t
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Simple Interaction}}\label{aggr:results-simple-interaction}
 \end{table}
 
-The \emph{Simple Interaction} system is designed to test if both analyses can identify interactions between features, 
-as we can see in \autoref{aggr:results-simple-interaction} both {\perfInfluenceModel}s were able to identify these interactions.
+The \emph{Simple Interaction} system tests if both analyses can identify interactions between features, 
+as we can see in \autoref{aggr:results-simple-interaction} since all the {\perfInfluenceModel}s are identical means 
+that both analyses were able to identify these interactions.
 
 \subsubsection*{Else Clause}
 
@@ -50,8 +51,8 @@ as we can see in \autoref{aggr:results-simple-interaction} both {\perfInfluenceM
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Else Clause}}\label{aggr:results-else-clause}
 \end{table}
 
-The \emph{Else Clause} system is designed to see how both analysis attribute the time spent in the else clause, as expected, we see in
-\autoref{aggr:results-else-clause} that they were both able to attribute the time correctly.
+The \emph{Else Clause} system checks how both analyses attribute the time spent in the else clause, as expected, we see that the {\perfInfluenceModel}s in
+\autoref{aggr:results-else-clause} are identical which means that the analyses were able to attribute the time correctly.
 
 \subsubsection*{Function}
 
@@ -68,7 +69,8 @@ The \emph{Else Clause} system is designed to see how both analysis attribute the
 \end{table}
 
 In the \emph{Function} system, we test how the analyses handle it when we spend time in a different function than the main function. 
-We see in \autoref{aggr:results-function} that both analyses were still able to attribute the time correctly.
+We see in \autoref{aggr:results-function} that the {\perfInfluenceModel}s are the same which means 
+that both analyses attribute the time correctly.
 
 \subsubsection*{Multicollinearity}
 
@@ -79,16 +81,17 @@ We see in \autoref{aggr:results-function} that both analyses were still able to 
     $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
     Baseline & 2    & 1 & 2 & 1 & 2 & 2           & 0            \\
     Black-box & 4   & 3 & 0 & 1 & 2 & 0           & 0            \\
-    White-box & 2   & 1 & 2 & 1 & 2 & 2           & 0            \\ \bottomrule
+    White-box &   4 &  1 &  0 &  1 &  2 &     2 &     0 \\ \bottomrule
     \end{tabular}  
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Multicollinearity}}
     \label{aggr:results-mullticollinearity}
 \end{table}
 
 For the \emph{Multicollinearity} system, we change feature \emph{B} from an optional to a mandatory feature, 
-for which we expect the black-box analysis to be unable to attribute the time for the affected features accurately. 
-As we can see in \autoref{aggr:results-mullticollinearity}, for the features \emph{Base}, \emph{A}, \emph{B} and 
-the interaction \emph{A} $\land$ \emph{B} the black-box is inaccurate, whereas the white-box remains unaffected.
+for which we expect the black-box analysis to be unable to attribute the time for the affected features accurately.
+As we can see when we compare the {\perfInfluenceModel}s in \autoref{aggr:results-mullticollinearity}, 
+the black-box is inaccurate for the features \emph{Base}, \emph{A}, \emph{B} and 
+the interaction \emph{A} $\land$ \emph{B}, whereas the white-box in only inaccurate for the features \emph{Base} and \emph{A}.
 
 \subsubsection*{Shared Feature Variables}
 
@@ -97,32 +100,35 @@ the interaction \emph{A} $\land$ \emph{B} the black-box is inaccurate, whereas t
     \begin{tabular}{lrrrrrrrr}
     \toprule
     $\Pi$    & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{E}& \emph{A} $\land$ \emph{B} & \emph{C} $\land$ \emph{D}  \\ \midrule
-    Baseline & 2    & 1 & 2 & 1 & 2 & 1 & 2           & 0            \\
-    Black-box & 4   & 3 & 0 & 1 & 2 & 1 & 0           & 0            \\
+    Baseline & 2.0    & 1.0 & 2.0 & 1.0 & 2.0 & 1.0 & 2.0           & 0.0           \\
+    Black-box &  2.0    & 1.0 & 2.0 & 1.0 & 2.0 & 1.0 & 2.0           & 0.0           \\
     White-box  &  6.001 &  0.0 &  0.0 &  0.0 &  0.0 &  0.0 &     0.0 &     0.0\\\bottomrule
     \end{tabular}  
     \caption{Direct comparison between the baseline, black-box and white-box {\perfInfluenceModel}s for \emph{Shared Feature Variables}}
     \label{aggr:results-shared-feature}
 \end{table}
 
-For the \emph{Shared Feature Variables}, we encoded two features \emph{D}, and \emph{E} as a single string. We expected that the white-box analysis is unable
-to be unable to distinguish between these features and instead encode them as one. 
-However, unexpectedly we did not identify any features besides the base feature during the analysis.
+For the \emph{Shared Feature Variables}, we encoded two features \emph{D}, and \emph{E} as a single string. 
+We expected that the white-box analysis is unable to distinguish between these features and instead encode them as one interaction. 
+However, we see in \autoref{aggr:results-shared-feature} when inspecting the white-box {\perfInfluenceModel}
+and compare it to the baseline that it did not identify any features besides the \emph{Base} feature during the analysis. 
+In addition, the white-box analyses {\perfInfluenceModel} wrongly attributed the time for the \emph{Base} feature.
 
 \subsection{Experiment Results}
 
-We now present the {\perfInfluenceModel}s for \textsc{XZ}. The {\perfInfluenceModel} build from the black-box analysis can be seen
-in the Appendix, where we split the table in two tables, where in \autoref{table:BB-XZ-noExtreme} the feature \emph{Extreme} in 
-deselected and in \autoref{table:BB-XZ-Extreme} \emph{Extreme} is selected. The {\perfInfluenceModel} build from the white-box analysis 
+We now present the {\perfInfluenceModel}s for \textsc{XZ}. The {\perfInfluenceModel} built from the black-box analysis can be seen
+in the \autoref{ch:appendix}, where we split the table into two tables, where in \autoref{table:BB-XZ-noExtreme} the feature \emph{Extreme} is 
+deselected and in \autoref{table:BB-XZ-Extreme} \emph{Extreme} is selected. The {\perfInfluenceModel} built from the white-box analysis 
 can be seen in %Whitebox.
 
 \subsection{Results Research Questions}
-We now present our results for the research questions, for both we discard feature interactions that have an influence of 0 
+We now present our results for the research questions. We discard feature interactions that have an influence of 0 
 across all {\perfInfluenceModel}s for the same system.
 
 \subsection*{Results RQ1}
 
-We now present the results for research question 1 by evaluating the ground truth systems using the {\perfInfluenceModel} previously
+We now present the results for research question 1, in which we investigate the error for the {\perfInfluenceModel}s by
+ where we by evaluating the ground truth systems using the {\perfInfluenceModel} previously
 shown.
 
 \subsubsection*{Simple Interaction}
@@ -283,81 +289,35 @@ However, the score for the white-box analysis remains $0$.
 
 \subsection{Results RQ2}
 
-We now present the results for research question 1 by evaluating the ground truth systems and the experiment using the {\perfInfluenceModel} 
+We now present the results for research question 2 by evaluating the ground truth systems and the experiment using the {\perfInfluenceModel} 
 previously shown.
 
-\subsubsection*{Simple Interaction}
-
 \begin{table}[H]
     \centering
-    \begin{tabular}{lrrrrrr}    \toprule
-               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
-    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
+    \begin{tabular}{lrrrrrrrr}    \toprule
+    $similarity$ & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B} & \emph{E} & $\overline{similarity}$ \\ \midrule
+    Simple Interaction & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 &  & 0.0  \\
+    Else Clause & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & & 0.0 \\
+    Function & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 &  & 0.0\\
+    Multicollinearity & 0.0 & $\frac{2.0}{10.0}$ & 0.0 & 0.0 & 0.0 & $\frac{2.0}{10.0}$  &  & $\frac{2.0}{60.0}$   \\
+    Shared Feature Variable & $\frac{4.001}{11.0}$ & $\frac{1.0}{11.0}$ & $\frac{2.0}{11.0}$ &$\frac{1.0}{11.0}$ & $\frac{2.0}{11.0}$ & $\frac{2.0}{11.0}$ & $\frac{1.0}{11.0}$ & $\frac{11.001}{77.0}$ \\ \bottomrule
     \end{tabular}
-    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Simple Interaction} system.}
-    \label{rq2:simple-interaction}
+    \caption{Respective $similarity$ scores and $\overline{similarity}$ score for each ground truth system.}
+    \label{rq2:ground-truth}
 \end{table}
 
-In \autoref{rq2:simple-interaction}, we see the \emph{similarity} scores for the \emph{Simple Interaction} system with a 
-$\overline{similarity}$ score of $0$
+We can see the ground truth system results for research question 2 in \autoref{rq2:ground-truth}.  
+For the systems \emph{Simple Interaction}, \emph{Else Case}, and \emph{Function} the $similarity$ score is $0$ and thus 
+$\overline{similarity}$ is $0$ too. 
 
-\subsubsection*{Else Clause}
+The $similarity$ scores for the \emph{Multicollinearity} system are $0$ except for the feature \emph{A} and the interaction
+\emph{A} $\land$ \emph{B} where they have a score of $\frac{2.0}{10.0}$ and a $\overline{similarity}$ of $\frac{2.0}{60.0}$
+for the whole system.
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrr}    \toprule
-               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
-    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
-    \end{tabular}
-    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Else Clause} system.}
-    \label{rq2:else-clause}
-\end{table}
-
-The $similarity$ score for the \emph{Else Clause} system can be seen in \autoref{rq2:else-clause}, for which the 
-$\overline{error}$ is $0$.
-
-\subsubsection*{Function}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrr}    \toprule
-               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
-    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
-    \end{tabular}
-    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $0$ for the \emph{Function} system.}
-    \label{rq2:function}
-\end{table}
-    
-The \autoref{rq2:function} shows the $similarity$ scores for the \emph{Function} system with a $\overline{similarity}$ score of $0$.
-
-\subsubsection*{Multicollinearity}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrr}    \toprule
-               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{A} $\land$ \emph{B}   \\ \midrule
-    $similarity$ & $\frac{2}{12}$ & $ \frac{2}{12}$ &  $\frac{2}{12}$ & 0 & 0 &  $\frac{2}{12}$      \\ \bottomrule
-    \end{tabular}
-    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $\frac{1}{9}$ for the \emph{Multicollinearity} system.}
-    \label{rq2:multicollinearity}
-\end{table}
-
-The $similarity$ scores for the \emph{Multicollinearity} system are in \autoref{rq2:multicollinearity}, we see that the $similarity$
-scores for the features \emph{Base}, \emph{A}, \emph{B} and feature interaction \emph{A} $\land$ \emph{B} changed. Here the 
-value $12$ is the time of the black-box {\perfInfluenceModel} $\Pi_{BB}$. The $\overline{similarity}$ score is $\frac{1}{9}$.
-
-
-\subsubsection*{Shared Feature Variable} %TO DO WHITE BOX 
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{lrrrrrrr}    \toprule
-               & \emph{Base} & \emph{A} & \emph{B} & \emph{C} & \emph{D} & \emph{E} & \emph{A} $\land$ \emph{B}   \\ \midrule
-    $similarity$ & 0 & 0 & 0 & 0 & 0 & 0      \\ \bottomrule
-    \end{tabular}
-    \caption{Respective $similarity$ score for each feature and a $\overline{similarity}$ score of $\frac{1}{9}$ for the \emph{Shared Feature Variable} system.}
-    \label{rq2:shared-feature-variable}
-\end{table}
+The previous systems do not have a feature \emph{E} and therefore no $similarity$ score for this feature. 
+However, we added this feature for our last system \emph{Shared Feature Variable}. 
+In addition, each feature and interaction have a different $similarity$ score and for this system, 
+the $\overline{similarity}$ score is $\frac{11.001}{77.0}$.
 
 \subsubsection*{XZ Results}
 

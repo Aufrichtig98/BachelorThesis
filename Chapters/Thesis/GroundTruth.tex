@@ -4,8 +4,8 @@ and white-box analysis can analyze simple, configurable systems and identify wea
 
 To do so, we design multiple configurable systems that test both analyses in different scenarios. 
 Afterward, we evaluate as described in \autoref{ch:operationalization}. 
-Since we design these systems ourselves, we have a baseline that we use to build a {\perfInfluenceModel} for each system manually. 
-We design all the systems with different focuses in mind, such as a system that includes multicollinearity, 
+Since we design these systems ourselves, we have a baseline from which we manually build the {\perfInfluenceModel}s that we use for comparison. 
+We design all these systems with a different focus in mind, such as a system that includes multicollinearity, 
 to see to what extent they influence the analyses. 
 
 Each system uses \emph{Simple Interaction} as the base system, however, they extend or change the system in different ways.
@@ -13,7 +13,7 @@ Each system uses \emph{Simple Interaction} as the base system, however, they ext
 \paragraph{Simple Interaction}\label{ground-truth:Simple}
 For our first system, we use the code from our previous example in \autoref{lst:performanceExample} and provide an additional feature model 
 of the system in \autoref{fig:feature_abcd}. 
-Since we are going to use this as our base system, extending as needed to fit each
+Since we use this as our base system, extending as needed to fit each
 particular scenario, it is kept intentionally simple, only containing some interactions and no constraints.
 
 \begin{figure}[h]
@@ -25,7 +25,7 @@ particular scenario, it is kept intentionally simple, only containing some inter
 
 
 \paragraph{Else Clause}
-The first modification we do is adding an \emph{else clause} to the if statement of feature \emph{A} in \autorefLine{line:feature_A_statement}. 
+The first modification is the addition of an \emph{else clause} to the if statement of feature \emph{A} in \autorefLine{line:feature_A_statement}. 
 We encode this as follows:
 
 \begin{minipage}{\linewidth}
@@ -37,14 +37,14 @@ else
     \end{lstlisting}
     \end{minipage}
 
-We expect the white-box analysis to attribute the time spent in the else case to feature \emph{A} 
+We expect the white-box analysis to attribute the time spent in the \emph{else clause} to feature \emph{A} 
 since it is a part of the feature region of feature \emph{A}. 
 In contrast, 
-the black-box analysis cannot differentiate between the else clause that is executed when feature \emph{A} is unselected and the time spent in \emph{Base}.
+the black-box analysis cannot differentiate between the \emph{else clause} that is executed when feature \emph{A} is unselected and the time spent in \emph{Base}.
 
 \paragraph{Function}\label{ground-truth:Function}
-The next modification of our basic system is adding a function to the system in which we spent time. 
-In \autorefLine{line:feature_A} we call the function \emph{waste\_time(1)} instead of \emph{fpcsc::sleep\_for\_secs(1)}, in which we spent time a second.
+Another modification of our \emph{Simple Interaction} system is adding a function in which we spend time. 
+In \autorefLine{line:feature_A} we call the function \emph{waste\_time(1)} instead of \emph{fpcsc::sleep\_for\_secs(1)}.
 
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[language=C++,label={lst:function},escapechar=|]
@@ -58,16 +58,25 @@ Both white-box and black-box analysis should be able to still correctly attribut
 
 \paragraph{Multicollinearity}\label{ground-truth:Multicollinearity}
 Instead of modifying the system's code, we add a restriction to the feature model of \autoref{fig:feature_abcd}. 
-We change feature \emph{B} from optional to mandatory. This introduces multicollinearity into the system. 
-The white-box analysis should still be able to identify correctly the time spent in \emph{Base} and feature \emph{B}, 
+We change feature \emph{B} from optional to mandatory, this changes the feature model and 
+introduces multicollinearity into the system. 
+We see the modified in \autoref{fig:multicollinearity}.
+The white-box analysis should still be able to correctly identify the time spent in \emph{Base} and feature \emph{B}, 
 while the black-box analysis should distribute the time spent between the features differently.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.25]{gfx/Multicollinearity.png}
+    \caption{Feature model of the \emph{Multicollinearity} system.}
+    \label{fig:multicollinearity}
+\end{figure}
 
 \paragraph{Shared Feature Variable}\label{ground-truth:Shared}
 We now add an optional feature \emph{E} to the system. 
 However, instead of encoding it like the previous features by specifying a separate variable, 
 we modify the feature variable \emph{D} in \autorefLine{line:feature_declatation} to a \texttt{string de = "00"} 
 for which the first character represents feature \emph{D} and the second character \emph{E}. If either is selected, 
-we assign the character for that feature \emph{"1"}. We add another if statement to spend time if \emph{E} is selected and encode this as follows:
+we assign the character for that feature \emph{"1"}. We add another \emph{if statement} to spend time if \emph{E} is selected and encode this as follows:
 
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[language=C++,label={lst:shared},escapechar=|]

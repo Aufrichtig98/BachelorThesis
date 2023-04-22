@@ -72,7 +72,7 @@ For the quantitative measurements, we use experimental results to investigate th
 Now that we have defined how we answer the research questions, we explain how we collect the data using both analyses.
 
 %NFP we measure and why
-The non-functional property that we decide to analyze is runtime, due to it being a quantifiable metric
+The non-functional property we analyze is runtime, because it is a quantifiable metric
 that reflects the changes to the system if a feature with a significant influence is selected.
 
 %Repetition and why we need it
@@ -85,16 +85,16 @@ measure each configuration 30 times, and take the mean of the time spent as valu
 We collect the data for each analysis using the VaRA Tool Suite, in which we define an experiment for each project. 
 For our white-box analysis, we write an experiment that specifies that we want to use VaRA to instrument our code so that during execution, 
 all trace events can be tracked and written into the TEF report file. For our black-box analysis, 
-we wrap the command we want to measure using the Linux \texttt{time} command and write the time spent into a different report. 
+we wrap the command we want to measure using the Linux \texttt{time} command and log the time spent in a different report. 
 
 %Server spezifikation
-All measurements are performed on the same server node. To minimize background noise, we ensured that no other job is executed during the measurement. 
+All measurements are performed on the same server node. To minimize background noise, we ensure that no other job is executed during the measurement. 
 The server node contains an AMD EPYC $72$F$3$  $8$-Core Processor with $16$ threads and $256$ GB RAM.
 
 %Libarys Mention
-During evaluation, we use different libraries, we will mention the noteworthy ones.
+During the evaluation, we use different libraries and will mention the noteworthy ones here.
 To build the {\perfInfluenceModel} we the implementation of multiple linear regression by \textsc{scikit-learn}\footnote{Visited at 03.04.2023\\ \url{https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html}}.
-In addition to that we use the implementation of the variance inflation factor implemented in the \textsc{statsmodels} library\footnote{Visited at 03.04.2023\\ \url{https://www.statsmodels.org/stable/generated/statsmodels.stats.outliers_influence.variance_inflation_factor.html}}.
+In addition to that we use the implementation of the variance inflation factor implemented in the \textsc{statsmodels}\footnote{Visited at 03.04.2023\\ \url{https://www.statsmodels.org/stable/generated/statsmodels.stats.outliers_influence.variance_inflation_factor.html}} library.
 %%%%%%%%%%%%%%%%
 
 \input{Chapters/Thesis/Experiments.tex}
