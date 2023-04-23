@@ -302,8 +302,14 @@ An example where this is the case is in \autoref{alg:Vara_feature_regions} in \a
 Here we need to combine these measurements with the selected features because otherwise,
 we would attribute the time spent in \emph{bar()} in not encryption to the feature \emph{Encryption}.
 
-%To grammarly und das up adden berechenen
-Therefore, to attribute the time spent for each feature and feature interaction, we calculate the difference 
-between the measured influcence when the feature is selected for that configuration and when it is unselected. 
-The time spent in the regions when the feature is deselected are added up to the other selected features in that region, if
-none of the features is selected we add the influcence solely to the \emph{Base} feature.
+%GRAMMARLY
+To build the {\perfInfluenceModel} for the white-box we again use multiple linear regression, however since we have measurements for each 
+feature and feature interaction we include these. Thus, instead of only using multiple linear regression once to learn the influcence of each feature
+and feature interaction with multiple regression coefficients, we use multiple linear regression for each feature and feature interaction for the 
+white-box measurements. Therefore, for the white-box for each feature and feature interaction we want to learn we choose the 
+white-box analysis measurements as the independent data \emph{Y} and populate the regression coefficient $x_1$ with either $1$ 
+if the feature was selected for that measurement or $0$ if not. This means for each multiple linear regression we do we only have
+one regression coefficient, because this is the only thing that influences that feature region we measured. 
+If we have a intercept $\beta_0$ when learning a feature, we add that influence to the base feature, because this is the influence which
+we have independent of that feature being selected, which is how we describe the \emph{Base} feature.
+
