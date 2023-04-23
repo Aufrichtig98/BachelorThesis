@@ -118,8 +118,9 @@ In addition, the white-box analyses {\perfInfluenceModel} wrongly attributed the
 
 We now present the {\perfInfluenceModel}s for \textsc{XZ}. The {\perfInfluenceModel} built from the black-box analysis can be seen
 in the \autoref{ch:appendix}, where we split the table into two tables, where in \autoref{table:BB-XZ-noExtreme} the feature \emph{Extreme} is 
-deselected and in \autoref{table:BB-XZ-Extreme} \emph{Extreme} is selected. The {\perfInfluenceModel} built from the white-box analysis 
-can be seen in %Whitebox.
+deselected and in \autoref{table:BB-XZ-Extreme} \emph{Extreme} is selected. The {\perfInfluenceModel} built from the white-box analysis data
+can be seen in \autoref{table:WB-XZ} where the feature \emph{extreme is} deselected and in \autoref{table:WB-XZ-Extreme} \emph{Extreme} is selected.
+We see that \textsc{VaRA} was unable to measure influence for features besides \emph{Base} and \emph{Threads 1,2,4} and \emph{8}.
 
 \subsection{Results Research Questions}
 We now present our results for the research questions. We discard feature interactions that have an influence of 0 
@@ -178,7 +179,7 @@ correctly predict the time spent inside this feature, which results in an $\over
 \subsection{Results RQ2}
 
 We now present the results for research question 2 by evaluating the ground truth systems and the experiment using the {\perfInfluenceModel} 
-previously shown.
+previously shown. We begin with presenting the ground truth systems results.
 
 \begin{table}[H]
     \centering
@@ -194,7 +195,7 @@ previously shown.
     \label{rq2:ground-truth}
 \end{table}
 
-We can see the ground truth system results for research question 2 in \autoref{rq2:ground-truth}.  
+We see the ground truth system results for research question 2 in \autoref{rq2:ground-truth}.  
 For the systems \emph{Simple Interaction}, \emph{Else Case}, and \emph{Function} the $similarity$ score is $0$ and thus 
 $\overline{similarity}$ is $0$ too. 
 
@@ -209,6 +210,12 @@ the $\overline{similarity}$ score is $\frac{11.001}{77.0}$.
 
 \subsubsection*{XZ Results}
 
+In \autoref{table:WB-XZ} and \autoref{table:WB-XZ-Extreme}, we see the $similarity$ scores for each feature and feature interactions.
+For \autoref{table:WB-XZ} the feature \emph{Extreme} is deselected and in \autoref{table:WB-XZ-Extreme} it is selected.
+The time for $\Pi_{BB}$ is 3123.275 seconds, which we used to calculate the $\overline{similarity}$ score of $0.003898$. 
+
+%similarity score 0.003898, overall time 3123.275, avg time 12.17586
+
 \section{Discussion}\label{sec:discussion}
 
 %Intro into the section
@@ -216,66 +223,112 @@ In this section, we discuss the results of both analyses. We will first discuss 
 for both the ground truth systems and \textsc{XZ} and afterwards the results of the research questions.
 
 %Analysis correct for the first three systems
-We first look at the {\perfInfluenceModel} created by both analyses, 
-for which we start by inspecting the {\perfInfluenceModel}s for the ground truth system \emph{Simple Interactions}, 
-\emph{Else Cause}, and \emph{Function}. As expected the {\perfInfluenceModel}s for all three systems are identical. 
+We first look at the {\perfInfluenceModel} created by both analyses,
+for which we start by inspecting the {\perfInfluenceModel}s for the ground truth system \emph{Simple Interactions},
+\emph{Else Cause}, and \emph{Function}. As expected the {\perfInfluenceModel}s for all three systems are identical.
 This suggests that both analyses accurately identified the influence of all features and feature interactions for simple systems.
-These results are in line with the results of the research questions for these systems. For both analyses
-we have an $\overline{error}$ score of $0$ which confirms that our {\perfInfluenceModel} are identical to the baseline and therefore 
-accurate. Hence, if both analyses' {\perfInfluenceModel}s are identical to the baseline, they are also identical themselves,
+These results are in line with the results of the research questions for these systems.
+For both analyses we have an $\overline{error}$ score of $0$ which confirms that our {\perfInfluenceModel} are identical to the baseline and
+therefore  accurate. Hence, if both analyses' {\perfInfluenceModel}s are identical to the baseline, they are also identical themselves,
 which the $\overline{similarity}$ score of $0$ confirms.
-
 
 %Multicollinearity
 As expected for the \emph{Multicollinearity} system, the black-box analysis had issues with the introduction of multicollinearity, 
 which is reflected in the {\perfInfluenceModel} we built.
+
 %Perf-influence Modelle 
-The first change is that due to feature \emph{B} being mandatory, 
-feature \emph{A} and the feature interaction \emph{A} $\land$ \emph{B} are perfectly Multicollinear since feature \emph{B} 
-is always selected in conjunction with feature \emph{A}. 
-This is detected when we decide which terms to add to our multiple linear regression model by \refAlgorithm{alg:vif_iterative} 
-and thus \emph{A} $\land$ \emph{B} is not added to the model. In addition, due to multicollinearity, the time distribution between features in the 
-{\perfInfluenceModel} changed. While features \emph{C} and \emph{D} are still correctly attributed, 
-we have a change for feature \emph{Base} with an increase of 2 seconds, feature \emph{A} with an increase of 2 seconds, 
+The first change is that due to feature \emph{B} being mandatory,
+feature \emph{A} and the feature interaction \emph{A} $\land$ \emph{B} are perfectly Multicollinear since feature \emph{B}
+is always selected in conjunction with feature \emph{A}.
+This is detected when we decide which terms to add to our multiple linear regression model by \refAlgorithm{alg:vif_iterative}
+and thus \emph{A} $\land$ \emph{B} is not added to the model. In addition, due to multicollinearity, the time distribution between features in the
+{\perfInfluenceModel} changed. While features \emph{C} and \emph{D} are still correctly attributed,
+we have a change for feature \emph{Base} with an increase of 2 seconds, feature \emph{A} with an increase of 2 seconds,
 and feature \emph{B} with a decrease of 2 seconds.
 We assume that the time spent in \emph{B} is attributed to \emph{Base} since for the black-box analysis, both features are mandatory and
-thus, in every configuration we measure, which makes them indistinguishable. 
+thus, in every configuration we measure, which makes them indistinguishable.
 The 2 seconds spent in the interaction \emph{A} $\land$ \emph{B} is attributed to \emph{A} due to the perfect multicollinearity 
 between these features. 
-The {\perfInfluenceModel} for the white-box analysis is affected by this as well. 
-However, compared to the black-box, the white-box still identifies the influence of feature \emph{A} and the interaction
-\emph{A} $\land$ \emph{B} correctly. We think the reason for this is that when we built the {\perfInfluenceModel} out of the white-box data,
+
+The {\perfInfluenceModel} for the white-box analysis is affected by this as well.
+However, compared to the black-box, the white-box still identifies the influence of feature \emph{A} and
+the interaction \emph{A} $\land$ \emph{B} correctly. We think this is because when we built the {\perfInfluenceModel} out of the white-box data,
 the multiple linear regression algorithm we use assigns the influence to feature \emph{Base}.
 However, since we know the specific influence of each feature and interaction,
 the white-box can differentiate between feature \emph{A} and the interaction \emph{A} $\land$ \emph{B}.
+
 %RQ1
-To answer research question one, we inspect the \emph{error} scores. Where we have an $error$ for the features affected by multicollinearity,  
-which results in an $\overline{error}$ of $\frac{5}{6}$, this indicates a high average error when using a black-box model for multicollinear systems. 
-The white-box analysis does have a smaller $\overline{error}$ of $frac{2}{6}$ due to it being able to detect the influence of feature \emph{A} 
-and the interaction \emph{A} $\land$ \emph{B}. We think that this $\overline{error}$ lies in an acceptable range.
+We inspect the \emph{error} scores to answer research question one. Where we have an $error$ for the features affected by multicollinearity,
+which results in an $\overline{error}$ of $\frac{5}{6}$, this indicates a high average error when using a black-box model for multicollinear systems.
+The white-box analysis does have a smaller $\overline{error}$ of $frac{2}{6}$ due to it being able to detect the influence of feature \emph{A} and
+the interaction \emph{A} $\land$ \emph{B}. We think that this $\overline{error}$ lies in an acceptable range.
+
 %RQ2
-For research question two we have a $\overline{similarity}$ score of $frac{2}{60}$ for this system, 
-which means that each feature got an average 
-difference of $frac{1}{30}$ for each feature. We interpret this score as that multicollinearity does have an influence
-on both of our model, however we think this error is still acceptable.
+For research question two we have a $\overline{similarity}$ score of $frac{2}{60}$ for this system,
+which means that each feature got an average difference of $frac{1}{30}$ for each feature. 
+We interpret this score as that multicollinearity does influence both of our models. 
+However, we think this error is still acceptable.
 
 %Shared Feature variables, perf-inf
 Next, we inspect the results for the \emph{Shared Feature Variables} system. 
 As expected, the black-box analysis identified the influence of all features correctly. 
 However, for the white-box analysis, something unexpected happened. 
-We expected that the white-box analysis could not correctly identify the influence of features \emph{D} and \emph{E} since they share one 
+We expected that the white-box analysis could not correctly identify the influence of features \emph{D} and \emph{E} since they share one
 feature variable. What happened is that although we did not change the feature variables for \emph{A}, \emph{B}, \emph{C}, \textsc{VaRA} 
-was unable to identify any features at all. This lead to \textsc{VaRA} assigning the influence of every feature to the feature \textsc{Base},
+was unable to identify any features at all. This lead to \textsc{VaRA} assigning the influence of every feature to the feature \emph{Base},
 all the measurements can be seen in \autoref{table:WB-Shared-Feature}.
+
 %RQ1
 To answer research question one, we inspect the $\overline{error}$, since the black-box analysis is identical to the baseline, we have an 
 $\overline{error}$ score of $0$ for the black-box. Since the measurements by the white-box analysis were wrong the {\perfInfluenceModel} built
 is faulty as well, this results in large $error$ scores for each feature and feature interaction and leads to an $\overline{error}$ score
 of $\frac{8}{7}$, which indicates that for this system the white-box analysis is unable to predict the influence features and feature interaction.
+
 %RQ2 
 For research question two, we inspect the $\overline{similarity}$ score, which for this system is $\frac{11.001}{77.0}$.
 This means that the difference between each feature is, on average, around $\frac{11.001}{77.0}$ of the overall runtime for the system,
 which indicates that the analyses predict severely different values for most features and feature interactions.
+
+%XZ
+Last, we discuss the results of our experiment. Compared to our ground truth systems, 
+we do not know the time spent in each feature or interaction in \textsc{XZ}. 
+Therefore, we cannot accurately say that the assigned time influences by our {\perfInfluenceModel}s are correct, but only give our opinion.
+
+The {\perfInfluenceModel} built out of the black-box analysis data appears accurate. 
+When inspecting the values assigned to all single features, they estimate a similar time compared to the time \textsc{XZ} uses when compressing data. 
+When using different compression levels with different threads, the predictions also align with our expectations.
+The predictions in \autoref{table:WB-XZ-Extreme} also agree with the description of the \emph{Extreme} feature because
+all feature interactions where \emph{Extreme} is selected added with the influence of the feature \emph{Extreme} itself are all positive,
+indicating that they all slow down the system. 
+%White-box
+
+However, we have a severely different result for the {\perfInfluenceModel} built from the white-box analysis. 
+When we inspect the measurement results from \textsc{VaRA}, we notice no other feature regions besides \emph{threads} were found. 
+This led to \textsc{VaRA} assigning all the time spent during compression mainly to \emph{Base}. 
+Therefore, besides the four \emph{threads} features and the \emph{Base} feature, we have no other measurements,  
+which leads to \autoref{table:WB-XZ} and \autoref{table:WB-XZ-Extreme} being populated with mainly $0.0$. 
+To investigate this, we manually analyzed the source code of \textsc{XZ} to find the reasons which we think led to \textsc{VaRA} 
+not identifying the corresponding feature regions. 
+First, we ensured that we identified the correct variables that corresponded to the features we wanted to analyze. 
+For this, we found in the \emph{coder.h} file the enums \emph{MODE\_COMPRESS} and \emph{opt\_mode}, 
+which decides whether \textsc{XZ} uses compression or decompression. 
+%
+Next, we identified where \textsc{XZ} sets its compression level. 
+This happens in \emph{coder.c} in the \emph{coder\_set\_preset} function, 
+which overrides the default value of \emph{preset\_number} set in the same file. 
+Here is where one issue appears that \textsc{VaRA} can not handle. 
+Both features \emph{compression level} and \emph{extreme} are implemented by the same feature variable \emph{perset\_number}. 
+When \emph{compression level} and \emph{extreme} are selected, \textsc{XZ} uses different bit operators to calculate the preset that determines 
+the degree of compression. We think these bit shifts are why \textsc{VaRA} cannot identify the feature regions of that feature. 
+However, even if that would not be a problem, the fact that \textsc{XZ} uses the same variable to implement two different features 
+\emph{compression level} and extreme should lead to \textsc{VaRA} being unable to differentiate between these two features.
+
+This faulty white-box {\perfInfluenceModel} also leads to significant differences between each feature. 
+However, we obtain small $similarity$ scores due to normalizing these values with the summed-up influence of all features and feature interactions. 
+When interpreting them, we need to set them in relation to the summed-up influence $\Pi_{BB}$, which is $3123.275$. 
+When inspecting the $\overline{similarity}$ score of $0.003898$ this gives us an average difference of $12.175$ seconds, which is significant. 
+Therefore, we conclude that both {\perfInfluenceModel}s are not similar.
+
 
 \section{Threats to Validity}\label{sec:threats}
 

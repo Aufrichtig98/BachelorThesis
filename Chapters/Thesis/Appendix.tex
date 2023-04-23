@@ -185,7 +185,7 @@
     \centering
 \begin{tabular}{lrrrrr}
     \toprule
-    {} &    Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
+    {Black-box} &    Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
     \midrule
     Base                &   0.759 &      6.406 &      2.845 &      1.119 &      0.251 \\
     compression\_level\_1 &   0.271 &      2.442 &      1.079 &      0.390 &      0.108 \\
@@ -206,7 +206,7 @@
 \centering
     \begin{tabular}{lrrrrr}
     \toprule
-    {} &   Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
+    {Black-box} &   Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
     \midrule
     Base                &  2.744 &     28.790 &     12.410 &      4.856 &      1.124 \\
     compression\_level\_1 &  0.510 &     35.169 &     15.168 &      6.246 &      1.914 \\
@@ -221,4 +221,92 @@
     \bottomrule
     \end{tabular}
     \caption{Black-box {\perfInfluenceModel} for \textsc{XZ} with the feature extreme being selected}\label{table:BB-XZ-Extreme}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrr}
+    \toprule
+    {White-box} &  Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
+    \midrule
+    Base                &  36.231 &      0.095 &      0.073 &      0.072 &      0.074 \\
+    compression\_level\_1 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_2 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_3 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_4 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_5 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_6 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_7 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_8 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_9 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    \bottomrule
+    \end{tabular}
+    \caption{White-box {\perfInfluenceModel} for \textsc{XZ} with feature \emph{Extreme} being deselected}\label{table:WB-XZ}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrrrr}
+    \toprule
+    {White-box} &  Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
+    \midrule
+    Base                &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_1 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_2 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_3 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_4 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_5 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_6 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_7 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_8 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    compression\_level\_9 &     0.0 &          0.0 &          0.0 &          0.0 &          0.0 \\
+    \bottomrule
+    \end{tabular}
+    \caption{White-box {\perfInfluenceModel} for \textsc{XZ} with feature \emph{Extreme} being selected}\label{table:WB-XZ-Extreme}
+\end{table}
+
+\begin{table}[H]
+    \centering
+\begin{tabular}{lrrrrr}
+    \toprule
+    {\emph{similarity}} &      Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
+    \midrule
+    Base                &  0.011357 &   0.002021 &   0.000888 &   0.000335 &   0.000057 \\
+    compression\_level\_1 &  0.000087 &   0.000782 &   0.000345 &   0.000125 &   0.000035 \\
+    compression\_level\_2 &  0.000341 &   0.003171 &   0.001328 &   0.000557 &   0.000170 \\
+    compression\_level\_3 &  0.000883 &   0.006679 &   0.002946 &   0.001218 &   0.000361 \\
+    compression\_level\_4 &  0.001422 &   0.009124 &   0.003942 &   0.001525 &   0.000315 \\
+    compression\_level\_5 &  0.002416 &   0.015138 &   0.006123 &   0.002308 &   0.000400 \\
+    compression\_level\_6 &  0.002501 &   0.015748 &   0.006363 &   0.002398 &   0.000433 \\
+    compression\_level\_7 &  0.005527 &   0.017080 &   0.005372 &   0.000281 &   0.000073 \\
+    compression\_level\_8 &  0.013301 &   0.012907 &   0.000885 &   0.000362 &   0.000099 \\
+    compression\_level\_9 &  0.029417 &   0.000126 &   0.000825 &   0.000377 &   0.000058 \\
+    \bottomrule
+    \end{tabular}
+    \caption{\emph{similarity} scores for the \textsc{XZ} experiment with feature \emph{Extreme} being deselected.
+    The value for $\Pi_{BB}$ is $3123.275$}\label{table:XZ-similarity}
+\end{table}
+
+\begin{table}[H]
+    \centering
+\begin{tabular}{lrrrrr}
+    \toprule
+    {\emph{similarity}} &      Base &  threads\_1 &  threads\_2 &  threads\_4 &  threads\_8 \\
+    \midrule
+    Base                &  0.000879 &   0.009218 &   0.003973 &   0.001555 &   0.000360 \\
+    compression\_level\_1 &  0.000163 &   0.011260 &   0.004856 &   0.002000 &   0.000613 \\
+    compression\_level\_2 &  0.000198 &   0.011993 &   0.005165 &   0.002129 &   0.000633 \\
+    compression\_level\_3 &  0.000330 &   0.012868 &   0.005625 &   0.002303 &   0.000695 \\
+    compression\_level\_4 &  0.000181 &   0.012777 &   0.005318 &   0.001859 &   0.000218 \\
+    compression\_level\_5 &  0.000719 &   0.015644 &   0.005855 &   0.001763 &   0.000276 \\
+    compression\_level\_6 &  0.000749 &   0.016162 &   0.005994 &   0.001778 &   0.000310 \\
+    compression\_level\_7 &  0.000475 &   0.018148 &   0.005391 &   0.000111 &   0.000561 \\
+    compression\_level\_8 &  0.000268 &   0.014629 &   0.000513 &   0.000093 &   0.000150 \\
+    compression\_level\_9 &  0.002854 &   0.002931 &   0.001756 &   0.002360 &   0.002657 \\
+    \bottomrule
+    \end{tabular}
+    \caption{\emph{similarity} scores for the \textsc{XZ} experiment with feature \emph{Extreme} being selected.
+    The value for $\Pi_{BB}$ is $3123.275$}\label{table:XZ-similarity-Extreme}
 \end{table}
