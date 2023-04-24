@@ -3,5 +3,33 @@
 %************************************************
 
 \section{Conclusion}\label{sec:conclusion}
+In this work, we compared how well white-box and black-box analyses can identify the different features and feature interactions 
+that influence configurable software systems. To investigate this, we first implemented five different configurable software systems,
+each testing a different scenario, which we analyzed with the presented white-box and black-box analyses. Additionally, 
+we designed an experiment in which we used the analyses on the real-world compression tool \textsc{XZ}.
+
+We first investigated how similar {\perfInfluenceModel}s learned by the analyses' data are. 
+To evaluate this question, we built a {\perfInfluenceModel} for each ground truth system with the correct influences functioning as a baseline. 
+We found out that for the systems \emph{Simple Interactions}, \emph{Else Clause}, and \emph{Function}, 
+both analyses produced identical {\perfInfluenceModel}s to the baseline model. 
+However, both analyses had difficulties with the system that introduced multicollinearity. 
+For the last system \emph{Shared Feature Variable}, the white-box analysis using \textsc{VaRA} failed to identify any features, 
+whereas the black-box analysis produced a correct {\perfInfluenceModel}.
+
+Afterwards, we researched how similar the {\perfInfluenceModel}s produced by both analyses are. 
+We found a difference between the models for the \emph{Multicollinearity} system. 
+However, we think the difference is in an acceptable range. Whereas for the \emph{Shared Feature Variable} system, 
+the difference was too significant for us to call these models similar. We proceeded with evaluating our experiment using the same method. 
+However, when inspecting the {\perfInfluenceModel}s, we noticed that the white-box analysis could not identify 95 of the 100 features and 
+feature interactions we measured. Therefore, both {\perfInfluenceModel}s were completely different as well.
 
 \section{Future Work}\label{sec:futurework}
+For future work, there are many areas to expand on. First, we used multiple linear regression to build our {\perfInfluenceModel}s. 
+It is of interest to test other methods to build these models and research if others perform better. 
+Additionally, we only looked at \textsc{XZ} as a real-world configurable software system, 
+for which the white-box analysis could not identify the majority of features and feature interactions. 
+However, there are many other systems for which the results might differ. Next, we used \textsc{VaRA} for the white-box analysis. 
+However, we also introduced other analyzing tools that are worth looking into. 
+Last, to deal with the issue of combinatorial explosion, we only investigated a limited configuration space. 
+It is interesting to see how well both analyses perform if they use sampling strategies instead and 
+research if this changes the accuracy of either analysis.

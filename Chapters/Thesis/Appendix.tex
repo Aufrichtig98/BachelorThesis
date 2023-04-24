@@ -2,38 +2,29 @@
 \chapter{Appendix}\label{ch:appendix}
 %************************************************
 
-\begin{table}[H]
-    \centering
-    \input{Tables/WhiteBox/GTBasic.txt}
-    \caption{White-box analysis results for \emph{Simple Interaction}}\label{table:WB-Simple-interaction}
-\end{table}
-    
+We provide all data and evaluation scripts in the Zip file of this work. In addition, we upload them into the following GitHub
+repository: \url{https://github.com/Aufrichtig98/BachelorThesisEvaluation}.
 
 \begin{table}[H]
     \centering
     \input{Tables/WhiteBox/GTELSE.txt}
-    \caption{White-box analysis results for \emph{Else Clause}}\label{table:WB-Else-Case}
+    \caption{White-box analysis results for the \emph{Else Clause} system}\label{table:WB-Else-Case}
  \end{table}
 
-
- \begin{table}[H]
-    \centering
-    \input{Tables/WhiteBox/GTFunction.txt}
-    \caption{White-box analysis results for \emph{Function}}\label{table:WB-Function}
- \end{table}
-        
- \begin{table}[H]
-    \centering
-    \input{Tables/WhiteBox/GTMulticollinearity.txt}
-    \caption{White-box analysis results for \emph{Multicollinearity}}\label{table:WB-Multicollinearity}
- \end{table}
-
+ In \autoref{table:WB-Else-Case} we see the white-box analysis measurements for the \emph{Else Clause} system.
+ This system feature \emph{A} got an influence of 2 seconds if it is deselected.
+ This illustrates again why we cannot simply build the {\perfInfluenceModel} without including the information of the currently selected features
+ inside the configuration. 
 
  \begin{table}[H]
     \centering
     \input{Tables/WhiteBox/GTSharedFeature.txt}
-    \caption{White-box analysis results for \emph{Shared Feature}}\label{table:WB-Shared-Feature}
+    \caption{White-box analysis results for the \emph{Shared Feature} system}\label{table:WB-Shared-Feature}
  \end{table}
+
+ \autoref{table:WB-Shared-Feature} shows the white-box analysis results for the \emph{Shared Feature Variable} system.
+ Here we see that \textsc{VaRA} cannot identify any feature region besides that for feature \emph{Base}.
+
 
 \begin{table}[H]
     \centering
@@ -56,6 +47,8 @@
     \caption{Black-box {\perfInfluenceModel} for \textsc{XZ} with the feature extreme being deselected}\label{table:BB-XZ-noExtreme}
 \end{table}
 
+In \autoref{table:BB-XZ-noExtreme}, we see the first part of the {\perfInfluenceModel} where feature \emph{extreme} is deselected of black-box analysis.
+
 \begin{table}[H]
 \centering
     \begin{tabular}{lrrrrr}
@@ -76,6 +69,8 @@
     \end{tabular}
     \caption{Black-box {\perfInfluenceModel} for \textsc{XZ} with the feature extreme being selected}\label{table:BB-XZ-Extreme}
 \end{table}
+
+For \autoref{table:BB-XZ-Extreme}, we see the second part of the black-box {\perfInfluenceModel} where feature \emph{extreme} is selected.
 
 
 \begin{table}[H]
@@ -99,6 +94,10 @@
     \caption{White-box {\perfInfluenceModel} for \textsc{XZ} with feature \emph{Extreme} being deselected}\label{table:WB-XZ}
 \end{table}
 
+\autoref{table:WB-XZ} presents the first part of the {\perfInfluenceModel} built out of the white-box analysis measurements where feature \emph{extreme}
+is deselected.
+As we can see, the only features the white-box analysis detects are \emph{Base}, \emph{threads\_1}, \emph{threads\_2}, \emph{threads\_4},
+and \emph{threads\_8}.
 
 \begin{table}[H]
     \centering
@@ -120,6 +119,9 @@
     \end{tabular}
     \caption{White-box {\perfInfluenceModel} for \textsc{XZ} with feature \emph{Extreme} being selected}\label{table:WB-XZ-Extreme}
 \end{table}
+
+In \autoref{table:WB-XZ-Extreme} we see the second part of the {\perfInfluenceModel} built out of the white-box analysis measurements where feature \emph{extreme} 
+is selected. As we see none of the feature or feature interaction have been detected.
 
 \begin{table}[H]
     \centering
@@ -143,6 +145,8 @@
     The value for $\Pi_{BB}$ is $3123.275$}\label{table:XZ-similarity}
 \end{table}
 
+\autoref{table:XZ-similarity} presents the first part of the $similarity$ scores for the \textsc{XZ} experiment.
+
 \begin{table}[H]
     \centering
 \begin{tabular}{lrrrrr}
@@ -164,3 +168,5 @@
     \caption{\emph{similarity} scores for the \textsc{XZ} experiment with feature \emph{Extreme} being selected.
     The value for $\Pi_{BB}$ is $3123.275$}\label{table:XZ-similarity-Extreme}
 \end{table}
+
+In \autoref{table:XZ-similarity-Extreme} the second part of the $similarity$ scores for the \textsc{XZ} experiment is shown.

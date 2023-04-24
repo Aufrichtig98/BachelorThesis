@@ -12,17 +12,16 @@
 \chapter*{Abstract}
 Nearly all modern software systems are configurable. To give the end-user flexibility, each system includes various configuration options.
 However, it is not clear to the end-user how these configuration options might interact and influence properties such as performance. 
+We are interested in whether a change in behavior is the result of single independent configuration options or due to these options
+interacting with each other.
 In previous research two different methods have emerged for identifying these influences: black-box analysis and white-box analysis.
 To present the influence of each configuration option and interaction between them, we use {\perfInfluenceModel}, which we use as our foundation
 to compare the results of both analyses.
 
 In this thesis, we analyze 5 different configurable software systems designed by us and the compression tool \textsc{XZ} using both white-box analysis
-and black-box analysis. We present a structured approach to compare white-box and black-box analyses.
-
-%FINDINGS%
-TODO: INSERT FINDINGS
-%FINDINGS%
-
+and black-box analysis. We present a structured approach to compare white-box and black-box analyses. 
+We found out that systems containing multicollinearity led to inaccurate results for both analyses. 
+In addition, the white-box analysis could not identify most configuration options for \textsc{XZ}.
 \vfill
 
 \endgroup
