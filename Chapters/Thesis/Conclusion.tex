@@ -3,38 +3,38 @@
 %************************************************
 
 \section{Conclusion}\label{sec:conclusion}
-In this work, we compared white-box and black-box analyses and if they can identify the different features and feature interactions 
-that influence configurable software systems. To investigate this, we first implemented five different configurable software systems,
-each testing a different scenario, which we analyzed with the presented white-box and black-box analyses. Additionally, 
+In this work, we compared white-box and black-box analyses on whether they can identify different features and feature interactions 
+that influence configurable software systems. To investigate this, we first implemented five different systems,
+each testing a different scenario, which we analyzed with the presented white-box and black-box methods. Additionally, 
 we designed an experiment in which we used the analyses on the real-world compression tool \textsc{XZ}.
 
 We first investigated how accurate {\perfInfluenceModel}s learned by the analyses' data are. 
 To evaluate this question, we built a {\perfInfluenceModel} for each ground truth system with the correct influences functioning as a baseline. 
 We found out that for the systems \emph{Simple Interactions}, \emph{Else Clause}, and \emph{Function}, 
-both analyses produced identical {\perfInfluenceModel}s to the baseline model. 
+both analyses produced {\perfInfluenceModel}s identical to the baseline model. 
 However, both analyses had difficulties with the system that introduced multicollinearity. 
 For the last system \emph{Shared Feature Variable}, the white-box analysis using \textsc{VaRA} failed to identify any features, 
-whereas the black-box analysis produced a correct {\perfInfluenceModel}.
+whereas the black-box analysis produced a reasonable {\perfInfluenceModel}.
 
 Afterwards, we researched how similar the {\perfInfluenceModel}s produced by both analyses are. 
-We found a difference between the models for the \emph{Multicollinearity} system. 
-However, we think the difference is in an acceptable range. Whereas for the \emph{Shared Feature Variable} system, 
-the difference was too significant for us to call these models similar. We proceeded with evaluating our experiment using the same method. 
+We found differences between the models for the \emph{Multicollinearity} system. 
+However, we think the difference is in an acceptable range. In contrast, for the \emph{Shared Feature Variable} system, 
+the difference was too significant for us to call these models similar. We proceeded with evaluating our \textsc{XZ} experiment using the same methods. 
 However, when inspecting the {\perfInfluenceModel}s, we noticed that the white-box analysis could not identify 95 of the 100 features and 
-feature interactions we measured. Therefore, both {\perfInfluenceModel}s were completely different as well.
+feature interactions we measured. Therefore, both {\perfInfluenceModel}s were completely different.
 
 \section{Future Work}\label{sec:futurework}
-For future work, there are many areas to expand on. 
+Regarding future work, there are many areas to expand on. 
 
-First, we used multiple linear regression to build our {\perfInfluenceModel}s. 
-It is of interest to test other methods to build these models and research if others perform better. 
+We used multiple linear regression to build our {\perfInfluenceModel}s. 
+It is of interest to test other methods to build these models and research if they perform better. 
 
 Additionally, we only looked at \textsc{XZ} as a real-world configurable software system, 
 for which the white-box analysis could not identify the majority of features and feature interactions. 
 However, there are many other systems for which the results might differ.
 
 Next, we used \textsc{VaRA} for the white-box analysis. 
-However, we also introduced other analyzing tools and it is worth researching whether these tools produce similar results or if one outperforms the other.
+However, we also introduced other analyzing tools and it is worth investigating whether these tools produce similar results or if one outperforms the other.
 
 Last, to deal with the issue of combinatorial explosion, we only investigated a limited configuration space. 
 It is interesting to see how well both analyses perform if they use sampling strategies instead and 

@@ -344,10 +344,10 @@ After discussing our results we conclude this Section with answering our researc
 \noindent The {\perfInfluenceModel}s built from the white-box and black-box data produced an $\overline{error}$ score of $0$ 
 for the \emph{Simple Interaction}, \emph{Else Clause}, and \emph{Function} systems. Therefore, they successfully
 detected the influence of each feature and feature interaction. 
-However, for the \emph{Multicollinearity} system, both did produce inaccurate results, 
-whereas the black-box produced an $\overline{error}$ score of $0.833$ and the white-box an $\overline{error}$ score of $0.333$. 
-For the \emph{Shared Feature Variable} system, the black-box detected all features and interactions successfully, 
-whereas the white-box failed, which resulted in an $\overline{error}$ score of $1.143$.
+However, for the \emph{Multicollinearity} system, both did produce inaccurate results: 
+The black-box produced an $\overline{error}$ score of $0.833$ and the white-box an $\overline{error}$ score of $0.333$. 
+For the \emph{Shared Feature Variable} system, the black-box detected all features and interactions successfully
+while the white-box failed, which resulted in an $\overline{error}$ score of $1.143$.
 \\
 
 \noindent \textbf{RQ2}: Do performance models created by our white-box and black-box attribute the same influence to each feature?\\
@@ -355,8 +355,8 @@ whereas the white-box failed, which resulted in an $\overline{error}$ score of $
 \noindent For the ground truth \emph{Simple Interaction}, \emph{Else Clause}, and \emph{Function} systems, 
 both {\perfInfluenceModel}s produced the same results. Therefore, the $\overline{similarity}$ score is $0$.
 However, for the \emph{Multicollinearity} system, the $\overline{similarity}$ score is $0.033$ and for the \emph{Shared Feature Variable} system,
-a $\overline{similarity}$ score of $0.143$, both scores indicating that the models were not similar.
-For the experiment, we obtained a $\overline{similarity}$ score of $0.003898$, indicating that they attributed different influences to each feature.
+the $\overline{similarity}$ score is $0.143$, both of which indicating that the models were not similar.
+For the experiment, we obtained a $\overline{similarity}$ score of $0.003898$, indicating that the models are not similar.
 
 \section{Threats to Validity}\label{sec:threats}
 
