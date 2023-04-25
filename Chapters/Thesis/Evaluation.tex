@@ -221,7 +221,7 @@ The time for $\Pi_{BB}$ is 3123.275 seconds, which we used to calculate the $\ov
 
 %Intro into the section
 In this Section, we discuss the results of both analyses. First, we discuss the resulting {\perfInfluenceModel}s 
-for both the ground truth systems and \textsc{XZ}, and afterwards the results of the research questions.
+for both the ground truth systems and \textsc{XZ}, and then the results of the research questions.
 
 %Analysis correct for the first three systems
 We first look at the {\perfInfluenceModel}s created by both analyses, these cover basic functionalities which every modern 
@@ -229,7 +229,7 @@ configurable software system contains.
 Thus, we are interested if both analyses were able to correctly identify the time spent in each feature and feature interactions in these basic systems,
 to ensure that both analyses can analyze simple systems.
 We start by inspecting the respective models for the ground truth systems \emph{Simple Interactions},
-\emph{Else Cause}, and \emph{Function}. As expected, the {\perfInfluenceModel}s for all three systems are identical.
+\emph{Else Clause}, and \emph{Function}. As expected, the {\perfInfluenceModel}s for all three systems are identical.
 This suggests that both analyses accurately identified the influence of all features and feature interactions for simple systems.
 
 For both analyses, we have an $\overline{error}$ score of $0$. This confirms that our {\perfInfluenceModel}s are identical to the baseline and
@@ -245,10 +245,10 @@ and when we inspect the {\perfInfluenceModel} built out of the black-box data, w
 The first change is that, due to feature \emph{B} being mandatory,
 feature \emph{A} and the interaction \emph{A} $\land$ \emph{B} are perfectly multicollinear since \emph{B}
 is always selected in conjunction with \emph{A}.
-This is detected when we decide which terms to add to our multiple linear regression model by \refAlgorithm{alg:vif_iterative}
+This is detected when we decide which terms to add to our multiple linear regression model using \refAlgorithm{alg:vif_iterative}
 and thus \emph{A} $\land$ \emph{B} is not added to the model. In addition, due to multicollinearity, the time distribution between features in the
 {\perfInfluenceModel} changed. While features \emph{C} and \emph{D} are still correctly attributed,
-we have a change for feature \emph{Base} with an increase of 2 seconds, feature \emph{A} with an increase of 2 seconds,
+we have a change for features \emph{Base} and \emph{A} with an increase of 2 seconds,
 and feature \emph{B} with a decrease of 2 seconds.
 We assume that the time spent in feature \emph{B} is attributed to feature \emph{Base}
 since they are indistinguishable for the black-box.
@@ -257,16 +257,16 @@ between these features.
 
 %WB
 The {\perfInfluenceModel} for the white-box analysis is affected by this as well, which shows in the model too.
-However, compared to the black-box, the white-box still identifies the influence of feature \emph{A} and
-the interaction \emph{A} $\land$ \emph{B} correctly. We think this is because, when we built the {\perfInfluenceModel} out of the white-box data,
-the multiple linear regression algorithm we use assigns the influence to feature \emph{Base} instead of feature \emph{B}.
+However, compared to the black-box, the white-box still correctly identifies the influence of feature \emph{A} and
+the interaction \emph{A} $\land$ \emph{B}. In our opinion this is because, when we built the {\perfInfluenceModel} out of the white-box data,
+the multiple linear regression algorithm we use assigned the influence to feature \emph{Base} instead of feature \emph{B}.
 However, since we know the specific influence of each feature and interaction,
-the white-box can differentiate between feature \emph{A} and the interaction \emph{A} $\land$ \emph{B}.
+the white-box can differentiate between feature \emph{A} and interaction \emph{A} $\land$ \emph{B}.
 
 %RQ1
 We inspect the \emph{error} scores to answer RQ1. In this system we have an $error$ for the features affected by multicollinearity,
 which results in an $\overline{error}$ of $0.833$. This indicates a high average error when using a black-box model for multicollinear systems.
-The white-box analysis does have a smaller $\overline{error}$ of $0.333$ due to it being able to detect the influence of feature \emph{A} and
+The white-box analysis has a smaller $\overline{error}$ of $0.333$ because it detects the influence of feature \emph{A} and
 the interaction \emph{A} $\land$ \emph{B}.
 
 %RQ2
@@ -281,12 +281,12 @@ As for the white-box analysis, something unexpected happened:
 We expected that the white-box analysis would not be able to correctly identify the influence of features \emph{D} and \emph{E} since they share one
 feature variable. What happened is that although we did not change the feature variables for \emph{A}, \emph{B}, and \emph{C}, \textsc{VaRA} 
 was unable to identify any features at all. This led to \textsc{VaRA} assigning the influence of every feature to the feature \emph{Base}.
-All the measurements can be seen in \autoref{table:WB-Shared-Feature}.
+\autoref{table:WB-Shared-Feature} shows all the measurements.
 
 %RQ1
-To answer RQ 1, we inspect the $\overline{error}$. Since the black-box analysis is identical to the baseline, we have an 
-$\overline{error}$ score of $0$. Since the measurements of the white-box analysis were wrong, the {\perfInfluenceModel} built
-is faulty as well. This results in large $error$ scores for each feature and feature interaction and leads to an $\overline{error}$ score
+To answer RQ1, we inspect the $\overline{error}$. Since the black-box analysis is identical to the baseline, we have an 
+$\overline{error}$ score of $0$. Since the measurements of the white-box analysis were wrong the {\perfInfluenceModel} built
+is also faulty. This results in large $error$ scores for each feature and feature interaction and leads to an $\overline{error}$ score
 of $1.143$, which says that on average the predicted time is of by a factor of $1.143$ compared to the actual value.
 This indicates that for this system the white-box analysis is unable to predict the influence of features and feature interaction.
 
@@ -304,7 +304,7 @@ Nevertheless, we shall state our assessments here.
 %BB
 The {\perfInfluenceModel} built out of the black-box analysis data appears accurate. 
 When inspecting the values assigned to all single features, they estimate a similar time compared to the time \textsc{XZ} uses when compressing data. 
-When using different compression levels with different threads, the predictions also align with our expectations.
+When using different compression levels with different threads, the predictions align with our expectations.
 Furthermore, the values in \autoref{table:BB-XZ-Extreme} agree with the description of the \emph{extreme} feature because
 all feature interactions where \emph{extreme} is selected together with the influence of the feature \emph{extreme} itself are positive,
 indicating that they all slow down the system. 
@@ -318,8 +318,8 @@ which leads to \autoref{table:WB-XZ} and \autoref{table:WB-XZ-Extreme} being pop
 To investigate this, we manually analyzed the source code of \textsc{XZ} to find the reasons which might have led to 
 \textsc{VaRA} not being able to correctly identify the corresponding feature regions.
 First, we ensured that we identified the correct variables that corresponded to the features we wanted to analyze. 
-For this reason, we found in the \texttt{coder.h}\footnote{Visited at 23.04.2023\\ \url{https://github.com/xz-mirror/xz/blob/master/src/xz/coder.h}}
-file the enums \texttt{MODE\_COMPRESS} and \texttt{opt\_mode}, which decide whether \textsc{XZ} uses compression or decompression. 
+For this reason, we found the enums \texttt{MODE\_COMPRESS} and \texttt{opt\_mode} in the \texttt{coder.h}\footnote{Visited at 23.04.2023\\ \url{https://github.com/xz-mirror/xz/blob/master/src/xz/coder.h}}
+file, which decide whether \textsc{XZ} uses compression or decompression. 
 %
 Next, we identified where \textsc{XZ} sets its compression level. 
 This happens in \texttt{coder.c}\footnote{Visited at 23.04.2023\\ \url{https://github.com/xz-mirror/xz/blob/master/src/xz/coder.c}} 
@@ -374,6 +374,6 @@ To minimize the chance of an implementation error, we use well-known libraries s
 \textsc{statsmodels} to calculate the \acs{VIF}.
 
 \subsection*{External Validity}
-A threat to the external validity is that the systems we choose favors one analysis over the other.
-To prevent this we build different systems in our ground truth that tested both the black-box and white-box analyses 
-in various manners.
+A threat to the external validity is that the experiment we choose favors one analysis over the other.
+To minimize this threat, we choose a stable release version of a real-world configurable software system that is open source and analyzable 
+by white-box and black-box.
