@@ -1,7 +1,6 @@
 \section{Research Questions and Operationalization}\label{ch:operationalization}
 
-In the following, we introduce our research questions and formalize how we evaluate them. Afterward,
-we explain how we collect our data we use for the evaluation and introduce the experiment we conduct. 
+In the following, we introduce our research questions and formalize how we evaluate them.
 The goal of this work is to work out the differences between white-box and black-box models when analyzing the feature performance of configurable
 software systems. 
 To quantify these differences, we want to answer the following research question:\\
@@ -9,8 +8,8 @@ To quantify these differences, we want to answer the following research question
 \noindent \textbf{RQ1}: How accurately do white-box and black-box models detect features and feature interactions? \\
 
 %Motivation
-Due to the number of features, it is hard to know the influence of each feature or feature interaction on a configurable system. 
-Therefore, when we use white-box or black-box analysis to quantify the influence of these features and feature interaction, 
+Due to the number of features, it is hard to know the influence of each feature or feature interaction on a configurable software system. 
+Therefore, when we use white-box or black-box analyses to quantify the influence of these features and feature interaction, 
 we are interested in the accuracy of both analyses. 
 Another point of interest is if we can identify a group of features for which either analysis performs worse than its counterpart.
 To answer this, we research how accurately they can identify the influence of features and feature interactions.
@@ -33,7 +32,7 @@ accurate \perfInfluenceModel.
 
 %How we reasearch this
 To investigate this, we use a qualitative measurement using the ground truth systems we design. 
-We build a {\perfInfluenceModel} with each analysis method, and use \autoref{equ:MAPE_RQ1},
+We build a {\perfInfluenceModel} with each analysis method, and use \autoref{equ:MAPE_RQ1}, for which
 we know the actual values for each feature and feature interaction.
 
 Another, point of interest is how similar the {\perfInfluenceModel}s are. We answer this in the following research question.\\
@@ -55,7 +54,7 @@ To quantify the difference, we use the following formulas:
     \overline{similarity_f}  &=  \frac{\sum_{f \in F} similarity_f}{\lvert F \rvert} \label{equ:MAPE_RQ1}
 \end{align}
 
-Here $WB$ stands for white box and $BB$ for black box. How similar two features are is calculated by $similarity_f$, 
+Here $WB$ stands for white-box and $BB$ for black-box. How similar two features are is calculated by $similarity_f$, 
 where we normalize the absolute difference of the time prediction for each feature by the overall time for the black-box {\perfInfluenceModel}s. 
 Ideally, the overall time for both {\perfInfluenceModel}s should be the same, with only the time distribution between features being different. 
 However, the measurement code creates an overhead, which is minimal for the black-box analysis since we only measure when the system starts and when it ends.
@@ -78,22 +77,23 @@ that reflects the changes to the system if a feature with a significant influenc
 %Repetition and why we need it
 When measuring with either white-box or black-box analysis, 
 each measurement is subject to noise, which influences the performance during the execution of the system. 
-To reduce this noise, we follow the suggestions made by Arcuri et.al~\cite{SampleSize}, 
-measure each configuration 30 times, and take the mean of the time spent as values to build the {\perfInfluenceModel}.
+To reduce this noise, we follow the suggestions made by Arcuri et.al~\cite{SampleSize} any
+measure each configuration 30 times. Afterwards, we take the mean of the time spent as values for that configuration to build the {\perfInfluenceModel}.
 
 %How we collect measurements using VaraTS
 We collect the data for each analysis using the \textsc{VaRA Tool Suite}, in which we define an experiment for each project. 
 For our white-box analysis, we write an experiment that specifies that we want to use \textsc{VaRA} to instrument our code so that during execution, 
-all trace events can be tracked and written into the TEF report file. For our black-box analysis, 
+all trace events can be tracked and written into the \acs{TEF} report file. For our black-box analysis, 
 we wrap the command we want to measure using the Linux \texttt{time} command and log the time spent in a different report. 
 
 %Server spezifikation
 All measurements are performed on the same server node. To minimize background noise, we ensure that no other job is executed during the measurement. 
-The server node contains an AMD EPYC $72$F$3$  $8$-Core Processor with $16$ threads and $256$ GB RAM.
+The server node contains an AMD EPYC $72$F$3$ $8$-Core Processor with $16$ threads and $256$ GB RAM. The server nodes operating system
+is Debian 11.
 
 %Libarys Mention
-During the evaluation, we use different libraries and will mention the noteworthy ones here.
-To build the {\perfInfluenceModel} we the implementation of multiple linear regression by \textsc{scikit-learn}\footnote{Visited at 03.04.2023\\ \url{https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html}}.
+During the evaluation, we used different libraries and will mention the noteworthy ones here.
+To build the {\perfInfluenceModel} we use the implementation of multiple linear regression by \textsc{scikit-learn}\footnote{Visited at 03.04.2023\\ \url{https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html}}.
 In addition to that we use the implementation of the variance inflation factor implemented in the \textsc{statsmodels}\footnote{Visited at 03.04.2023\\ \url{https://www.statsmodels.org/stable/generated/statsmodels.stats.outliers_influence.variance_inflation_factor.html}} library.
 %%%%%%%%%%%%%%%%
 

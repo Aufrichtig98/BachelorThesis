@@ -1,6 +1,6 @@
 \section{Ground Truth}\label{sec:ground-truth}
 In this section, we introduce our ground truth to establish that both black-box analysis 
-and white-box analysis can analyze simple, configurable systems and identify weaknesses. 
+and white-box analysis can analyze simple, configurable software systems. 
 
 To do so, we design multiple configurable systems that test both analyses in different scenarios. 
 Afterward, we evaluate as described in \autoref{ch:operationalization}. 
@@ -37,10 +37,11 @@ else
     \end{lstlisting}
     \end{minipage}
 
-We expect the white-box analysis to attribute the time spent in the \emph{else clause} to feature \emph{A} 
-since it is a part of the feature region of feature \emph{A}. 
+We expect the white-box analysis to attribute the time spent in the \emph{else clause} to feature \emph{A}, if \emph{A} deselected. 
 In contrast, 
-the black-box analysis cannot differentiate between the \emph{else clause} that is executed when feature \emph{A} is unselected and the time spent in \emph{Base}.
+the black-box analysis cannot differentiate between the \emph{else clause} that is executed when feature \emph{A} is deselected and the time spent in \emph{Base}.
+We are interested in whether the white-box {\perfInfluenceModel} still identifies the influence of feature \emph{A} correctly, even though
+the analysis attributed time to \emph{A} when it is deselected.
 
 \paragraph{Function}\label{ground-truth:Function}
 Another modification of our \emph{Simple Interaction} system is adding a function in which we spend time. 
@@ -64,7 +65,7 @@ We see the modified in \autoref{fig:multicollinearity}.
 The white-box analysis should still be able to correctly identify the time spent in \emph{Base} and feature \emph{B}, 
 while the black-box analysis should distribute the time spent between the features differently.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.25]{gfx/Multicollinearity.png}
     \caption{Feature model of the \emph{Multicollinearity} system.}
@@ -75,7 +76,7 @@ while the black-box analysis should distribute the time spent between the featur
 We now add an optional feature \emph{E} to the system. 
 However, instead of encoding it like the previous features by specifying a separate variable, 
 we modify the feature variable \emph{D} in \autorefLine{line:feature_declatation} to a \texttt{string de = "00"} 
-for which the first character represents feature \emph{D} and the second character \emph{E}. If either is selected, 
+for which the first character represents feature \emph{D} and the second character feature \emph{E}. If either is selected, 
 we assign the character for that feature \emph{"1"}. We add another \emph{if statement} to spend time if \emph{E} is selected and encode this as follows:
 
 \begin{minipage}{\linewidth}

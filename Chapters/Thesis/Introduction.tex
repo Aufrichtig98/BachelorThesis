@@ -10,8 +10,8 @@ the number of features the system contains also increases~\cite{Feature-Oriented
 
 An example of such a configurable software system is the Linux kernel, whose
 code base itself contains over 6‘000‘000 lines of code with more than 10‘000 features~\cite{Linux-Kernel}.
-All these features implement functionality, which allows the user to select the desired features
-wants to create an operating system that meets the user’s needs.
+All these features implement functionality, which allows the user to select the desired features he
+wants to create an operating system that meets his needs.
 
 All these features make it increasingly difficult to understand how much they influence the qualitative and quantitative
 aspects of a configurable software system. 
@@ -20,7 +20,7 @@ To identify to which degree these features and their interactions influence the 
 white-box~\cite{Comprex, ConfigCrusher} and black-box~\cite{Linear-Regression-Performance, Performance-influence-models-for-highly-configurable-systems}.
 
 For black-box analysis, 
-it is not necessary to have access to the source code e.g., because we only measure the time spent when executing the system using different features. 
+it is not necessary to have access to the source code, one such example for this is that we only measure the time spent when executing the system using different features. 
 We repeat this measurement process for all the features and feature interactions we want to measure. 
 Afterwards, we need to infer the time spent for each feature. 
 For this purpose, machine-learning methods already have been established in literature such as multiple linear regression, 
@@ -29,7 +29,7 @@ classification and regression tree, and random forest~\cite{Interplay-of-samplin
 However, if we have access to the system's source code, we can use a white-box analysis. 
 White-box analysis uses this information of the source code to achieve a more fine-grained view of the system. 
 Different approaches for the white-box analysis exist to identify the time spent inside the different features and interactions~\cite{Comprex, ConfigCrusher}.
-We use the analysis tool \textsc{VaRA} to identify different code regions affected by each feature and feature interaction and then
+We use the analysis framework \textsc{VaRA} to identify different code regions affected by each feature and feature interaction and then
 measure the time spent in these regions.
 
 The goal of this thesis is to compare both analyses to identify advantages and disadvantages of using one over the other. 
@@ -44,7 +44,7 @@ and feature interaction with each other.
 In this work, we compare white-box analysis and black-box analysis with each other. 
 We investigate how accurately both analyses can identify the influence of features and their interactions.
 We are interested in if an analysis loses accuracy due to specific reasons.
-Additionally, we are interested in the performance-influence models of both analyses are. 
+Additionally, we are interested in how similar the performance-influence models of both analyses are. 
 Since they are built for the same system, we want to know if the models agree because we can use both analysis 
 methods interchangeably depending on how similar they are.
 Last, we identify potential advantages and disadvantages of each analysis, so that the user can take these into concern when deciding on which 

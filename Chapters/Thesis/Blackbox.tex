@@ -1,7 +1,7 @@
 %************************************************
 \section{Black-Box Analysis}\label{ch:Blackbox}
 %************************************************
-In this section, we introduce black-box analysis and how we use it to analyze configurable software systems. 
+In this section, we introduce \emph{black-box analysis} and how we use it to analyze configurable software systems. 
 In \autoref{ch:bb-general-concept}, we explain the general concepts of a black-box and black-box analysis. 
 Afterwards, we highlight the challenges we encounter when using a black-box analysis.
 After using the black-box analysis, we use the obtained data, to build a performance-influence model using multiple linear regression in \autoref{ch:linear-regression}.
@@ -101,15 +101,15 @@ methods to predict performance have been introduced, such as neural networks, th
 To illustrate why interpretability is important lets inspect the following \perfInfluenceModel:
 
 \begin{align*}
-    \Pi_1 &= -1000 + 1001 \cdot \textit{Feature\_A} + 1002 \cdot \textit{feature\_B} - 1000 \cdot \textit{Feature\_A} \cdot \textit{feature\_B} \\
-    \Pi_2 &= 0 + 1 \cdot \textit{Feature\_A} + 2 \cdot \textit{feature\_B} + 0 \cdot \textit{Feature\_A} \cdot \textit{feature\_B}
+    \Pi_1 &= -1000 + 1001 \cdot \textit{Feature\_A} + 1002 \cdot \textit{Feature\_B} - 1000 \cdot \textit{Feature\_A} \cdot \textit{Feature\_B} \\
+    \Pi_2 &= 0 + 1 \cdot \textit{Feature\_A} + 2 \cdot \textit{Feature\_B} + 0 \cdot \textit{Feature\_A} \cdot \textit{Feature\_B}
 \end{align*}
 
 %Example why we need interpretability
 Under the condition that either \textit{Feature\_A} or \textit{Feature\_B} needs to be selected, 
 $\Pi_1$ and $\Pi_2$ predict for any configuration the same amount of time, however, 
 if we take a close look at how $\Pi_1$ assigns the influence of each feature, we can see that this is not interpretable. 
-Here $\Pi_1$ assigns to the \textit{Base} feature an influence of -1000 thousand, 
+Here $\Pi_1$ assigns to the \textit{Base} feature an influence of -1000, 
 which does not make sense since the time spent in the \textit{Base} feature can not be negative. 
 This also leads to $\Pi_1$ assigning unrealistic amounts of time to features or feature interactions. 
 
@@ -249,11 +249,11 @@ Using the ordinary least squares \hyperref[equ:ols]{Equation \ref*{equ:ols}}  we
     \end{bmatrix}
 \end{equation}
 
-All values have been rounded to 2 decimal places. We can see that all values have been assigned correctly.
+All values have been rounded to 2 decimal places and as we see all values have been assigned correctly.
 
 In this example, we choose the configurations we want to analyze and measure the time spent for each configuration using the black-box analysis. 
 We collect the results in \autoref{table:performanceExample-sample}. 
-Then as our independent variable \textit{Y} we use the time \textit{measured} for each configuration 
+Then as our independent variable \textit{Y} we use the time measured for each configuration 
 and for \textit{X} we use each feature or feature interaction we included in the configurations. 
 Afterwards, we use the ordinary least squares formula of \autoref{equ:ols} with \textit{X} and \textit{Y} to calculate the regression coefficients $\hat{\beta}$. 
 Now we can use the values to create the \perfInfluenceModel:
@@ -345,16 +345,16 @@ When we decide which features to use in our configuration set, we use our domain
 To measure the degree of multicolinearity inside a system, we introduce the variance inflation factor in the following Section.
 
 \subsubsection{Variance Inflation Factor}\label{ch:vif}
-In reality, multicollinearity is often unavoidable in configurable systems, when we want to model the influence of a feature interaction between features
+In reality, multicollinearity is often unavoidable in configurable software systems, when we want to model the influence of a feature interaction between features
 \textit{A} and \textit{B} we introduce a term $A \cdot B$, this feature interaction is only selected when feature \textit{A} and \textit{B} are selected. 
 Due to that we can not remove terms that introduce multicollinearity, however we can remove perfect multicollinear terms since they do not provide our 
 system with new information.
 
 Thus, we need a method to identify perfect multicollinear features to remove them.
-To check for perfect multicollinearity, we use the variance inflation factor (VIF), where a VIF factor of $\inf$ indicates
+To check for perfect multicollinearity, we use the variance inflation factor (\acs{VIF}), where a \acs{VIF} factor of $\inf$ indicates
 that there is perfect multicollinearity in our system~\cite{Multicollinearity}.
 
-We compute the VIF score using the following equation:
+We compute the \acs{VIF} score using the following equation:
 
 \begin{align}
     VIF_{j} &= \frac{1}{1 - R^{2}_{j}}  \\ \nonumber\\
@@ -365,15 +365,15 @@ Where $\mathcal{T}$ is the trainings set containing \textit{j} features $o_j$. T
 of determination $R^2$. To do this, we need to calculate $R^{2}_j$ for each feature $o_j$, fitting a linear regression function $f_j$ to predict whether $o_j$
 is selected in the configuration $c \setminus o_j$, using all other features as predictors and the overall mean $\overline{c}(o_j)$~\cite{Multicollinearity}.
 
-Using the VIF we can determine which features introduce multicollinearity into the system and to which degree they do. In the following Section we 
-explain how we use the VIF score to identify perfect multicollinear feature in our system.
+Using the \acs{VIF} we can determine which features introduce multicollinearity into the system and to which degree they do. In the following Section we 
+explain how we use the \acs{VIF} score to identify perfect multicollinear feature in our system.
 
-\subsubsection{Deciding which terms by using VIF}\label{ch:iterative-vif}
+\subsubsection{Deciding on which terms to use with the VIF}\label{ch:iterative-vif}
 %Explain we cant just remove all mulitcollinear term, but only those introducing perfect algorithm
 Multicollinearity is present in nearly every configurable system. 
 Therefore, we cannot simply remove every term that introduces multicollinearity into the {\perfInfluenceModel}. 
 So to handle multicolinearity, we need a strategy to determine the terms we must remove. 
-For this, we use the VIF to identify the terms that add no new information, 
+For this, we use the \acs{VIF} to identify the terms that add no new information, 
 meaning the features that introduce perfect multicollinearity. To accomplish this, we use the following algorithm:
 
 \begin{algorithm}
@@ -398,7 +398,7 @@ meaning the features that introduce perfect multicollinearity. To accomplish thi
 The \refAlgorithm{alg:vif_iterative} takes as an input a $\textit{Model\_to\_check}$ with all the terms we want to check for multicollinearity. 
 Afterwards, the algorithm for each $\textit{Term}$ in $\textit{Model\_to\_check}$, 
 add $\textit{Term}$ to our $\textit{Current\_model}$ and check in \autorefLine{alg:vif_check} if the term introduced multicollinearity, 
-which happens if one VIF value is $\inf$, if this happens we remove $\textit{Term}$ from our $\textit{Current\_model}$. 
+which happens if one \acs{VIF} value is $\inf$, if this happens we remove $\textit{Term}$ from our $\textit{Current\_model}$. 
 In the end, we return $\textit{Current\_model}$, containing all terms that do not introduce multicollinearity.
 
 In the end, we have a model that contains no perfect multicollinearity, 

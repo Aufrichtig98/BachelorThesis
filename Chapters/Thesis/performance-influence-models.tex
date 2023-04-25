@@ -53,9 +53,9 @@ void foo() {
 In \autoref{lst:performanceExample} we see a simple code snippet with some features that affect the performance in different ways.
 In \autorefLine{line:featureInteraction}, four features \emph{A}, \emph{B}, \emph{C}, and \emph{D}, 
 are declared, each of which can either be \emph{true} or \emph{false} depending on the configuration chosen.
-\autorefLine{line:feature_A}, \ref{line:feature_B}, \ref{line:feature_C}, \ref{line:feature_D} will only be executed if the corresponding features are active. 
+\autorefLine{line:feature_A}, \ref{line:feature_B}, \ref{line:feature_C}, \ref{line:feature_D} will only be executed if the corresponding features are selected. 
 If this is the case, the system sleeps for the specified time. 
-In \autorefLine{line:feature_A_B}, we have a feature interaction where \{\emph{A}, \emph{B}\} must be active in order for \autorefLine{line:feature_A_B_exec} to be executed, 
+In \autorefLine{line:feature_A_B}, we have a feature interaction where \{\emph{A}, \emph{B}\} must be selected in order for \autorefLine{line:feature_A_B_exec} to be executed, 
 we would attribute the time spent in \autorefLine{line:feature_A_B_exec} to the feature interaction \{\emph{A}, \emph{B}\} and not to either feature alone.
 The performance-influence model for our system would look as follows:
 \begin{equation}\label{equ:performanceExamplePIMBaseline}
